@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edibe Yılmaz - Öğretmen & Akademisyen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        nav button.active {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: scale(1.05);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            background: linear-gradient(to right, #f8f9ff, transparent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: -5px 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .date {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+
+        .institution {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .skill-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .skill-level {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .publications-list {
+            list-style: none;
+        }
+
+        .publications-list li {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+            transition: all 0.3s ease;
+        }
+
+        .publications-list li:hover {
+            background: #e8ecff;
+            transform: translateX(5px);
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .award-card {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .award-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="1.jpg" alt="Edibe Yılmaz" class="profile-img">
+            <div class="header-content">
+                <h1>Edibe YILMAZ</h1>
+                <p class="title">Öğretmen | Akademisyen | Çevirmen</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📞</span>
+                        <span>00000000000</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉️</span>
+                        <span>edibeselviyilmaz@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>🎂</span>
+                        <span>13.11.1984</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><button onclick="showSection('about')" class="active">Hakkımda</button></li>
+                <li><button onclick="showSection('education')">Eğitim</button></li>
+                <li><button onclick="showSection('experience')">Deneyim</button></li>
+                <li><button onclick="showSection('skills')">Yetenekler</button></li>
+                <li><button onclick="showSection('publications')">Yayınlar</button></li>
+                <li><button onclick="showSection('awards')">Ödüller</button></li>
+            </ul>
+        </nav>
+
+        <section id="about" class="section active">
+            <h2>Hakkımda</h2>
+            <p style="font-size: 1.1em; line-height: 1.8; color: #555;">
+                İngiliz Dili ve Edebiyatı mezunu, İngilizce Öğretmenliği sertifikasına sahip deneyimli bir eğitimciim. 
+                Şu anda Hacettepe Üniversitesi'nde "Yurtdışındaki Türk Çocuklara Türkçe Öğretimi" alanında yüksek lisans yapmaktayım. 
+                Tez konumda Avrupa kıtasında anavatan dillerinin öğretimi üzerine karşılaştırmalı bir çalışma yürütüyorum.
+            </p>
+            <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-top: 15px;">
+                15 yılı aşkın eğitim deneyimim boyunca İngilizce ve Türkçe öğretmenliği, çeviri, akademik editörlük ve 
+                materyal geliştirme alanlarında çalıştım. MEB bünyesinde TRT EBA TV İngilizce Dersi Koordinatörlüğü, 
+                PIKTES projelerinde çeşitli birimlerde görev aldım. Uluslararası projelerde aktif rol alıyor, 
+                dijital eğitim içerikleri üretiyor ve yabancı dil eğitiminde yenilikçi yaklaşımlar geliştiriyorum.
+            </p>
+        </section>
+
+        <section id="education" class="section">
+            <h2>Eğitim</h2>
+            <div class="timeline-item">
+                <div class="date">2022 - Devam Ediyor</div>
+                <div class="institution">Hacettepe Üniversitesi</div>
+                <div class="description">Yurtdışındaki Türk Çocuklara Türkçe Öğretimi - Yüksek Lisans (Tezli)<br>
+                <strong>Tez Konusu:</strong> Avrupa Kıtasında Anavatan Dillerinin Öğretimi: İspanya, Portekiz ve Türkiye Örneği</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2005 - 2006</div>
+                <div class="institution">Hacettepe Üniversitesi</div>
+                <div class="description">İngilizce Öğretmenliği Sertifikası</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2002 - 2007</div>
+                <div class="institution">Hacettepe Üniversitesi</div>
+                <div class="description">İngiliz Dili ve Edebiyatı (Lisans)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">1998 - 2002</div>
+                <div class="institution">Çerkezköy Hacı Fahri Zümbül Anadolu Lisesi</div>
+                <div class="description">Lise Eğitimi</div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2>Deneyim</h2>
+            <div class="timeline-item">
+                <div class="date">Kasım 2023 - Devam Ediyor</div>
+                <div class="institution">Yükseköğretim ve Yurtdışı Genel Müdürlüğü</div>
+                <div class="description">İskandinav Ülkelerindeki Türk Çocuklarına Türkçe Öğretimi - Türkçe ve Türk Kültürü Dersi Öğretmeni (Çevrimiçi)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Nisan 2023 - Devam Ediyor</div>
+                <div class="institution">Hacettepe Üniversitesi Uluslararası Ana Dili Eğitimi Dergisi</div>
+                <div class="description">Yabancı Dil Editörü</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Haziran 2021 - Ekim 2024</div>
+                <div class="institution">Hayat Boyu Öğrenme Genel Müdürlüğü PIKTES</div>
+                <div class="description">Eğitim Planlama Birimi, Materyal Birimi, İletişim Birimi, İzleme ve Değerlendirme Birimi</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Temmuz 2020 - Mayıs 2021</div>
+                <div class="institution">Temel Eğitim Genel Müdürlüğü</div>
+                <div class="description">TRT EBA TV İngilizce Dersi Koordinatörü</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Haziran - Temmuz 2020</div>
+                <div class="institution">Talim ve Terbiye Kurulu Başkanlığı - YEĞİTEK</div>
+                <div class="description">İngilizce Yaz Okulu A1 ve A2 İçerik Geliştirme</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2007 - 2021</div>
+                <div class="institution">Çeşitli Okullar</div>
+                <div class="description">İngilizce ve Türkçe Öğretmenliği (Ümitköy Kız Anadolu İmam Hatip Lisesi, Etimesgut Hasan-Şükran Saruhan Ortaokulu ve diğerleri)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2007 - 2011</div>
+                <div class="institution">Serbest Çalışma</div>
+                <div class="description">Yeminli Tercüman / Çevirmen - Çeşitli tercüme bürolarında teknik, tıbbi, ticari ve AB hibe programları tercümeleri</div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2>Yetenekler</h2>
+            <h3>Yabancı Diller</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-title">İngilizce</div>
+                    <div class="skill-level">İleri Seviye (YDS: 95)</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">Fransızca</div>
+                    <div class="skill-level">Temel Seviye</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">Almanca</div>
+                    <div class="skill-level">Temel Seviye</div>
+                </div>
+            </div>
+
+            <h3>Dijital Beceriler</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-title">Microsoft Office</div>
+                    <div class="skill-level">Yeterli Kullanıcı</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">Web 2.0 Araçları</div>
+                    <div class="skill-level">Dijital İçerik Üretimi</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">CEFR</div>
+                    <div class="skill-level">Sertifikalı Eğitmen</div>
+                </div>
+            </div>
+
+            <h3>Uzmanlık Alanları</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-title">Türkçe Öğretimi</div>
+                    <div class="skill-level">Yabancı Dil Olarak</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">İngilizce Öğretimi</div>
+                    <div class="skill-level">15+ Yıl Deneyim</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">Materyal Geliştirme</div>
+                    <div class="skill-level">ISBN'li Yayınlar</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-title">Tercümanlık</div>
+                    <div class="skill-level">Yeminli Tercüman</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="section">
+            <h2>Yayınlar ve Projeler</h2>
+            
+            <h3>ISBN'li Yayınlar (Editör)</h3>
+            <ul class="publications-list">
+                <li>Hacettepe Üniversitesi Uluslararası Ana Dili Eğitimi Dergisi (ISBN: 2147-6020)</li>
+                <li>Türkçeyi Yabancı Dil Olarak Öğrenenler için Temel Düzey Resimli Sözlük</li>
+                <li>Yabancı Öğrenciler için Türkçe Çalışma Kitabı Serisi (1-2-3)</li>
+                <li>Salih ve Aslı Hikâye Serileri</li>
+                <li>Yabancı Öğrenciler için Türkçe Alıştırma Kitapları (İlkokul, Ortaokul, Lise)</li>
+                <li>Yabancı Öğrenciler için Türkçe Çek-Kopar Çalışma Soruları (Ortaokul, Lise)</li>
+            </ul>
+
+            <h3>Akademik Çalışmalar</h3>
+            <ul class="publications-list">
+                <li>"Hukuk Çevirisi" - Çeviri Kitabı (2016)</li>
+                <li>"COMPARISON OF HEGEL'S BONDSMAN AND MASTER WITH SUBORDINATION AND DOMINATION OF POSTCOLONIAL THEORY" - Birinci Uluslararası BAKEA Konferansı Bildiri Sunumu (2009)</li>
+                <li>"Is Oscar Wilde's Salome tragic or comic" - Hacettepe Üniversitesi IDEBiyat Öğrenci Dergisi (2007)</li>
+            </ul>
+
+            <h3>Uluslararası Projeler</h3>
+            <ul class="publications-list">
+                <li>Cultures on A Palette - Erasmus+ Okullar Arası Değişim Ortaklıkları Projesi</li>
+                <li>Towards Cultures on a Palette - Uluslararası eTwinning Projesi</li>
+                <li>MyOn Projesi - Cambridge University Press ile MEB Pilot Uygulaması</li>
+                <li>Bridges - Uluslararası eTwinning Projesi (Ulusal ve Avrupa Kalite Etiketi)</li>
+                <li>You and I in the Mirror - Uluslararası eTwinning Projesi (Ulusal ve Avrupa Kalite Etiketi)</li>
+                <li>Color Your School Green - Uluslararası eTwinning Projesi (Ulusal ve Avrupa Kalite Etiketi)</li>
+            </ul>
+        </section>
+
+        <section id="awards" class="section">
+            <h2>Ödüller ve Başarılar</h2>
+            <div class="awards-grid">
+                <div class="award-card">
+                    <strong>İhsan Doğramacı Üstün Başarı Ödülü</strong><br>
+                    2006/2007 - Hacettepe Üniversitesi İngiliz Dili ve Edebiyatı Bölüm 1.'si
+                </div>
+                <div class="award-card">
+                    <strong>Zeynep Nur Gürsoy Ödülü</strong><br>
+                    2005/2006 - 3. Sınıflar 1.'si
+                </div>
+                <div class="award-card">
+                    <strong>Zeynep Nur Gürsoy Ödülü</strong><br>
+                    2004/2005 - 2. Sınıflar 1.'si
+                </div>
+                <div class="award-card">
+                    <strong>Zeynep Nur Gürsoy Ödülü</strong><br>
+                    2003/2004 - 1. Sınıflar 1.'si
+                </div>
+                <div class="award-card">
+                    <strong>eTwinning Ulusal Kalite Etiketi</strong><br>
+                    Food in All Its States (2019)
+                </div>
+                <div class="award-card">
+                    <strong>eTwinning Avrupa Kalite Etiketi</strong><br>
+                    Bridges Projesi (2019)
+                </div>
+                <div class="award-card">
+                    <strong>eTwinning Avrupa Kalite Etiketi</strong><br>
+                    You and I in the Mirror (2018)
+                </div>
+                <div class="award-card">
+                    <strong>eTwinning Avrupa Kalite Etiketi</strong><br>
+                    Color Your School Green (2015)
+                </div>
+                <div class="award-card">
+                    <strong>MEB Üstün Başarı Belgesi</strong><br>
+                    Çalışkanlık (2022)
+                </div>
+                <div class="award-card">
+                    <strong>MEB Başarı Belgeleri</strong><br>
+                    2017, 2022 - Çalışkanlık
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p style="font-size: 1.1em; color: #667eea; font-weight: bold;">Edibe YILMAZ</p>
+            <p style="margin-top: 10px; color: #666;">© 2024 Tüm hakları saklıdır</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            const buttons = document.querySelectorAll('nav button');
+            
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
