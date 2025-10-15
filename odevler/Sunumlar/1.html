@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anlatı Metinlerinin Zorluk Düzeyi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .slide h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .slide h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .factor-list {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .factor-list ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .factor-list li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: #fffacd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: #f8f9fa;
+        }
+        
+        .control-btn {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .control-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-counter {
+            text-align: center;
+            padding: 10px;
+            color: #666;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Anlatı Metinlerinin Zorluk Düzeyini Etkileyen Faktörler</h1>
+            <p>Hacer Tekercioğlu - Factors Affecting the Difficulty of a Narrative (2025)</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" onclick="goToSlide(0)">Giriş</button>
+            <button class="nav-btn" onclick="goToSlide(1)">1. Öykü</button>
+            <button class="nav-btn" onclick="goToSlide(2)">2. Söylem</button>
+            <button class="nav-btn" onclick="goToSlide(3)">3. Anlatı Düzeyleri</button>
+            <button class="nav-btn" onclick="goToSlide(4)">4. Odaklanma</button>
+            <button class="nav-btn" onclick="goToSlide(5)">5. Karakter</button>
+            <button class="nav-btn" onclick="goToSlide(6)">6. Karakterizasyon</button>
+            <button class="nav-btn" onclick="goToSlide(7)">7. Zaman</button>
+            <button class="nav-btn" onclick="goToSlide(8)">8. Mekan</button>
+            <button class="nav-btn" onclick="goToSlide(9)">Sonuç</button>
+        </div>
+        
+        <div class="content">
+            <!-- Slide 0: Giriş -->
+            <div class="slide active">
+                <h2>📚 Giriş: Okunabilirlik Formüllerinin Sınırlılıkları</h2>
+                
+                <h3>Geleneksel Okunabilirlik Formülleri</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Geleneksel okunabilirlik formülleri sadece <span class="highlight">cümle uzunluğu</span>, <span class="highlight">kelime uzunluğu</span> ve <span class="highlight">kelime sıklığı</span> gibi yüzeysel değişkenleri kullanır.</p>
+                
+                <div class="factor-list">
+                    <strong>❌ Sorun:</strong>
+                    <ul>
+                        <li>Metin türleri arasındaki farkları göz ardı eder</li>
+                        <li>Anlatı metinlerinin özgün yapısal öğelerini hesaba katmaz</li>
+                        <li>Bilişsel yükü ölçmede yetersiz kalır</li>
+                    </ul>
+                </div>
+                
+                <h3>Bu Çalışmanın Amacı</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Anlatı metinlerinin <strong>yapısal öğelerine</strong> dayalı olarak zorluk düzeyini etkileyen faktörleri ortaya koymak.</p>
+                
+                <div class="example-box">
+                    <div class="example-title">🧠 Önemli Not:</div>
+                    <p>İnsan beyni, anlatı tabanlı zihinsel kodlama ile bilgiyi çok daha etkili şekilde hatırlar. Araştırmalar, kelimelerin liste olarak ezberlenmesi durumunda %13 hatırlanma oranı olduğunu, ancak bu kelimelerin bir anlatıya dönüştürülerek ezberlenmesi durumunda %70 hatırlanma oranı olduğunu göstermiştir.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 1: Öykü -->
+            <div class="slide">
+                <h2>1. 📖 Öykü (Story)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Öykü, bir anlatının temel yapı taşıdır. Kronolojik bir olay veya durum dizisidir.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>1.1.</strong> Öykü sayısı</li>
+                        <li><strong>1.2.</strong> Öykü türü (olay-durum)</li>
+                    </ul>
+                </div>
+                
+                <h3>Örnekler</h3>
+                
+                <h4>Olay Öyküleri (Action Stories):</h4>
+                <div class="example-box">
+                    <div class="example-title">✅ Daha Kolay - Hareket odaklı</div>
+                    <p><strong>(a)</strong> Thomas'ın annesi öldü.<br>
+                    <strong>(a1)</strong> Thomas, Kate ile annesinin cenazesinde tanıştı.<br>
+                    <strong>(a2)</strong> Thomas ve Kate evlendi.<br>
+                    <strong>(b)</strong> Thomas ve Kate boşandı.</p>
+                    <p style="margin-top: 10px; color: #666;"><em>→ Öldü, tanıştı, evlendi, boşandı: Ardışık eylem kalıpları zihinsel olarak daha rahat takip edilir.</em></p>
+                </div>
+                
+                <h4>Durum Öyküleri (Situation Stories):</h4>
+                <div class="example-box">
+                    <div class="example-title">⚠️ Daha Zor - Durağan ve soyut</div>
+                    <p><strong>(c)</strong> Thomas'ın masasındaki çaydan çıkan buhar.<br>
+                    <strong>(c1)</strong> Thomas, çayın buharıyla yalnızlığını düşünüyor.<br>
+                    <strong>(c2)</strong> Thomas'ın annesinin yaptığı kurabiyelerin kokusu.<br>
+                    <strong>(d)</strong> Garson masadan boş bardağı alıyor.</p>
+                    <p style="margin-top: 10px; color: #666;"><em>→ Duygular, düşünceler, izlenimler: Daha soyut ve çıkarımsal bir süreç gerektirir.</em></p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Öykü sayısı arttıkça bilişsel yük artar. Ana öykü sayısı 2 ise (a, b), bilişsel yük 2 birimdir. Ancak alt öyküleri de (a1, a2) dahil ettiğimizde bilişsel yük önemli ölçüde artar.</p>
+            </div>
+            
+            <!-- Slide 2: Söylem -->
+            <div class="slide">
+                <h2>2. 💬 Söylem (Discourse)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Söylem, anlatıda kullanılan dil performansıdır. Okuyucunun metne olan mesafesini belirler.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>2.1.</strong> Doğrudan söylem (Direct discourse)</li>
+                        <li><strong>2.2.</strong> Dolaylı söylem (Indirect discourse)</li>
+                        <li><strong>2.3.</strong> Anlatılan konuşma (Narrated speech)</li>
+                    </ul>
+                </div>
+                
+                <h3>Karşılaştırmalı Örnekler</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">A. Doğrudan Söylem (En Kolay) - Mimetik</div>
+                    <p>Kate'i annemin cenazesinde gördüm, elimdeki mendili buruşturdum ve Kate'e doğru birkaç adım attım: <strong>"Kate, yalnız ve boş hissettiğim bir zamanda seni görmekten duyduğum yersiz mutluluk için kendimi suçluyorum."</strong></p>
+                    <p style="margin-top: 10px; color: #0066cc;">✓ Okuyucu ile karakter arasında mesafe en az<br>✓ Konuşmanın sahibini belirleme kolay<br>✓ Zihinsel olarak canlandırması kolay</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">B. Dolaylı Söylem (Orta Zorluk)</div>
+                    <p>Kate'i annemin cenazesinde gördüm, elimdeki mendili buruşturdum ve Kate'e doğru birkaç adım attım, ona yalnız ve boş hissettiğimi ve onu gördüğümde duyduğum yersiz mutluluktan suçluluk duyduğumu söyledim.</p>
+                    <p style="margin-top: 10px; color: #ff8800;">⚠ Anlatıcı okuyucu ile karakter arasında<br>⚠ Söylemin kaynağını belirleme zorlaşır<br>⚠ Bilişsel yük artar</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">C. Anlatılan Konuşma (En Zor) - Diegetik</div>
+                    <p>Thomas, Kate'i annesinin cenazesinde gördü, elindeki mendili buruşturdu, Kate'e doğru birkaç adım attı, ona yalnız ve boş hissettiğini ve onu gördüğünde duyduğu mutluluktan suçluluk duyduğunu söyledi.</p>
+                    <p style="margin-top: 10px; color: #cc0000;">✗ Anlatıcının sesi karakterin sesini bastırır<br>✗ Konuşma bir olay olarak aktarılır<br>✗ En yüksek indirgenme seviyesi</p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Her söylem türü için farklı bilişsel yük gerekir. Doğrudan söylem en az bilişsel yük oluştururken, anlatılan konuşma en fazla bilişsel yük oluşturur.</p>
+            </div>
+            
+            <!-- Slide 3: Anlatı Düzeyleri -->
+            <div class="slide">
+                <h2>3. 📚 Anlatı Düzeyleri (Narrative Levels)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Anlatı, içiçe hikayeler veya matris anlatılar şeklinde birçok düzeyde gerçekleşebilir.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>3.1.</strong> Matris anlatı sayısı (Matrix narrative)</li>
+                        <li><strong>3.2.</strong> Ekli anlatı sayısı (Attached narrative)</li>
+                        <li><strong>3.3.</strong> Metalepsis sayısı</li>
+                    </ul>
+                </div>
+                
+                <h3>Genette'in Sınıflandırması</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>Ekstradiegetik düzey:</strong> Hikayenin dışında</li>
+                        <li><strong>İntradiegetik düzey:</strong> Hikayenin içinde</li>
+                        <li><strong>Metadiegetik düzey:</strong> Hikayenin üstünde</li>
+                    </ul>
+                </div>
+                
+                <h3>Örnek</h3>
+                <div class="example-box">
+                    <div class="example-title">Matris Anlatı (Çerçeve Hikaye)</div>
+                    <p><strong>Ana hikaye:</strong> Thomas ve Kate'in cenazede karşılaşması</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Ekli Anlatı (Alt Hikaye)</div>
+                    <p><strong>Geçmişe dönüş:</strong> Anlatıcı, Thomas'ın annesinin geçmişte Adam ile şömine başında yaptığı konuşmaya geri döner ve Adam'ın söylemini anlatıya dahil eder.</p>
+                    <p style="margin-top: 10px; color: #666;"><em>→ Zihinsel odak Thomas ve Kate üzerindeyken, başka bir karakter (Adam) bu ikisini arka plana iter.</em></p>
+                </div>
+                
+                <h3>Metalepsis Örneği</h3>
+                <div class="example-box">
+                    <div class="example-title">⚠️ Anlatı Düzeyleri Arası Geçiş</div>
+                    <p>Anlatıcı okuyucuya direkt seslenir: <strong>"Hey okuyucu, beni duyabiliyor musun?"</strong></p>
+                    <p>veya</p>
+                    <p>Anlatıcı karakterin konuşmasını ele geçirir ve söylemi bozar.</p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    • Anlatı düzeylerinin netliğinin kaybolması<br>
+                    • Çerçeve anlatının dışındaki ek anlatıların çokluğu<br>
+                    • Anlatıcının metalepsise başvurma sıklığı<br>
+                    <br>
+                    → Okuyucunun bilişsel yükünü artırır, konsantrasyon becerisini zorlar ve metnin zor olarak algılanmasına neden olur.
+                </p>
+            </div>
+            
+            <!-- Slide 4: Odaklanma -->
+            <div class="slide">
+                <h2>4. 🔍 Odaklanma (Focalization)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Odaklanma, anlatıcının odağı nereye yerleştireceğini, karakterler hakkında hangi bilgilerin çerçeveye dahil edileceğini belirleyen yapıdır.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>4.1.</strong> Sıfır odaklanma (Zero focalization)</li>
+                        <li><strong>4.2.</strong> İçsel odaklanma (Internal focalization)
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><strong>4.2.1.</strong> Sabit odaklanma (Fixed)</li>
+                                <li><strong>4.2.2.</strong> Değişken odaklanma (Variable)</li>
+                                <li><strong>4.2.3.</strong> Çoklu odaklanma (Multiple)</li>
+                            </ul>
+                        </li>
+                        <li><strong>4.3.</strong> Dışsal odaklanma (External focalization)</li>
+                    </ul>
+                </div>
+                
+                <h3>Bilgi İlişkisi Formülü</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>Sıfır odaklanma:</strong> Anlatıcı > Karakter</li>
+                        <li><strong>İçsel odaklanma:</strong> Anlatıcı = Karakter</li>
+                        <li><strong>Dışsal odaklanma:</strong> Anlatıcı < Karakter</li>
+                    </ul>
+                </div>
+                
+                <h3>Örnekler ve Bilgi Yükü Karşılaştırması</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">A. Sıfır Odaklanma (8 bilgi birimi)</div>
+                    <p>Thomas kalabalıktan nefret eden bir adamdı, o gün Kate'i kalabalığın içinde gördü ve üzüntüsündeki heyecanı onu utandırırken, sesinde çocuksu bir utanma ile Kate'e doğru birkaç adım attı: "Kate, yalnız ve boş hissettiğim bir zamanda seni görmekten duyduğum yersiz mutluluk için kendimi suçluyorum."</p>
+                    <p style="margin-top: 10px; color: #666;">
+                        ✓ Thomas'ın kalabalıkları sevmediği<br>
+                        ✓ Bu hoşnutsuzluğun iğrenme noktasında olduğu<br>
+                        ✓ Duygusal suçluluk hissettiği<br>
+                        ✓ Zıt duyguları aynı anda yaşayabildiği<br>
+                        ✓ Utanç duygusu yaşadığı<br>
+                        ✓ Bu utancın çocuksu olduğu<br>
+                        ✓ Suçluluk hissettiği<br>
+                        ✓ Kate'i zaten tanıdığı
+                    </p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">B1. Sabit İçsel Odaklanma - Thomas'ın bakış açısı</div>
+                    <p>Kate'i kalabalığın içinde gördüm. Annemin öldüğü bir günde onu görmekten duyduğum heyecan beni utandırdı. Bu utanç beni durdurmadı ve Kate'e doğru birkaç adım attım: "Kate, yalnız ve boş hissettiğim bir zamanda seni görmekten duyduğum yersiz mutluluk için kendimi suçluyorum."</p>
+                    <p style="margin-top: 10px; color: #0066cc;">→ Olaylar sadece Thomas'ın odağından aktarılır</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">B2. Çoklu İçsel Odaklanma - Hem Thomas hem Kate'in bakış açısı</div>
+                    <p><strong>Kate'in bakış açısı:</strong> O gün Thomas'ın annesinin cenazesine gittim, çok kalabalıktı. Başımı kaldırdığımda Thomas'ı bana doğru birkaç adım atarken gördüm...</p>
+                    <p><strong>Thomas'ın bakış açısı:</strong> Kate'i kalabalığın içinde gördüm ve annemin öldüğü bir günde onu görmekten duyduğum heyecan beni utandırdı...</p>
+                    <p style="margin-top: 10px; color: #ff8800;">→ Aynı olay hem Kate hem Thomas'ın odağından aktarılır - Bilgi yükü katlanır</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">C. Dışsal Odaklanma (Sadece 3 bilgi birimi)</div>
+                    <p>Salon kalabalıktı. İnsanların yüzünde üzgün bir ifade vardı. Thomas'ın, sıkıca buruşturulmuş bir mendil tutarak Kate'in durduğu şömine tarafına doğru yürüdüğü görülebiliyordu. Thomas sağ elini Kate ile tokalaşmak için uzattı ve solunu sırtına vurarak onu gördüğüne sevindi.</p>
+                    <p style="margin-top: 10px; color: #cc0000;">
+                        ✓ Sadece görsel olarak kalabalık olduğu<br>
+                        ✓ Aralarındaki mesafe (birkaç adım)<br>
+                        ✓ Thomas'ın Kate ile konuşması<br>
+                        → En az bilgi, sadece duyularla algılanabilir olanlar
+                    </p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    • <strong>İçsel odaklanma:</strong> Okuyucunun karakterle empati kurmasını kolaylaştırır, bilişsel yük azalır<br>
+                    • <strong>Sıfır odaklanma:</strong> Geleneksel anlatı şemasına uygun, tanıdık gelebilir<br>
+                    • <strong>Dışsal odaklanma:</strong> Karakterin derinliklerine girememe, daha materyalist ve nesnel
+                </p>
+            </div>
+            
+            <!-- Slide 5: Karakter -->
+            <div class="slide">
+                <h2>5. 👤 Karakter (Character)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Karakter, anlatıda olayları ve durumları gerçekleştiren, yapma eyleminin karşılığı olan anlatı öğesidir.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>5.1.</strong> Karakter sayısı</li>
+                        <li><strong>5.2.</strong> Karakter niteliklerinin sayısı
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><strong>5.2.1.</strong> Fiziksel nitelikler ve sayısı</li>
+                                <li><strong>5.2.2.</strong> Psikolojik nitelikler ve sayısı</li>
+                                <li><strong>5.2.3.</strong> Bilişsel nitelikler ve sayısı</li>
+                                <li><strong>5.2.4.</strong> Sosyolojik nitelikler ve sayısı</li>
+                            </ul>
+                        </li>
+                        <li><strong>5.3.</strong> Dinamik karakter</li>
+                        <li><strong>5.4.</strong> Statik karakter</li>
+                    </ul>
+                </div>
+                
+                <h3>Geleneksel Masal Şablonu vs Karmaşık Karakter</h3>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Geleneksel Masal</th>
+                        <th>Modern Anlatı</th>
+                    </tr>
+                    <tr>
+                        <td>Merkezdeki bir kahraman</td>
+                        <td>Çok sayıda karakter</td>
+                    </tr>
+                    <tr>
+                        <td>Tek boyutlu özellikler</td>
+                        <td>Çok katmanlı, derin ve karmaşık</td>
+                    </tr>
+                    <tr>
+                        <td>Sabit (Statik) karakter</td>
+                        <td>Gelişen (Dinamik) karakter</td>
+                    </tr>
+                    <tr>
+                        <td>Kolay hatırlanır: cesur, öfkeli, mutlu</td>
+                        <td>Tüm niteliklerin detaylı gelişimi</td>
+                    </tr>
+                </table>
+                
+                <h3>Karakter Nitelikleri Örneği</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Tek Baskın Nitelikli Karakter (Kolay)</div>
+                    <p><strong>Örnek:</strong> "James cesur bir çocuktu."</p>
+                    <p style="margin-top: 10px; color: #0066cc;">✓ Tek boyutlu<br>✓ Kolay hatırlanır<br>✓ Az bilişsel yük</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Çok Katmanlı Karakter (Zor)</div>
+                    <p><strong>Örnek:</strong> "James uzun boylu, utangaç ve kaygılı bir çocuktu. Solgun beyaz teni utandığında kızarırdı."</p>
+                    <p style="color: #666; margin-top: 10px;">
+                        • <strong>Fiziksel:</strong> Uzun boylu, solgun beyaz ten<br>
+                        • <strong>Psikolojik:</strong> Utangaç, kaygılı<br>
+                        • <strong>Bilişsel:</strong> Doğru anlaşılma konusunda endişeli<br>
+                        • <strong>Sosyolojik:</strong> Arkadaşlarıyla olan ilişkiler
+                    </p>
+                    <p style="margin-top: 10px; color: #cc0000;">✗ Çok katmanlı<br>✗ Daha fazla bilgi<br>✗ Yüksek bilişsel yük</p>
+                </div>
+                
+                <h3>Dinamik vs Statik Karakter</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Dinamik Karakter</div>
+                    <p>Karakterin anlatı boyunca dönüşümü: Başlangıçta çekingen olan bir karakter, sonunda cesur ve kararlı hale gelir.</p>
+                    <p style="margin-top: 10px; color: #ff8800;">⚠ Kinetik doğası ilgi çekici olabilir ama bilgi yükü artar</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Statik Karakter</div>
+                    <p>Karakter baştan sona aynı kalır: Başta cesur olan karakter, sonunda da cesurdur.</p>
+                    <p style="margin-top: 10px; color: #0066cc;">✓ İlgi çekici olmayabilir ama anlamlandırma daha az çaba gerektirir</p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    • Karakter sayısı arttıkça taksonomi bilişsel yükü artar<br>
+                    • Dinamik karakteri takip etmek daha fazla zihinsel çaba gerektirir<br>
+                    • Çok nitelikli karakteri anlamlandırmak daha karmaşıktır<br>
+                    • Karakterizasyon biçimi zorluk derecesini etkiler
+                </p>
+            </div>
+            
+            <!-- Slide 6: Karakterizasyon -->
+            <div class="slide">
+                <h2>6. 🎭 Karakterizasyon (Characterization)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">Karakterizasyon, anlatıcının karakteri yaratma biçimidir.</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>6.1.</strong> Blok karakterizasyon sayısı
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><strong>6.1.1.</strong> Açık blok karakterizasyon</li>
+                                <li><strong>6.1.2.</strong> Örtük blok karakterizasyon</li>
+                            </ul>
+                        </li>
+                        <li><strong>6.2.</strong> Dağınık karakterizasyon sayısı
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><strong>6.2.1.</strong> Açık dağınık karakterizasyon</li>
+                                <li><strong>6.2.2.</strong> Örtük dağınık karakterizasyon</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <h3>Açık vs Örtük Karakterizasyon</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Açık Karakterizasyon (Explicit)</div>
+                    <p>Anlatıcı karakterin özelliklerini doğrudan verir. Doğrudan betimlemeler, değerlendirmeler ve tanımlamalar yapar.</p>
+                    <p style="margin-top: 10px;"><strong>Örnek:</strong> "O uzun boylu, sarışın, kavgacı bir çocuktu."</p>
+                    <p style="margin-top: 10px; color: #0066cc;">✓ Doğrudan bilgi<br>✓ Anlamlandırma kolay</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Örtük Karakterizasyon (Implicit)</div>
+                    <p>Anlatıcı doğrudan betimleme veya değerlendirme yapmaz, karakterin davranışlarını ve zevklerini dolaylı olarak aktarır.</p>
+                    <p style="margin-top: 10px;"><strong>Örnek:</strong> "James köşeye çekildi, yumruklarını sıktı ve gözleri öfkeyle parladı."</p>
+                    <p style="margin-top: 10px; color: #cc0000;">✗ Dolaylı bilgi<br>✗ Çıkarım gerektirir</p>
+                </div>
+                
+                <h3>Blok vs Dağınık Karakterizasyon</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">A. Blok Karakterizasyon (Kolay)</div>
+                    <p style="background: white; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                        "James uzun boylu, utangaç, kaygılı bir çocuktu. Solgun beyaz teni utandığında kızarırdı."
+                    </p>
+                    <p style="margin-top: 10px; color: #0066cc;">
+                        ✓ Tüm özellikler bir arada verilir<br>
+                        ✓ Takip etmesi kolay<br>
+                        ✓ Zihinsel temsil oluşturması kolay<br>
+                        ✓ Daha az bilişsel yük
+                    </p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">B. Dağınık Karakterizasyon (Zor)</div>
+                    <p style="background: white; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                        "………………………………James uzun boyluydu……………………………<br>
+                        …………………………………………. arkadaşlarının yanında utangaçtı ……………<br>
+                        ………………………………………………………………………………<br>
+                        …………………………………………………. doğru anlaşılma konusunda endişeliydi …………………………………………………………<br>
+                        ………………………………………… solgun beyaz teni utandığında kızarırdı."
+                    </p>
+                    <p style="margin-top: 10px; color: #cc0000;">
+                        ✗ Her bölümde yeni bir nitelik eklenir<br>
+                        ✗ Parçalı bilgi akışı<br>
+                        ✗ Zihinsel temsil zor<br>
+                        ✗ Daha fazla bilişsel yük gerektirir
+                    </p>
+                </div>
+                
+                <h3>Kombinasyonlar ve Zorluk Seviyeleri</h3>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Karakterizasyon Türü</th>
+                        <th>Zorluk Seviyesi</th>
+                    </tr>
+                    <tr>
+                        <td>Açık + Blok</td>
+                        <td style="color: #0066cc;">⭐ En Kolay</td>
+                    </tr>
+                    <tr>
+                        <td>Açık + Dağınık</td>
+                        <td style="color: #ff8800;">⭐⭐ Orta</td>
+                    </tr>
+                    <tr>
+                        <td>Örtük + Blok</td>
+                        <td style="color: #ff8800;">⭐⭐ Orta-Zor</td>
+                    </tr>
+                    <tr>
+                        <td>Örtük + Dağınık</td>
+                        <td style="color: #cc0000;">⭐⭐⭐ En Zor</td>
+                    </tr>
+                </table>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    Dağınık ve örtük karakterizasyon yapıldığında, karakterin niteliklerini takip etme ve zihinsel temsil oluşturma açısından algılanan zorluk, açık ya da örtük olsun blok karakterizasyonu takip etmekten ve zihinsel temsil oluşturmaktan çok daha fazla bilişsel yük gerektirir.
+                </p>
+            </div>
+            
+            <!-- Slide 7: Zaman -->
+            <div class="slide">
+                <h2>7. ⏰ Zaman (Time)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">"Anlatı çift zamanlı bir dizidir: Anlatılan şeyin zamanı ve anlatının zamanı vardır." - Genette</p>
+                
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>Öykü zamanı:</strong> Olayların gerçekte ne kadar sürdüğü</li>
+                        <li><strong>Söylem zamanı:</strong> Anlatıcının bu olayları aktarmak için kullandığı zaman (kelime, satır, sayfa)</li>
+                    </ul>
+                </div>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <strong>Sıralama (Order):</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>7.1.</strong> Doğrusal zaman</li>
+                        <li><strong>7.2.</strong> Anakroni (Zaman kaydırmaları)
+                            <ul style="margin-left: 20px;">
+                                <li><strong>7.2.1.</strong> Analepsis sayısı (Geçmişe dönüş)</li>
+                                <li><strong>7.2.2.</strong> Prolepsis sayısı (Geleceğe atlama)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <strong style="margin-top: 15px; display: block;">Süre (Duration):</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>7.3.</strong> Sahne sayısı (Scene)</li>
+                        <li><strong>7.4.</strong> Özet sayısı (Summary)</li>
+                        <li><strong>7.5.</strong> Elips sayısı (Ellipsis)</li>
+                        <li><strong>7.6.</strong> Duraklama sayısı (Pause)</li>
+                    </ul>
+                </div>
+                
+                <h3>Zaman Sıralaması: Doğrusal vs Anakronik</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">✅ Doğrusal Zaman Düzeni (Kolay)</div>
+                    <p style="background: white; padding: 15px; border-radius: 5px;">
+                        <strong>1.</strong> Thomas'ın annesi öldü.<br>
+                        <strong>2.</strong> Thomas, Kate ile annesinin cenazesinde tanıştı.<br>
+                        <strong>3.</strong> Thomas ve Kate evlendi.<br>
+                        <strong>4.</strong> Thomas ve Kate boşandı.
+                    </p>
+                    <p style="margin-top: 10px; color: #0066cc;">✓ Geçmiş → Şimdi → Gelecek sırası<br>✓ Zihinsel şemamız bu düzene evrimleşmiştir<br>✓ Halk anlatıları kronolojik düzene uyar</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">⚠️ Anakronik Zaman Düzeni (Zor)</div>
+                    <p style="background: white; padding: 15px; border-radius: 5px;">
+                        Anlatıcı düğün töreniyle başlar <strong>(3)</strong><br>
+                        → Annesinin ölüm gününe analepsis yapar <strong>(1)</strong><br>
+                        → Mahkeme koridoruna prolepsis yapar <strong>(4)</strong><br>
+                        → Kate ile tanışma anını anlatır <strong>(2)</strong>
+                    </p>
+                    <p style="margin-top: 10px; color: #cc0000;">✗ Doğal zaman paradigmasıyla paralel değil<br>✗ Okuyucu zamanı takip etmekte zorlanır<br>✗ Yüksek bilişsel yük</p>
+                </div>
+                
+                <h3>Proust'tan Karmaşık Anakroni Örneği</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Zaman Pozisyonları Formülü: A2-B1-C2-D1-E2-F1-G2-H1-I2</div>
+                    <p style="background: #fff; padding: 15px; border-radius: 5px; font-size: 0.95em;">
+                        "Bazen otelin önünden geçerken <span style="background: #ffeb99;">(2-Şimdi)</span> yağmurlu günleri hatırlardı <span style="background: #b3d9ff;">(1-Geçmiş)</span> o zamanlar dadısını o kadar uzağa götürürdü. Ama onları hüzün duymadan <span style="background: #ffeb99;">(2-Şimdi)</span> hatırlıyordu, o zamanlar düşündüğü <span style="background: #b3d9ff;">(1-Geçmiş)</span> bir gün onu artık sevmediğini hissettiğinde <span style="background: #ffeb99;">(2-Gelecek)</span> tadacağı melankoli. Çünkü bu melankoli <span style="background: #b3d9ff;">(1-Geçmiş)</span> ileride gelecek kayıtsızlığın <span style="background: #ffeb99;">(2-Gelecek)</span> öncesinde, aşkından geliyordu <span style="background: #b3d9ff;">(1-Geçmiş)</span>. Ve bu aşk artık yoktu <span style="background: #ffeb99;">(2-Şimdi)</span>."
+                    </p>
+                    <p style="margin-top: 10px; color: #666;"><em>→ 9 bölümde 2 zaman pozisyonu arasında 9 kez geçiş yapılmıştır!</em></p>
+                </div>
+                
+                <h3>Süre: Söylem Zamanı ve Öykü Zamanı İlişkisi</h3>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Tür</th>
+                        <th>İlişki</th>
+                        <th>Açıklama</th>
+                        <th>Zorluk</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Sahne (Scene)</strong></td>
+                        <td>SZ = ÖZ</td>
+                        <td>Fiillerin ve diyalogların detaylı anlatımı</td>
+                        <td style="color: #0066cc;">Kolay</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Özet (Summary)</strong></td>
+                        <td>SZ < ÖZ</td>
+                        <td>Birkaç gün/ay/yılın birkaç paragrafta anlatılması</td>
+                        <td style="color: #0066cc;">Kolay</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Elips (Ellipsis)</strong></td>
+                        <td>SZ = 0</td>
+                        <td>"5 gün sonra, James büyümüştü"</td>
+                        <td style="color: #ff8800;">Orta</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Duraklama (Pause)</strong></td>
+                        <td>SZ > ÖZ</td>
+                        <td>Eylem olmadan betimleme dönemi</td>
+                        <td style="color: #cc0000;">Zor</td>
+                    </tr>
+                </table>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    • Çok sahne ve özet, az elips içeren metin: <span style="color: #0066cc;">Kolay</span><br>
+                    • Çok duraklama ve elips, az özet ve neredeyse hiç sahne olmayan metin: <span style="color: #cc0000;">Zor</span><br>
+                    • Anakronilerin sıklığı arttıkça algılanan zorluk artar
+                </p>
+            </div>
+            
+            <!-- Slide 8: Mekan -->
+            <div class="slide">
+                <h2>8. 🏛️ Mekan (Space)</h2>
+                
+                <h3>Tanım</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">"Temsil edilen durum ve olayların ve anlatma eylemlerinin gerçekleştiği yer veya yerler." - Prince</p>
+                
+                <h3>Alt Faktörler</h3>
+                <div class="factor-list">
+                    <strong>Mekan Sayısı:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>8.1.</strong> Gerçek mekan sayısı</li>
+                        <li><strong>8.2.</strong> Kurgusal mekan sayısı</li>
+                        <li><strong>8.3.</strong> Karma mekan sayısı</li>
+                    </ul>
+                    <strong style="margin-top: 15px; display: block;">Mekan Yaratma Yöntemi:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>8.4.</strong> İleriye dönük referanslarla yaratılan mekan sayısı</li>
+                        <li><strong>8.5.</strong> Geriye dönük referanslarla yaratılan mekan sayısı</li>
+                    </ul>
+                </div>
+                
+                <h3>Üç Mekan Boyutu</h3>
+                
+                <div class="factor-list">
+                    <ul>
+                        <li><strong>Öykü-söylem mekanı:</strong> Anlatıdaki tüm olayların geçtiği yer</li>
+                        <li><strong>Söylem mekanı:</strong> O anda anlatıcının odaklandığı yer</li>
+                        <li><strong>Anlatı mekanı:</strong> Karakterlerin yaşadığı fiziksel yer</li>
+                    </ul>
+                </div>
+                
+                <h3>Gerçek vs Kurgusal vs Karma Mekan</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">✅ Gerçek Mekan (Kolay)</div>
+                    <p><strong>Örnek:</strong> İstanbul, Paris, New York</p>
+                    <p style="margin-top: 10px; color: #0066cc;">
+                        ✓ Dış dünya bilgisi ile desteklenir<br>
+                        ✓ Epizodik bilgi ile tanıdık<br>
+                        ✓ Göstergeler açısından doğal<br>
+                        ✓ Zihinsel temsil daha kolay<br>
+                        ✓ Düşük bilişsel yük
+                    </p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">⚠️ Kurgusal Mekan (Zor)</div>
+                    <p><strong>Örnek:</strong> Hogwarts, Combray, Orta Dünya, Narnia</p>
+                    <p style="margin-top: 10px; color: #cc0000;">
+                        ✗ Önceden bilgi yok<br>
+                        ✗ Zihinsel olarak sıfırdan inşa edilmeli<br>
+                        ✗ Göstergeler açısından boşlukta<br>
+                        ✗ Materileşene kadar belirsiz<br>
+                        ✗ Yüksek bilişsel yük
+                    </p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">⚠️⚠️ Karma Mekan (Daha da Zor)</div>
+                    <p><strong>Örnek:</strong> Gerçek bir şehirde (İstanbul) kurgusal bir sokak veya bina</p>
+                    <p style="margin-top: 10px; color: #ff0000;">
+                        ✗✗ Gerçek ve hayal karışımı<br>
+                        ✗✗ Zihin hem gerçeği hem hayali yönetmeli<br>
+                        ✗✗ En yüksek bilişsel yük
+                    </p>
+                </div>
+                
+                <h3>Mekan Yaratma Yöntemi</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">İleriye Dönük Referanslar</div>
+                    <p>Anlatıcı mekanı ilerleyen bölümlerde yavaş yavaş inşa eder. Her yeni bölümde mekana dair yeni detaylar eklenir.</p>
+                    <p style="margin-top: 10px; color: #ff8800;">⚠ Parçalı odak - Takip etmesi zor</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Geriye Dönük Referanslar</div>
+                    <p>Anlatıcı önce olayları anlatır, sonra geçmişe dönerek mekanı betimler.</p>
+                    <p style="margin-top: 10px; color: #cc0000;">✗ Zaman ve mekan kaymaları birleşir - En zor</p>
+                </div>
+                
+                <h3>Söylem Mekanından Uzaklaşmanın Etkisi</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Örnek Senaryo</div>
+                    <p>Ana anlatı: Thomas ve Kate'in cenazede buluşması (Anlatı mekanı: Cenaze salonu)</p>
+                    <p style="margin-top: 10px;">Anlatıcı aniden Thomas'ın çocukluğunda oynadığı bir bahçeye geçer (Söylem mekanı değişimi)</p>
+                    <p style="margin-top: 10px; color: #cc0000;">
+                        → Ana eksen söylem düzeyinden uzaklaşır<br>
+                        → Zihinde yeni bilgi paketi açılır<br>
+                        → Bilişsel odak çabası artar<br>
+                        → Metin zorluğu doğrusal olarak etkilenir
+                    </p>
+                </div>
+                
+                <h3>💡 Zorluk Üzerindeki Etkisi</h3>
+                <p style="margin: 15px 0; line-height: 1.8;">
+                    • Mekan sayısı arttıkça bilişsel yük artar<br>
+                    • Kurgusal mekan, gerçek mekandan daha zordur<br>
+                    • Karma mekan en yüksek zorluk yaratır<br>
+                    • Parçalı odakla inşa edilen mekan takibi zordur<br>
+                    • Söylem mekanından sık sapma metni zorlaştırır
+                </p>
+            </div>
+            
+            <!-- Slide 9: Sonuç -->
+            <div class="slide">
+                <h2>🎯 Sonuç ve Öneriler</h2>
+                
+                <h3>Temel Bulgular</h3>
+                
+                <div class="factor-list">
+                    <strong>Bu çalışma teorik olarak şunu göstermeye çalışmıştır:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Öykü sayısı ve türü</li>
+                        <li>Söylem biçimleri</li>
+                        <li>Anlatı düzeyleri</li>
+                        <li>Odaklanma türleri</li>
+                        <li>Karakter sayısı ve nitelikleri</li>
+                        <li>Karakterizasyon tarzı</li>
+                        <li>Zaman kategorisindeki süre, prolepsis ve analepsis</li>
+                        <li>Mekanın gerçek ya da kurgusal oluşu</li>
+                        <li>Anlatıcının mekanı yaratma biçimi</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>→ Tüm bu faktörler anlatının zor olarak algılanmasını etkileyebilir.</strong></p>
+                </div>
+                
+                <h3>Geleneksel Okunabilirlik Formüllerinin Sınırlılıkları</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">❌ Sorun</div>
+                    <p>Geleneksel okunabilirlik formülleri:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Metin türü kriterini dikkate almadan</li>
+                        <li>Anlatının yapısal öğelerini hesaba katmadan</li>
+                        <li>Anlatı metinlerinin zorluğu konusunda tutarlı ve anlamlı sonuçlar veremez</li>
+                        <li>Yüzeysel istatistiksel verilerle metin analizi yapar</li>
+                    </ul>
+                </div>
+                
+                <h3>🧠 Anlatı Akıl Yürütmesi (Narrative Reasoning)</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">Gordon & Clark (1969) Araştırması</div>
+                    <p><strong>Liste olarak ezber:</strong> %13 hatırlama</p>
+                    <p><strong>Anlatıya dönüştürülerek ezber:</strong> %70 hatırlama</p>
+                    <p style="margin-top: 15px; background: #fffacd; padding: 10px; border-radius: 5px;">
+                        <strong>→ Homo sapiens bilişsel olarak anlatı akıl yürütmesi yoluyla gelişir ve evrimleşir.</strong>
+                    </p>
+                </div>
+                
+                <h3>Öneriler</h3>
+                
+                <h4>👨‍🏫 Öğretmenler İçin</h4>
+                <div class="factor-list">
+                    <ul>
+                        <li>Sınıfta kullanılacak materyalleri hazırlarken bu faktörleri dikkate alabilirler</li>
+                        <li>Öğrenci seviyesine uygun metinler seçerken yapısal öğeleri değerlendirebilirler</li>
+                        <li>Zorluk düzeyini sadece kelime/cümle uzunluğuna göre değil, anlatı yapısına göre belirleyebilirler</li>
+                    </ul>
+                </div>
+                
+                <h4>📚 Kitap Yazarları ve Yayıncılar İçin</h4>
+                <div class="factor-list">
+                    <ul>
+                        <li>Öğrenci seviyesine uygun metinler hazırlarken bu faktörleri kullanabilirler</li>
+                        <li>Hedef yaş grubuna göre anlatı karmaşıklığını ayarlayabilirler</li>
+                        <li>Yalnızca yüzeysel değişkenlere değil, yapısal öğelere odaklanabilirler</li>
+                    </ul>
+                </div>
+                
+                <h4>🔬 Araştırmacılar İçin</h4>
+                <div class="factor-list">
+                    <ul>
+                        <li>Bu faktörlerin her birinin eleştirel ve analitik değerlendirmesi yapılmalı</li>
+                        <li>Nörolojik değerlendirme araçları (örn. EEG) kullanılarak bilişsel süreçler deşifre edilmeli</li>
+                        <li>Yapay zeka modeli geliştirilerek otomatik zorluk analizi yapılabilir</li>
+                        <li>Deneysel çalışmalarla bu faktörlerin etkisi test edilmelidir</li>
+                    </ul>
+                </div>
+                
+                <h3>Gelecek Araştırmalar</h3>
+                
+                <div class="example-box">
+                    <div class="example-title">🔍 Araştırılması Gereken Sorular</div>
+                    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                        <li>Günlükler, otobiyografik anlatılar, anılar neden ilgi çekicidir?</li>
+                        <li>Birinci şahıs anlatıcı empatiyi nasıl kolaylaştırır?</li>
+                        <li>Odaklanma türleri okuyucunun dikkat kaymasını nasıl etkiler?</li>
+                        <li>Dinamik ve statik karakterleri takip etmenin bilişsel yükü ne kadardır?</li>
+                        <li>Dağınık-örtük karakterizasyonun algılanan zorluğu nedir?</li>
+                    </ul>
+                </div>
+                
+                <h3>Son Söz</h3>
+                
+                <div class="example-box" style="background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%); border-left: 4px solid #667eea;">
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        <strong>Anlatı metinlerinin zorluk düzeyini belirlemede, evrimsel olarak edinilmiş anlatı akıl yürütmesi yeteneğimizi kullanmamak, kendi düşünce sistemimizden yabancılaşma olarak yorumlanabilir.</strong>
+                    </p>
+                    <p style="margin-top: 15px; font-style: italic; color: #666;">
+                        Bu çalışma, metin zorluğunu belirleme konusunda farklı bir bakış açısı sunmaktadır. Daha bütünsel bir yaklaşımın ortaya çıkması için her faktörün derinlemesine incelenmesi gereklidir.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-counter">
+            <span id="slideNumber">1</span> / <span id="totalSlides">10</span>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="prevBtn" onclick="changeSlide(-1)">⬅ Önceki</button>
+            <button class="control-btn" id="nextBtn" onclick="changeSlide(1)">Sonraki ➡</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            } else if (n < 0) {
+                currentSlide = 0;
+            } else {
+                currentSlide = n;
+            }
+            
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            navBtns.forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index === currentSlide) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('slideNumber').textContent = currentSlide + 1;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        function goToSlide(n) {
+            showSlide(n);
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+        
+        showSlide(0);
+    </script>
+</body>
+</html>
+                

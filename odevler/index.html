@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ödev ve Materyal Merkezi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      margin: 20px 0 30px;
+      font-size: 2.2em;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Butonlar */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    /* İçerik Bölümü */
+    .content-section {
+      display: none;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      color: #667eea;
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #764ba2;
+    }
+
+    .resource-group {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9ff;
+      border-radius: 15px;
+      border-left: 4px solid #667eea;
+    }
+
+    .resource-group h3 {
+      color: #764ba2;
+      margin-bottom: 12px;
+      font-size: 1.3em;
+    }
+
+    .resource-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #667eea;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 10px;
+      background: #eef2ff;
+      transition: all 0.2s;
+    }
+
+    .resource-link:hover {
+      background: #dfe9ff;
+      transform: translateX(5px);
+    }
+
+    @media (max-width: 768px) {
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .nav-btn {
+        width: 90%;
+        max-width: 300px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>ÖDEVLER</h1>
+
+    <div class="buttons">
+      <button class="nav-btn active" onclick="showContent('section1')">TRO703 TÜRKÇE EĞİTİMİ ARAŞTIRMALARI</button>
+      <button class="nav-btn" onclick="showContent('section2')">TRO701 TÜRKÇE EĞİTİMİNDE KURAMSAL TEMELLER</button>
+      <button class="nav-btn" onclick="showContent('section3')">TRO714 DİL BİLGİSİ ÖĞRETMİ</button>
+      <button class="nav-btn" onclick="showContent('section4')">TRO16 GÖÇ BAĞLAMINDA TÜRKÇE EĞİTİMİ</button>
+    </div>
+
+    <!-- Bölüm 1 -->
+    <div id="section1" class="content-section active">
+      <h2 class="section-title">TRO703 TÜRKÇE EĞİTİMİ ARAŞTIRMALARI</h2>
+      
+      <div class="resource-group">
+        <h3>📘 Makaleler</h3>
+        <p>Akademik makalelere ulaşın.</p>
+        <a href="makaleler/1.pdf" target="_blank" class="resource-link">➤ 1.Optimising listening skills Analysing the effectiveness of a blended model with a top-down approach through cognitive load theory.</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📄 Dosyalar</h3>
+        <p>Word belgeleri ve çalışma kağıtları.</p>
+        <a href="dosyalar/1.docx" download class="resource-link">➤ 1.Optimising listening skills Analysing the effectiveness of a blended model with a top-down approach through cognitive load theory.</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📽️ Sunumlar</h3>
+        <p>Interaktif ders sunumları.</p>
+        <a href="sunumlar/1.html" target="_blank" class="resource-link">➤ 1.Optimising listening skills Analysing the effectiveness of a blended model with a top-down approach through cognitive load theory.</a>
+      </div>
+    </div>
+
+    <!-- Bölüm 2 -->
+    <div id="section2" class="content-section">
+      <h2 class="section-title">2. Dönem Materyalleri</h2>
+      
+      <div class="resource-group">
+        <h3>📘 Makaleler</h3>
+        <a href="makaleler/2_makale.pdf" target="_blank" class="resource-link">➤ 2. Dönem Makalesi (PDF)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📄 Dosyalar</h3>
+        <a href="dosyalar/2_belge.docx" download class="resource-link">➤ 2. Dönem Dosyası (DOCX)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📽️ Sunumlar</h3>
+        <a href="sunumlar/2_sunum.html" target="_blank" class="resource-link">➤ 2. Dönem Sunumu (HTML)</a>
+      </div>
+    </div>
+
+    <!-- Bölüm 3 -->
+    <div id="section3" class="content-section">
+      <h2 class="section-title">Proje 1 Materyalleri</h2>
+      
+      <div class="resource-group">
+        <h3>📘 Makaleler</h3>
+        <a href="makaleler/3_makale.pdf" target="_blank" class="resource-link">➤ Proje 1 Makalesi (PDF)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📄 Dosyalar</h3>
+        <a href="dosyalar/3_belge.docx" download class="resource-link">➤ Proje 1 Dosyası (DOCX)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📽️ Sunumlar</h3>
+        <a href="sunumlar/3_sunum.html" target="_blank" class="resource-link">➤ Proje 1 Sunumu (HTML)</a>
+      </div>
+    </div>
+
+    <!-- Bölüm 4 -->
+    <div id="section4" class="content-section">
+      <h2 class="section-title">Proje 2 Materyalleri</h2>
+      
+      <div class="resource-group">
+        <h3>📘 Makaleler</h3>
+        <a href="makaleler/4_makale.pdf" target="_blank" class="resource-link">➤ Proje 2 Makalesi (PDF)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📄 Dosyalar</h3>
+        <a href="dosyalar/4_belge.docx" download class="resource-link">➤ Proje 2 Dosyası (DOCX)</a>
+      </div>
+
+      <div class="resource-group">
+        <h3>📽️ Sunumlar</h3>
+        <a href="sunumlar/4_sunum.html" target="_blank" class="resource-link">➤ Proje 2 Sunumu (HTML)</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showContent(sectionId) {
+      // Tüm bölümleri gizle
+      document.querySelectorAll('.content-section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+
+      // Tüm butonlardan 'active' sınıfını kaldır
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Seçileni göster
+      document.getElementById(sectionId).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
