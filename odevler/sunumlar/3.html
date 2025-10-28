@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Speech Reveals Semantic Maps - Sunum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .key-point {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1em;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .controls {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .author-info {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+
+        .method-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        strong {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Kapak -->
+        <div class="slide active">
+            <h1>Natural Speech Reveals the Semantic Maps that Tile Human Cerebral Cortex</h1>
+            <div class="author-info">
+                <p><strong>Alexander G. Huth, Wendy A. de Heer, Thomas L. Griffiths,<br>
+                Frédéric E. Theunissen & Jack L. Gallant</strong></p>
+                <p style="margin-top: 40px; font-size: 1.3em;">🧠 Doğal Konuşma, İnsan Beynindeki<br>Semantik Haritaları Nasıl Ortaya Çıkarır?</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Anahtar Kavramlar 1 -->
+        <div class="slide">
+            <h2>🔑 Anahtar Kavramlar (1/3)</h2>
+            
+            <h3>1. Semantik (Anlam İşleme)</h3>
+            <p>Dilin anlam boyutu - kelimelerin ve cümlelerin ne anlama geldiğini nasıl anladığımız.</p>
+            <div class="key-point">
+                <strong>Neden önemli?</strong> Bu makale, beynin sadece ses veya dilbilgisi değil, <span class="highlight">anlamı nasıl işlediğini</span> araştırıyor.
+            </div>
+
+            <h3>2. fMRI (Fonksiyonel Manyetik Rezonans Görüntüleme)</h3>
+            <p>Beynin hangi bölgelerinin aktif olduğunu kan akışı değişimlerine dayanarak ölçen görüntüleme tekniği.</p>
+            <ul>
+                <li><strong>Mekânsal çözünürlük:</strong> Yüksek (nerede aktif?)</li>
+                <li><strong>Zaman çözünürlüğü:</strong> Düşük (ne zaman aktif?)</li>
+            </ul>
+
+            <h3>3. Voksel (Voxel)</h3>
+            <p>fMRI'de kullanılan 3 boyutlu piksel - beynin küçük bir hacim birimi. Her vokselin aktivitesi ayrı ayrı ölçülebilir ve her vokselin "anlam profili" çıkarılabilir.</p>
+        </div>
+
+        <!-- Slide 3: Anahtar Kavramlar 2 -->
+        <div class="slide">
+            <h2>🔑 Anahtar Kavramlar (2/3)</h2>
+            
+            <h3>4. Makine Öğrenimi / Doğrusal Regresyon Modeli</h3>
+            <p>Her vokselin aktivitesini, dinlenen kelimelerin anlam kategorileriyle eşleştiren veriye dayalı tahmin modelleri.</p>
+
+            <h3>5. Semantik Harita</h3>
+            <div class="key-point">
+                <strong>Makalenin özü:</strong> Anlam, rastgele değil, <span class="highlight">düzenli, tekrarlanabilir haritalar</span> hâlinde kortekste yer alır.
+            </div>
+            <p>Beynin farklı bölgelerinin hangi anlam türlerine (hayvanlar, hareket, duygular) duyarlı olduğunu gösteren görsel haritalar.</p>
+
+            <h3>6. Korteks (Cerebral Cortex)</h3>
+            <p>Beynin dış tabakası - düşünme, dil, duygu, algı gibi yüksek bilişsel işlevler burada gerçekleşir.</p>
+            <div class="key-point">
+                <strong>Önemli bulgu:</strong> Dil sadece "Broca" ya da "Wernicke" gibi küçük bölgelerle sınırlı değil, <span class="highlight">tüm korteks anlamla ilgili</span>.
+            </div>
+        </div>
+
+        <!-- Slide 4: Anahtar Kavramlar 3 -->
+        <div class="slide">
+            <h2>🔑 Anahtar Kavramlar (3/3)</h2>
+            
+            <h3>7. Dağıtık İşleme (Distributed Processing)</h3>
+            <p>Bir işlevin (örneğin "anlam") tek bir beyin bölgesinde değil <strong>birden çok bölgede eş zamanlı işlenmesi</strong>.</p>
+            <div class="key-point">
+                <strong>Geleneksel görüşle çelişir:</strong> Eskiden dilin sol yarımkürede küçük bölgelere yerleştirildiği sanılırdı. Bu çalışma bunun çok daha karmaşık ve yayılım göstermiş olduğunu göstermektedir.
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Doğal Konuşma</h3>
+                    <p>Anlamlı, akıcı, gramer kurallarına uygun, günlük hayatta kullanılan gerçek konuşma.</p>
+                    <p><em>Örnek: "Dün parkta yürüyüş yaparken eski bir arkadaşla karşılaştım..."</em></p>
+                    <p>✅ Beyin anlam çıkarabilir</p>
+                </div>
+                <div class="card">
+                    <h3>Rastgele Karıştırılmış Konuşma</h3>
+                    <p>Aynı kelimeler kullanılır ama zamansal sırası bozulur.</p>
+                    <p>Gramer bozulur, bağlam kaybolur, anlam oluşmaz.</p>
+                    <p>❌ Sadece kelimeler tanınır</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Araştırmanın Amacı -->
+        <div class="slide">
+            <h2>🎯 Araştırmanın Amacı</h2>
+            
+            <h3>Daha Önceki Bulgular:</h3>
+            <ul>
+                <li>Anlamlı kelimelere, anlamsız kelimelere göre daha fazla tepki veren bölgeler var</li>
+                <li>Sesbilgisi görevlerine kıyasla anlamla ilgili görevlerde daha aktif bölgeler var</li>
+                <li>Doğal konuşmaya, rastgele karıştırılmış konuşmaya göre daha güçlü yanıt veren sistemler var</li>
+                <li>Özel anlam türlerine duyarlı alt bölgeler: somut/soyut kelimeler, eylemler, sosyal hikâyeler</li>
+            </ul>
+
+            <div class="key-point">
+                <strong>⚠️ Sorun:</strong> Önceki çalışmalar çok sınırlı sayıda uyaran kullandı. Bütün semantik sistemin anlam bilgisini nasıl haritaladığına dair <span class="highlight">kapsamlı bir harita</span> henüz yapılamamıştı.
+            </div>
+
+            <h3>Bu Çalışmanın Yaklaşımı:</h3>
+            <div class="method-box">
+                <ul>
+                    <li>✅ <strong>7 katılımcı</strong></li>
+                    <li>✅ <strong>2 saat+</strong> doğal konuşma (The Moth Radio Hour)</li>
+                    <li>✅ <strong>Çeşitli anlam alanları:</strong> insanlar, mekânlar, duygular, eylemler</li>
+                    <li>✅ <strong>Whole-brain BOLD sinyalleri</strong> kaydedildi</li>
+                    <li>✅ <strong>Voksel bazlı modelleme:</strong> Her beyin noktasının hangi anlam türlerine duyarlı olduğu hesaplandı</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: Yöntem 1 -->
+        <div class="slide">
+            <h2>🔬 Yöntem: Voksel Bazlı Modelleme (1/2)</h2>
+            
+            <h3>1. Anlam Özellikleri Nasıl Belirlendi?</h3>
+            <div class="method-box">
+                <p><strong>Kelime Gömme (Word Embedding) Modeli:</strong></p>
+                <ul>
+                    <li>985 temel İngilizce kelime kullanıldı (above, worry, mother...)</li>
+                    <li>Her kelimenin büyük metin veri tabanında ne sıklıkla birlikte geçtiği incelendi</li>
+                    <li>Benzer bağlamlarda geçen kelimeler yüksek korelasyon gösterir</li>
+                </ul>
+                <p><strong>Örnekler:</strong></p>
+                <ul>
+                    <li>"month" ve "week" → <span class="highlight">r = 0.74</span> (benzer anlam)</li>
+                    <li>"month" ve "tall" → <span class="highlight">r = -0.22</span> (uzak anlam)</li>
+                </ul>
+            </div>
+
+            <h3>2. Beyin Aktivitesi Nasıl Modellendi?</h3>
+            <ul>
+                <li>985 anlamsal özelliğin her vokseldeki BOLD sinyalini nasıl etkilediği <strong>düzenlenmiş doğrusal regresyon</strong> ile tahmin edildi</li>
+                <li>Kelime sıklığı, fonemler, duygusal etkiler kontrol değişkeni olarak eklendi</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Yöntem 2 -->
+        <div class="slide">
+            <h2>🔬 Yöntem: Model Doğrulama (2/2)</h2>
+            
+            <h3>Model Nasıl Test Edildi?</h3>
+            <div class="key-point">
+                <strong>Kritik nokta:</strong> Model, <span class="highlight">yeni, daha önce kullanılmamış bir hikâyede</span> (10 dakikalık başka bir Moth hikâyesi) beyin tepkilerini ne kadar doğru tahmin edebildiğini test ederek doğrulandı.
+            </div>
+
+            <h3>📊 Sonuçlar:</h3>
+            <ul>
+                <li>✅ Semantik sistemdeki bölgelerde <strong>yüksek doğrulukla</strong> beyin aktivitesi tahmin edildi</li>
+                <li>✅ Özellikle: şakak, parietal ve frontal korteks</li>
+                <li>✅ Bu bölgeler gerçekten <strong>anlam odaklı</strong> çalışmakta</li>
+                <li>✅ Farklı anlam alanlarına göre <strong>seçici tepki</strong> vermekte</li>
+            </ul>
+
+            <div class="method-box">
+                <h3>🎯 Neden Bu Yöntem Önemli?</h3>
+                <ul>
+                    <li>Önceki çalışmalar: "Bu bölge hayvan kelimelerine yanıt veriyor"</li>
+                    <li>Bu çalışma: Her vokselin <span class="highlight">985 boyutlu anlam profili</span></li>
+                    <li>Sonuç: Bütün kortekste anlamın nasıl dağıldığı <strong>kesintisiz, yüksek çözünürlüklü</strong> bir harita</li>
+                    <li>Modelin yeni verilerde de çalışması → bulgular <strong>genellenebilir</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Beyinde Anlamın Haritalanması 1 -->
+        <div class="slide">
+            <h2>🗺️ Beyinde Anlamın Haritalanması (1/3)</h2>
+            
+            <h3>❓ Sorun: Çok Fazla Veri</h3>
+            <ul>
+                <li>Her katılımcının beyninde <strong>on binlerce voksel</strong></li>
+                <li>Her birinin <strong>985 boyutlu</strong> anlam profili</li>
+                <li>Ayrı ayrı bakmak imkânsız</li>
+            </ul>
+
+            <h3>✅ Çözüm: Temel Bileşenler Analizi (PCA)</h3>
+            <div class="method-box">
+                <ul>
+                    <li>Tüm katılımcıların modelleri birleştirildi</li>
+                    <li>985 boyut, en çok bilgiyi taşıyan birkaç temel boyuta indirgendi</li>
+                    <li><span class="highlight">Sadece 4 boyut</span> tüm katılımcılarda istatistiksel olarak anlamlı</li>
+                </ul>
+            </div>
+
+            <div class="key-point">
+                <strong>🧠 Önemli Çıkarım:</strong> İnsan beyni, anlam bilgisini <span class="highlight">en az 4 temel eksende</span> organize etmektedir.
+            </div>
+        </div>
+
+        <!-- Slide 9: Beyinde Anlamın Haritalanması 2 -->
+        <div class="slide">
+            <h2>🗺️ Bu 4 Boyut Ne Anlama Geliyor? (2/3)</h2>
+            
+            <h3>Analiz Yöntemi:</h3>
+            <ul>
+                <li>10.470 kelime bu 4 boyut üzerine yansıtıldı</li>
+                <li>K-means kümeleme ile <strong>12 anlam kategorisi</strong> elde edildi</li>
+            </ul>
+
+            <table>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Örnek Kelimeler</th>
+                </tr>
+                <tr>
+                    <td>Sosyal</td>
+                    <td>child, family</td>
+                </tr>
+                <tr>
+                    <td>Duygusal</td>
+                    <td>despised, love</td>
+                </tr>
+                <tr>
+                    <td>Şiddet içeren</td>
+                    <td>lethal, attack</td>
+                </tr>
+                <tr>
+                    <td>Toplumsal/Kurumsal</td>
+                    <td>schools, meetings</td>
+                </tr>
+                <tr>
+                    <td>Zihinsel</td>
+                    <td>asleep, think</td>
+                </tr>
+                <tr>
+                    <td>Soyut</td>
+                    <td>natural, concept</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Slide 10: Beyinde Anlamın Haritalanması 3 -->
+        <div class="slide">
+            <h2>🗺️ Kategorilerin Devamı (3/3)</h2>
+            
+            <table>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Örnek Kelimeler</th>
+                </tr>
+                <tr>
+                    <td>Zamansal</td>
+                    <td>minute, year</td>
+                </tr>
+                <tr>
+                    <td>Mesleki/Profesyonel</td>
+                    <td>meetings, office</td>
+                </tr>
+                <tr>
+                    <td>Sayısal</td>
+                    <td>four, hundred</td>
+                </tr>
+                <tr>
+                    <td>Görsel</td>
+                    <td>yellow, bright</td>
+                </tr>
+                <tr>
+                    <td>Dokunsal</td>
+                    <td>fingers, soft</td>
+                </tr>
+                <tr>
+                    <td>Mekânsal/Yer Belirten</td>
+                    <td>stadium, street</td>
+                </tr>
+            </table>
+
+            <div class="key-point">
+                <p><strong>🎨 Görselleştirme:</strong> RGB renk sistemiyle haritalandı</p>
+                <ul>
+                    <li><span style="color: red;">🔴 Kırmızı (1. boyut):</span> İnsanlar, sosyal etkileşim, duygular</li>
+                    <li><span style="color: green;">🟢 Yeşil (2. boyut):</span> Görsel, sayısal, mekânsal</li>
+                    <li><span style="color: blue;">🔵 Mavi (3. boyut):</span> Zihinsel/soyut süreçler</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 11: Boyutların Yorumu -->
+        <div class="slide">
+            <h2>📊 Semantik Boyutların Yorumu</h2>
+            
+            <h3>1. Boyut: İnsan vs Nesne/Algı Ekseni</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Bir Uç</h4>
+                    <p>👥 İnsanlar<br>💭 Duygular<br>🏛️ Toplum</p>
+                </div>
+                <div class="card">
+                    <h4>Diğer Uç</h4>
+                    <p>🎨 Renkler<br>🔢 Sayılar<br>📍 Mekânlar<br>✋ Dokunma</p>
+                </div>
+            </div>
+            <div class="key-point">
+                <strong>Yorum:</strong> Beyin anlamı <span class="highlight">"insan merkezli"</span> mi yoksa <span class="highlight">"nesne/algı merkezli"</span> mi şeklinde organize ediyor.
+            </div>
+
+            <h3>2. Boyut: Dış Dünya vs İç Dünya</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Bir Uç</h4>
+                    <p>👁️ Görsel<br>✋ Dokunsal<br>(Dış dünyadan gelen)</p>
+                </div>
+                <div class="card">
+                    <h4>Diğer Uç</h4>
+                    <p>🧠 Zihinsel<br>⏰ Zamansal<br>💼 Mesleki<br>(İçsel, bilişsel, soyut)</p>
+                </div>
+            </div>
+
+            <h3>3. ve 4. Boyutlar</h3>
+            <p>✅ İstatistiksel olarak anlamlı<br>❓ Ancak açık bir anlam örüntüsü yakalanamamış</p>
+        </div>
+
+        <!-- Slide 12: Beyin Haritası -->
+        <div class="slide">
+            <h2>🧠 Beyin Haritası Nasıl Görünüyor?</h2>
+            
+            <h3>Harita Özellikleri:</h3>
+            <ul>
+                <li>Her vokselin <strong>rengi</strong>, o bölgenin hangi anlam kategorilerine daha duyarlı olduğunu gösterir</li>
+                <li><span style="color: green; font-weight: bold;">Yeşil bölgeler:</span> "görsel" ve "sayısal" kelimelere tepki</li>
+                <li><span style="color: red; font-weight: bold;">Kırmızı bölgeler:</span> "çocuk", "aile", "duygu" gibi sosyal kavramlara tepki</li>
+            </ul>
+
+            <h3>Kaplanan Alanlar:</h3>
+            <div class="method-box">
+                <ul>
+                    <li>Ön frontal korteks</li>
+                    <li>Şakak lobu (LTC/MTC)</li>
+                    <li>Parietal korteks</li>
+                </ul>
+            </div>
+
+            <div class="key-point">
+                <strong>🎯 En Önemli Bulgu:</strong> Bu haritalar <span class="highlight">bireyler arasında yüksek benzerlik</span> göstermektedir.<br><br>
+                ➡️ İnsan beyni anlamı <strong>evrensel bir şekilde</strong> organize ediyor olabilir!
+            </div>
+        </div>
+
+        <!-- Slide 13: PrAGMATiC Algoritması 1 -->
+        <div class="slide">
+            <h2>🤖 PrAGMATiC ile Semantik Atlas (1/3)</h2>
+            
+            <h3>🎯 Amaç: Evrensel Bir Semantik Atlas</h3>
+            <p>Bireyler arasındaki benzerlikten yola çıkarak <strong>tüm insanlar için geçerli</strong> bir harita yapmak.</p>
+
+            <h3>🆕 Yeni Algoritma: PrAGMATiC</h3>
+            <p>Özel bir Bayesçi (Bayesian) makine öğrenimi algoritması</p>
+
+            <div class="method-box">
+                <h4>Algoritmanın Özellikleri:</h4>
+                <ul>
+                    <li>Beyni fonksiyonel olarak homojen alanlara böler</li>
+                    <li>Bu alanları "fayanslar gibi" kortekse yerleştirir</li>
+                    <li>Hem grup ortaklıklarını hem de bireysel farklılıkları modelleyebilir</li>
+                    <li><span class="highlight">Önemli avantaj:</span> Beyin verilerini önceden hizalamaya gerek yok - algoritma otomatik yapar</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: PrAGMATiC Algoritması 2 -->
+        <div class="slide">
+            <h2>🤖 PrAGMATiC Bileşenleri (2/3)</h2>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>1️⃣ Düzenleme Modeli</h3>
+                    <ul>
+                        <li>Her fonksiyonel alan bir "merkez nokta" ile temsil edilir</li>
+                        <li>Merkezler "yaylarla" bağlıymış gibi davranır</li>
+                        <li>Beyin şekli değişse bile harita esnek kalır</li>
+                        <li>Bilinen işlevsel işaret noktaları (örn. Wernicke) haritayı yönlendirir</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>2️⃣ Yayma Modeli</h3>
+                    <ul>
+                        <li>Korteksteki her nokta en yakın merkeze atanır</li>
+                        <li>Her alanın anlam profili 4 boyutlu vektörle tanımlanır</li>
+                        <li>Bu profiller tüm katılımcılar için ortak öğrenilir</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: PrAGMATiC Algoritması 3 -->
+        <div class="slide">
+            <h2>🤖 PrAGMATiC Sonuçları (3/3)</h2>
+            
+            <h3>📊 Kaç Alan Bulundu?</h3>
+            <div class="method-box">
+                <p><strong>En iyi performans (çapraz doğrulama ile):</strong></p>
+                <ul>
+                    <li>Sol yarımküre: <strong>192 alan</strong></li>
+                    <li>Sağ yarımküre: <strong>128 alan</strong></li>
+                </ul>
+                <p><strong>Filtreleme sonrası (sadece anlam seçici alanlar):</strong></p>
+                <ul>
+                    <li>Sol yarımküre: <span class="highlight">77 anlam seçici bölge</span></li>
+                    <li>Sağ yarımküre: <span class="highlight">63 anlam seçici bölge</span></li>
+                </ul>
+            </div>
+
+            <h3>📍 En Zengin Semantik Haritalar Nerede?</h3>
+            <ul>
+                <li><strong>Lateral Parietal Korteks (LPC)</strong></li>
+                <li><strong>Medial Parietal Korteks (MPC)</strong></li>
+                <li><strong>Superior Prefrontal Korteks (SPFC)</strong></li>
+            </ul>
+
+            <div class="key-point">
+                <strong>🔗 Ortak Özellik:</strong> Hepsi <span class="highlight">Default Mode Network (DMN)</span> adlı beyin ağına ait.<br><br>
+                DMN = Beynin "dış dünyaya odaklanmadığı" zamanlarda aktif olan ağ (içsel düşünme, hayal kurma, bilinçli düşünce)
+            </div>
+        </div>
+
+        <!-- Slide 16: Beyin Bölgelerindeki Düzenlemeler -->
+        <div class="slide">
+            <h2>🗺️ Beyin Bölgelerindeki Semantik Düzenlemeler</h2>
+            
+            <h3>LPC ve MPC (Parietal Korteks)</h3>
+            <div class="card">
+                <p><strong>Merkezde:</strong> Sosyal kavramlar (aile, arkadaş)</p>
+                <p><strong>Etrafında:</strong> Sayısal, görsel, dokunsal kavramlar</p>
+            </div>
+
+            <h3>SPFC (Superior Prefrontal Korteks)</h3>
+            <div class="card">
+                <p><strong>İç kısımlar (medial):</strong> Sosyal kavramlar</p>
+                <p><strong>Dış kısımlar (dorsolateral):</strong> Çeşitli anlam türleri</p>
+            </div>
+
+            <h3>⚠️ Şaşırtıcı Bulgu: Sol Şakak Lobu (LTC)</h3>
+            <div class="method-box">
+                <p>Dil anlayışında <strong>kritik bir bölge</strong> olmasına rağmen daha az ayrılmış anlam alanı gösterdi.</p>
+                <p><strong>Muhtemel sebep:</strong> Bu bölgede fMRI sinyali zayıf olduğu için bazı alanlar tespit edilememiş olabilir.</p>
+            </div>
+
+            <div class="key-point">
+                <strong>💡 Geniş Çıkarım:</strong> DMN içindeki semantik alanlar, dışarıdan konuşma dinlerken değil, <span class="highlight">içsel konuşma</span> (düşünme, hayal kurma) sırasında da aynı anlam kategorilerini temsil ediyor olabilir.
+            </div>
+        </div>
+
+        <!-- Slide 17: Tartışma 1 -->
+        <div class="slide">
+            <h2>💬 Tartışma (1/4): Yarımküre Simetrisi</h2>
+            
+            <h3>🔍 Bulgu: Şaşırtıcı Simetri</h3>
+            <p>Semantik alanlar hem sol hem sağ yarımkürede <strong>benzer şekilde</strong> dağılmıştır. İki yarımküre neredeyse simetrik.</p>
+
+            <h3>⚡ Çelişki</h3>
+            <div class="method-box">
+                <p><strong>Geleneksel lezyon çalışmaları:</strong> Anlam işleme sadece sol yarımküreye (özellikle sol şakak lobu) bağlı.</p>
+                <p><strong>fMRI çalışmaları:</strong> Genellikle daha az lateralizasyon bulur.</p>
+            </div>
+
+            <h3>✅ Açıklama</h3>
+            <div class="key-point">
+                <p>Hikâyeler gibi doğal, bağlamsal uyaranlar <span class="highlight">sağ yarımküreyi de güçlü şekilde aktive eder</span>.</p>
+                <p><strong>Sonuç:</strong> Sağ yarımküre, kelime listeleriyle değil <strong>anlamlı hikâyelerle</strong> daha iyi çalışır.</p>
+                <p>🎓 <strong>Eğitim çıkarımı:</strong> Dil öğretiminde bağlamsal materyallerin önemi</p>
+            </div>
+
+            <h3>❓ Açık Soru</h3>
+            <p>Sol ve sağ yarımküre, anlam işlemede farklı roller mi üstleniyor?</p>
+            <ul>
+                <li>Sol: dilbilgisi + kelime anlamı</li>
+                <li>Sağ: bağlam + duygu + bütünsel anlam</li>
+            </ul>
+        </div>
+
+        <!-- Slide 18: Tartışma 2 -->
+        <div class="slide">
+            <h2>💬 Tartışma (2/4): Bireyler Arası Benzerlik</h2>
+            
+            <h3>🔍 Bulgu</h3>
+            <p>Katılımcıların semantik haritaları <strong>çok benzer</strong>.</p>
+
+            <h3>❓ İki Olası Açıklama</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>🧬 Biyolojik (Doğuştan)</h4>
+                    <p>Beynin anatomik yapısı veya nöron bağlantıları, anlamın bu şekilde organize olmasını zorunlu kılıyor olabilir.</p>
+                </div>
+                <div class="card">
+                    <h4>🌍 Çevresel (Yaşam Deneyimi)</h4>
+                    <p>Tüm katılımcılar Batılı, sanayileşmiş toplumlarda büyümüş → benzer kültür, dil, eğitim, medya.</p>
+                </div>
+            </div>
+
+            <h3>💡 Gelecek Araştırma Önerisi</h3>
+            <div class="method-box">
+                <p>Farklı kültürlü, farklı diller konuşan katılımcılarla yapılan çalışmalar, bu benzerliğin kaynağını ayırt edebilir.</p>
+            </div>
+
+            <div class="key-point">
+                <h4>🎓 Eğitim İçin Çıkarımlar:</h4>
+                <p><strong>Eğer evrensel ise →</strong> Dil öğretimi yaklaşımları beynin doğal organizasyonuna uygun olmalı</p>
+                <p><strong>Eğer kültüre bağlı ise →</strong> Öğretim materyalleri kültürel bağlama duyarlı olmalı</p>
+            </div>
+        </div>
+
+        <!-- Slide 19: Tartışma 3 -->
+        <div class="slide">
+            <h2>💬 Tartışma (3/4): Yöntemsel Sınırlılık</h2>
+            
+            <h3>⚠️ PrAGMATiC'in Varsayımı</h3>
+            <div class="method-box">
+                <p>Her fonksiyonel alanı <strong>homojen</strong> (içinde tek bir anlam profili varmış gibi) varsayar.</p>
+            </div>
+
+            <h3>❌ Gerçekte Ne Var?</h3>
+            <p>Bazı beyin bölgelerinde (örneğin görsel kortekste) anlam <strong>yavaşça değişen gradyanlar</strong> (gradients) hâlinde dağılır.</p>
+
+            <h3>✅ Çözüm Önerisi</h3>
+            <div class="key-point">
+                <p>PrAGMATiC, gradyanları da modelleyecek şekilde geliştirilebilir</p>
+                <p>➡️ Böylece <span class="highlight">"alan mı, yoksa sürekli geçiş mi?"</span> sorusu objektif olarak test edilebilir</p>
+            </div>
+        </div>
+
+        <!-- Slide 20: Tartışma 4 -->
+        <div class="slide">
+            <h2>💬 Tartışma (4/4): Veriye Dayalı Yaklaşımlar</h2>
+            
+            <h3>🎯 Bu Çalışmanın Başarısı</h3>
+            <div class="key-point">
+                <p>Yalnızca <strong>hikâye dinletme</strong> gibi basit bir deney tasarımıyla kapsamlı bir semantik atlas oluşturuldu!</p>
+            </div>
+
+            <h3>🔮 Gelecek Olanakları</h3>
+            <ul>
+                <li>✅ Aynı veri setiyle <strong>fonemler, dilbilgisi, cümle yapısı</strong> gibi diğer dil bileşenleri de haritalanabilir</li>
+                <li>✅ Daha zengin anlam modelleri test edilebilir:
+                    <ul>
+                        <li>Sadece kelime birlikteliği değil</li>
+                        <li>Cümle içi ilişkiler</li>
+                        <li>Duygusal yük</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="method-box">
+                <h3>🌐 Etkileşimli Atlas</h3>
+                <p>İnternette yayınlandı:</p>
+                <p style="font-size: 1.3em; text-align: center; color: #667eea; font-weight: bold;">
+                    http://gallantlab.org/huth201
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 21: Ek Şekiller Özeti 1 -->
+        <div class="slide">
+            <h2>📊 Ek Şekiller Özeti (1/2)</h2>
+            
+            <h3>Genişletilmiş Veri Şekli 1</h3>
+            <p>Voksel bazlı modelin 10 dakikalık yeni hikâyede tahmin performansı. LTC, VTC, LPC, MPC, prefrontal korteks'te yüksek doğruluk → model güvenilir.</p>
+
+            <h3>Genişletilmiş Veri Şekli 2</h3>
+            <p>PCA ile elde edilen 4 temel semantik boyutun istatistiksel anlamlılık testleri. 6 katılımcıda 4 boyut, 1'inde 3 boyut anlamlı.</p>
+
+            <h3>Genişletilmiş Veri Şekli 3</h3>
+            <p>Her semantik boyutun (1., 2., 3.) kortekste ayrı ayrı haritası. 7 katılımcının haritalarının bireysel benzerliği → tutarlılık vurgusu.</p>
+
+            <h3>Genişletilmiş Veri Şekli 4 & 5</h3>
+            <p>PrAGMATiC atlasının sol ve sağ yarımküredeki tam görünümü. Her fonksiyonel alanın anlam profili (4 boyutlu vektör) renkli gösterim.</p>
+        </div>
+
+        <!-- Slide 22: Ek Şekiller Özeti 2 -->
+        <div class="slide">
+            <h2>📊 Ek Şekiller Özeti (2/2)</h2>
+            
+            <h3>Genişletilmiş Veri Şekli 6 - LPC</h3>
+            <p><strong>Lateral Parietal Korteks:</strong> Merkezde sosyal kavramlar (çocuk, aile), çevresinde sayısal, görsel, dokunsal kavramlar.</p>
+
+            <h3>Genişletilmiş Veri Şekli 7 - MPC</h3>
+            <p><strong>Medial Parietal Korteks:</strong> Alt merkezde (subparietal sulkus) sosyal kavramlar baskın.</p>
+
+            <h3>Genişletilmiş Veri Şekli 8 - SPFC</h3>
+            <p><strong>Superior Prefrontal Korteks:</strong> Medial (iç) → sosyal, Dorsolateral (dış) → çeşitli anlam türleri.</p>
+
+            <h3>Genişletilmiş Veri Şekli 9 - LTC</h3>
+            <p><strong>Lateral Temporal Korteks:</strong> Dil anlayışında kritik ama daha az ayrılmış. Muhtemel neden: fMRI sinyal kalitesi düşük.</p>
+
+            <h3>Genişletilmiş Veri Şekli 10 - VTC</h3>
+            <p><strong>Ventral Temporal Korteks:</strong> Görsel nesnelerle ilişkili kavramlara (araba, yüz) duyarlı alanlar.</p>
+
+            <h3>Genişletilmiş Veri Şekil 11 & 12</h3>
+            <p><strong>IPFC:</strong> Karmaşık anlam entegrasyonu, daha dağınık harita.<br>
+            <strong>Operkulum & İnsula:</strong> Duygusal ve bedensel farkındalık (acı, kalp).</p>
+        </div>
+
+        <!-- Slide 23: Ana Bulgular Özeti -->
+        <div class="slide">
+            <h2>🎯 Ana Bulgular Özeti</h2>
+            
+            <div class="key-point">
+                <h3>1. Anlam Kortekste Düzenli Haritalanır</h3>
+                <p>Anlam bilgisi rastgele değil, <span class="highlight">tekrarlanabilir, organize haritalar</span> şeklinde kortekse yerleşmiştir.</p>
+            </div>
+
+            <div class="key-point">
+                <h3>2. En Az 4 Temel Semantik Boyut</h3>
+                <p>İnsan beyni anlamı en az <span class="highlight">4 temel eksende</span> organize eder.</p>
+            </div>
+
+            <div class="key-point">
+                <h3>3. Dil Sadece Klasik Bölgelerle Sınırlı Değil</h3>
+                <p>Semantik işleme <span class="highlight">geniş kortikal alanlarda</span> dağıtık şekilde gerçekleşir (LPC, MPC, SPFC).</p>
+            </div>
+
+            <div class="key-point">
+                <h3>4. Bireyler Arası Yüksek Benzerlik</h3>
+                <p>Semantik haritalar <span class="highlight">bireyler arasında çok benzer</span> → evrensel organizasyon olabilir.</p>
+            </div>
+
+            <div class="key-point">
+                <h3>5. Sağ Yarımküre de Anlamda Aktif</h3>
+                <p>Doğal hikâyelerde <span class="highlight">her iki yarımküre de</span> güçlü semantik aktivite gösterir.</p>
+            </div>
+        </div>
+
+        <!-- Slide 24: Pratik Çıkarımlar -->
+        <div class="slide">
+            <h2>💡 Pratik Çıkarımlar</h2>
+            
+            <h3>🎓 Eğitim İçin</h3>
+            <ul>
+                <li>Dil öğretiminde <strong>bağlamsal, hikâye bazlı materyaller</strong> her iki yarımküreyi de aktive eder</li>
+                <li>Kelime listeleri yerine <strong>anlamlı, bütünsel içerikler</strong> daha etkili olabilir</li>
+                <li>Beynin doğal anlam organizasyonuna uygun öğretim yöntemleri geliştirilebilir</li>
+            </ul>
+
+            <h3>🧠 Nörobilim İçin</h3>
+            <ul>
+                <li>DMN (Default Mode Network) sadece istirahat değil, <strong>anlam işleme</strong>de de kritik</li>
+                <li>İçsel konuşma ve düşüncelerin gelecekte <strong>çözümlenebileceği</strong> umut verici</li>
+                <li>Veriye dayalı yaklaşımlar karmaşık beyin fonksiyonlarını haritalamada güçlü araçlar</li>
+            </ul>
+
+            <h3>🔬 Gelecek Araştırmalar</h3>
+            <ul>
+                <li>Farklı kültür ve dillerde benzer çalışmalar</li>
+                <li>Gradyan modelleme ile daha detaylı haritalar</li>
+                <li>Diğer dil bileşenleri: fonem, dilbilgisi, cümle yapısı</li>
+            </ul>
+        </div>
+
+        <!-- Slide 25: Sonuç -->
+        <div class="slide">
+            <h2>🎬 Sonuç</h2>
+            
+            <div class="key-point" style="padding: 40px; text-align: center;">
+                <h3 style="font-size: 2em; color: #667eea; margin-bottom: 30px;">
+                    "Doğal konuşma, insan beynindeki semantik haritaları ortaya çıkarır"
+                </h3>
+            </div>
+
+            <div class="method-box">
+                <h3>Bu Çalışmanın Katkıları:</h3>
+                <ul>
+                    <li>✅ İlk kapsamlı <strong>semantik atlas</strong></li>
+                    <li>✅ <strong>Veriye dayalı</strong>, önyargısız haritalama</li>
+                    <li>✅ Yeni metodoloji: <strong>PrAGMATiC algoritması</strong></li>
+                    <li>✅ <strong>Etkileşimli, erişilebilir</strong> kaynak</li>
+                    <li>✅ Gelecek araştırmalar için <strong>temel</strong> oluşturma</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.5em; color: #764ba2; font-weight: bold;">
+                    🌐 gallantlab.org/huth201
+                </p>
+                <p style="margin-top: 30px; font-size: 1.3em;">
+                    Teşekkürler! 🙏
+                </p>
+            </div>
+        </div>
+
+        <!-- Kontroller -->
+        <div class="controls">
+            <button id="prevBtn" onclick="changeSlide(-1)">◀ Önceki</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">25</span>
+            </span>
+            <button id="nextBtn" onclick="changeSlide(1)">Sonraki ▶</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
