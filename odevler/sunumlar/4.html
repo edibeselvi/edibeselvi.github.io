@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilişüstü Stratejiler Araştırması</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            text-align: center;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .navigation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd89b 0%, #19547b15 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .strategy-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px;
+        }
+
+        .model-diagram {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .key-finding {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+            
+            .navigation {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Understanding Individual Differences in Metacognitive Strategy Use, Task Demand, and Performance in Integrated L2 Speaking Assessment Tasks</h1>
+            <p class="subtitle">Bütünleşik (entegrasyonlu) ikinci dil konuşma değerlendirme görevlerinde üstbilişsel strateji kullanımı, görev talebi ve performanstaki bireysel farklılıkların anlaşılması</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('intro')">Giriş</button>
+            <button class="nav-btn" onclick="showSection('literature')">Literatür</button>
+            <button class="nav-btn" onclick="showSection('kormos')">Kormos Modeli</button>
+            <button class="nav-btn" onclick="showSection('methodology')">Metodoloji</button>
+            <button class="nav-btn" onclick="showSection('results')">Bulgular</button>
+            <button class="nav-btn" onclick="showSection('discussion')">Tartışma</button>
+            <button class="nav-btn" onclick="showSection('conclusion')">Sonuç</button>
+        </div>
+
+        <!-- GİRİŞ -->
+        <div class="content-section active" id="intro">
+            <h2>🎯 Giriş</h2>
+            
+            <div class="info-box">
+                <h3>Konuşma Neden Özel Bir Beceridir?</h3>
+                <p>Dört temel dil becerisi arasında (okuma, dinleme, yazma, konuşma) <span class="highlight">konuşma</span> en zorlu olanıdır çünkü:</p>
+                <ul>
+                    <li>✅ <strong>Gerçek zamanlıdır</strong> - düşünme süresi sınırlıdır</li>
+                    <li>✅ <strong>Hemen tepki gerektirir</strong> - anlık karar verme zorunluluğu</li>
+                    <li>✅ <strong>Bilişüstü stratejiler kritik önem taşır</strong> - planlama, izleme, düzeltme</li>
+                </ul>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🧠 Bireysel Farklılıklar</h3>
+                    <p>Her öğrenci farklı öğrenir:</p>
+                    <ul>
+                        <li>Bazıları daha iyi planlar</li>
+                        <li>Bazıları daha hızlı düzeltme yapar</li>
+                        <li>Bu farklılıklar bilişüstü stratejilerde görülür</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Araştırma Açığı</h3>
+                    <p>Önceki çalışmalar:</p>
+                    <ul>
+                        <li>Günlük konuşmalarda strateji kullanımını inceledi</li>
+                        <li>Sınav koşullarını ihmal etti</li>
+                        <li><strong>Bu çalışma:</strong> Değerlendirme sırasındaki süreci inceler</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-finding">
+                📌 ARAŞTIRMANIN AMACI: Değerlendirme sırasında bilişüstü strateji kullanımını incelemek ve bunun konuşma performansını nasıl etkilediğini anlamak
+            </div>
+        </div>
+
+        <!-- LİTERATÜR -->
+        <div class="content-section" id="literature">
+            <h2>📚 Literatür Taraması</h2>
+
+            <h3>Bilişüstü Stratejilerin Dört Temel Bileşeni</h3>
+            <table>
+                <tr>
+                    <th>Strateji</th>
+                    <th>Açıklama</th>
+                    <th>Örnek</th>
+                </tr>
+                <tr>
+                    <td><strong>Planlama</strong></td>
+                    <td>Konuşma öncesi ne yapacağımı belirlemek</td>
+                    <td>"Şu üç noktayı söyleyeceğim"</td>
+                </tr>
+                <tr>
+                    <td><strong>İzleme</strong></td>
+                    <td>Gerçek zamanlı kendimi kontrol etmek</td>
+                    <td>"Yanlış kelime kullandım, fark ettim"</td>
+                </tr>
+                <tr>
+                    <td><strong>Değerlendirme</strong></td>
+                    <td>Sonrasında süreci değerlendirmek</td>
+                    <td>"Konuşmam akıcıydı ama kelime dağarcığım zayıftı"</td>
+                </tr>
+                <tr>
+                    <td><strong>Problem Çözme</strong></td>
+                    <td>Unutulan kelime yerine alternatif kullanmak</td>
+                    <td>"'Beach' yerine 'seaside place' dedim"</td>
+                </tr>
+            </table>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📊 11 Bireysel Farklılık Değişkeni</h3>
+                    <span class="strategy-badge">Motivasyon</span>
+                    <span class="strategy-badge">Yetenek</span>
+                    <span class="strategy-badge">Stratejiler</span>
+                    <span class="strategy-badge">Cinsiyet</span>
+                    <span class="strategy-badge">Kültür</span>
+                    <span class="strategy-badge">İnançlar</span>
+                    <span class="strategy-badge">Özerklik</span>
+                    <span class="strategy-badge">Kişilik</span>
+                    <span class="strategy-badge">Öğrenme Stili</span>
+                    <span class="strategy-badge">Yaş</span>
+                    <span class="strategy-badge">Duygusal Durum</span>
+                </div>
+
+                <div class="card">
+                    <h3>⭐ En Güçlü Etkiye Sahip Olanlar</h3>
+                    <ul>
+                        <li><strong style="color: #667eea;">Bilişüstü Stratejiler</strong></li>
+                        <li><strong style="color: #764ba2;">Motivasyon</strong></li>
+                    </ul>
+                    <p style="margin-top: 15px;">Bu nedenle bu makale, bilişüstü stratejileri bireysel farklılıkların bir bileşeni olarak ele alıyor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KORMOS MODELİ -->
+        <div class="content-section" id="kormos">
+            <h2>🧩 Kormos'un İkili Dil Üretim Modeli</h2>
+
+            <div class="model-diagram">
+                <h3>Konuşma Üretiminin Dört Aşaması</h3>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <div style="background: #667eea; color: white; padding: 20px; border-radius: 10px; width: 80%;">
+                        <strong>1. Kavramsallaştırma</strong><br>
+                        "Ne söyleyeceğim?" → Planlama
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div style="background: #764ba2; color: white; padding: 20px; border-radius: 10px; width: 80%;">
+                        <strong>2. Biçimlendirme</strong><br>
+                        Gramer ve kelime kurallarına göre kodlama
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div style="background: #f093fb; color: white; padding: 20px; border-radius: 10px; width: 80%;">
+                        <strong>3. Seslendirme</strong><br>
+                        Fiziksel konuşma haline getirme
+                    </div>
+                    <div class="arrow">↓</div>
+                    <div style="background: #4facfe; color: white; padding: 20px; border-radius: 10px; width: 80%;">
+                        <strong>4. İzleme</strong><br>
+                        Hata kontrolü ve düzeltme → İzleme ve Değerlendirme
+                    </div>
+                </div>
+            </div>
+
+            <h3>Problem Çözme Mekanizmaları</h3>
+            <table>
+                <tr>
+                    <th>Sorun Türü</th>
+                    <th>Açıklama</th>
+                    <th>Çözüm</th>
+                </tr>
+                <tr>
+                    <td>Kaynak Yetersizliği</td>
+                    <td>Kelime veya gramer bilgisi eksikliği</td>
+                    <td>Yerine koyma (substitution)</td>
+                </tr>
+                <tr>
+                    <td>Zaman Baskısı</td>
+                    <td>Hızlı düşünmek zorunda kalma</td>
+                    <td>Duraklama, tekrar, dolgu ifadeler</td>
+                </tr>
+                <tr>
+                    <td>Hata Fark Etme</td>
+                    <td>Yanlış kelime/gramer kullanımı</td>
+                    <td>Kendini düzeltme</td>
+                </tr>
+                <tr>
+                    <td>Anlama Sorunu</td>
+                    <td>Karşı tarafın anlayamaması</td>
+                    <td>İletişimsel stratejiler</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- METODOLOJİ -->
+        <div class="content-section" id="methodology">
+            <h2>🔬 Metodoloji</h2>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>👥 Katılımcılar</h3>
+                    <ul>
+                        <li><strong>Sayı:</strong> 134 kişi (analiz: 95)</li>
+                        <li><strong>Profil:</strong> Çinli üniversite öğrencileri</li>
+                        <li><strong>Yaş:</strong> 18-21</li>
+                        <li><strong>Cinsiyet:</strong> %62 kadın, %38 erkek</li>
+                        <li><strong>Seviye:</strong> CET-4 geçmiş (orta düzey)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>❓ Araştırma Soruları</h3>
+                    <p><strong>RQ1:</strong> Bilişüstü stratejiler nasıl işler?</p>
+                    <p style="margin-top: 10px;"><strong>RQ2:</strong> Stratejiler ile görev zorluğu ve performans arasında ilişki var mı?</p>
+                </div>
+            </div>
+
+            <h3>🛠️ Veri Toplama Araçları</h3>
+
+            <div class="info-box">
+                <h4>SCICASA Envanteri</h4>
+                <ul>
+                    <li>23 madde, 4 boyut (Planlama, Problem Çözme, İzleme, Değerlendirme)</li>
+                    <li>Cronbach's Alpha = 0.941 (çok yüksek güvenilirlik)</li>
+                    <li>6'lı Likert ölçeği (0-5)</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>TOEFL iBT Görevleri</h4>
+                <table>
+                    <tr>
+                        <th>Görev</th>
+                        <th>Hazırlık</th>
+                        <th>Girdi</th>
+                    </tr>
+                    <tr>
+                        <td>Görev 1</td>
+                        <td>30 sn</td>
+                        <td>Okuma + Dinleme</td>
+                    </tr>
+                    <tr>
+                        <td>Görev 2</td>
+                        <td>30 sn</td>
+                        <td>Okuma + Dinleme</td>
+                    </tr>
+                    <tr>
+                        <td>Görev 3</td>
+                        <td>20 sn</td>
+                        <td>Sadece Dinleme</td>
+                    </tr>
+                    <tr>
+                        <td>Görev 4</td>
+                        <td>20 sn</td>
+                        <td>Sadece Dinleme</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- BULGULAR -->
+        <div class="content-section" id="results">
+            <h2>📊 Bulgular</h2>
+
+            <div class="key-finding">
+                🎯 ANA BULGU: En çok kullanılan strateji PROBLEM ÇÖZME, en az kullanılan İZLEME
+            </div>
+
+            <div class="grid-2">
+                <div class="card" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);">
+                    <h4 style="color: #667eea;">📈 En Yüksek Kullanım</h4>
+                    <p style="font-size: 1.3em; font-weight: 600; margin-top: 10px;">Problem Çözme</p>
+                    <p style="margin-top: 10px;">Kelime unuttuğunda yerine koyma, dolgu ifadeleri kullanma</p>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #ffd89b15 0%, #19547b15 100%);">
+                    <h4 style="color: #764ba2;">📉 En Düşük Kullanım</h4>
+                    <p style="font-size: 1.3em; font-weight: 600; margin-top: 10px;">İzleme</p>
+                    <p style="margin-top: 10px;">Gerçek zamanlı kendini kontrol etme</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📌 MANOVA Sonuçları</h4>
+                <ul>
+                    <li>F(12, 1212) = 12, p = 0.01, η² = 0.02</li>
+                    <li>✅ Görevler değiştiğinde strateji kullanımı değişiyor</li>
+                    <li>⚠️ Sadece problem çözme stratejisinde anlamlı fark</li>
+                </ul>
+            </div>
+
+            <div class="key-finding" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                ⚠️ ŞAŞIRTICI SONUÇ: Stratejiler ile performans arasında anlamlı ilişki BULUNAMADI!<br>
+                (R² < 0.1, tüm p > 0.05)
+            </div>
+        </div>
+
+        <!-- TARTIŞMA -->
+        <div class="content-section" id="discussion">
+            <h2>💬 Tartışma</h2>
+
+            <h3>Neden Problem Çözme En Çok Kullanıldı?</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Algısal Karışıklık</h4>
+                    <p>Öğrenciler diğer stratejileri de "problem çözme" olarak algılıyor olabilir.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Modelsel Açıklama</h4>
+                    <p>Problem çözme her aşamada açıkça devreye girer, diğerleri daha içsel çalışır.</p>
+                </div>
+            </div>
+
+            <h3>Stratejiler Performansı Neden Etkilemedi?</h3>
+            <div class="info-box">
+                <ul>
+                    <li><strong>Bağlam Farkı:</strong> Sınav koşulları günlük konuşmadan farklı</li>
+                    <li><strong>Yöntemsel Sınırlılık:</strong> Kendini bildirim gerçek davranışı tam yansıtmayabilir</li>
+                    <li><strong>Literatürde Tutarlılık:</strong> Diğer çalışmalar da benzer sonuçlar bulmuş</li>
+                </ul>
+            </div>
+
+            <div class="key-finding">
+                💡 Strateji kullanımı teorik olarak performansı destekler, ANCAK sınav koşullarında: yetersiz farkındalık + düşük motivasyon + stres = bozulmuş strateji kullanımı
+            </div>
+        </div>
+
+        <!-- SONUÇ -->
+        <div class="content-section" id="conclusion">
+            <h2>🎓 Sonuç ve Öneriler</h2>
+
+            <h3>📚 Teorik Katkılar</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>✅ Kormos Modeli Doğrulandı</h4>
+                    <p>L2 konuşanların problem çözme stratejilerini kullandığı ampirik olarak desteklendi.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Bağlam Önemlidir</h4>
+                    <p>Sınav gibi stresli bağlamlarda stratejilerin etkisi değişebilir.</p>
+                </div>
+            </div>
+
+            <h3>🎯 Öğretmenlere Öneriler</h3>
+            <div class="model-diagram">
+                <div style="text-align: left;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">1️⃣ Problem Çözme Üzerine Odaklanın</h4>
+                    <p>Öğrenciler zaten bu stratejiye yöneliyor. Farkındalıkla kullanmaları için rehberlik edin.</p>
+                    
+                    <h4 style="color: #764ba2; margin: 20px 0 15px 0;">2️⃣ Entegre Görevler Kullanın</h4>
+                    <p>Okuma + dinleme + konuşma görevleri gerçek hayata daha yakın ve stratejik yeterlilik geliştirir.</p>
+                    
+                    <h4 style="color: #f093fb; margin: 20px 0 15px 0;">3️⃣ Sınav Koşullarında Eğitim Verin</h4>
+                    <p>Mini sınavlar yapın, zaman baskısı altında pratik yaptırın, strateji kullanımını alışkanlık haline getirin.</p>
+                </div>
+            </div>
+
+            <h3>⚠️ Sınırlılıklar ve Gelecek Araştırmalar</h3>
+            <div class="grid-2">
+                <div class="card" style="border-left: 4px solid #f5576c;">
+                    <h4 style="color: #f5576c;">Sınırlılıklar</h4>
+                    <ul>
+                        <li>Kendini bildirim envanteri</li>
+                        <li>Tek kültürel bağlam</li>
+                        <li>Düşük görev motivasyonu</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #4facfe;">
+                    <h4 style="color: #4facfe;">Öneriler</h4>
+                    <ul>
+                        <li>Davranışsal veri ekleyin</li>
+                        <li>Farklı kültürlerde test edin</li>
+                        <li>Uzunlamasına çalışma yapın</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-finding" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎯 TEMEL ÇIKARIM</h3>
+                <p style="font-size: 1.2em; line-height: 1.8;">
+                    Strateji öğretimi sadece "ne olduğunu bilmek" değil, <strong>"doğru bağlamda nasıl kullanılacağını öğrenmek"</strong>tir.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 1.1em; font-weight: 600;">Understanding Individual Differences in Metacognitive Strategy Use</p>
+            <p style="margin-top: 10px;">📚 İnteraktif Akademik Sunum</p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            event.target.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>
