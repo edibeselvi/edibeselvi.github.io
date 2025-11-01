@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEG Tabanlı Dil İşleme Araştırması</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            color: #495057;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .content {
+            padding: 40px;
+            min-height: 500px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #495057;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "▸";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .model-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid #667eea;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .model-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        strong {
+            color: #667eea;
+        }
+
+        .key-finding {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .brain-region {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 15px;
+            margin: 3px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Bridging Auditory Perception and Language Comprehension through MEG-Driven Encoding Models</h1>
+            <p style="text-align: center;">MEG Tabanlı Kodlama Modelleriyle İşitsel Algı ile Dil Anlamayı Birleştirmek</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection(1)">1. Amaç ve Yaklaşım</button>
+            <button class="nav-btn" onclick="showSection(2)">2. İlgili Çalışmalar</button>
+            <button class="nav-btn" onclick="showSection(3)">3. Malzeme ve Yöntem</button>
+            <button class="nav-btn" onclick="showSection(4)">4. Bulgular</button>
+            <button class="nav-btn" onclick="showSection(5)">5. Tartışma</button>
+            <button class="nav-btn" onclick="showSection(6)">6. Sonuç ve Gelecek</button>
+        </div>
+
+        <div class="content">
+            <!-- Bölüm 1 -->
+            <div class="section active" id="section1">
+                <h2>1. Araştırmanın Amacı ve Yaklaşımı</h2>
+                
+                <div class="highlight-box">
+                    <p><strong>Temel Motivasyon:</strong> Mevcut çalışmalar düşük zaman çözünürlüğüne sahip fMRI verilerine dayanıyor. Bu çalışmada dil işlemenin dinamik ve zamansal olarak daha hassas incelenmesi için MEG kullanıldı.</p>
+                </div>
+
+                <h3>MEG'in Avantajları</h3>
+                <ul>
+                    <li><strong>Milisaniye düzeyinde</strong> zaman çözünürlüğü</li>
+                    <li>Dil anlama ve üretiminin <strong>nöral dinamiklerini</strong> ayrıntılı gösterme</li>
+                    <li>Gerçek zamanlı beyin aktivitesi takibi</li>
+                </ul>
+
+                <h3>Araştırma Yaklaşımları</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>🎵 Ses-Tabanlı Modeller</h4>
+                        <ul>
+                            <li>Zaman-frekans temsilleri (STFT)</li>
+                            <li>wav2vec2 derin öğrenme temsilleri</li>
+                        </ul>
+                    </div>
+                    <div class="model-card">
+                        <h4>📝 Metin-Tabanlı Modeller</h4>
+                        <ul>
+                            <li>CLIP gömme vektörleri</li>
+                            <li>GPT-2 dil modeli temsilleri</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-finding">
+                    <strong>🎯 Hedef:</strong> İşitsel algı ile dilsel anlam işleme süreçlerinin nöral temellerini karşılaştırarak yeni bulgular elde etmek.
+                </div>
+            </div>
+
+            <!-- Bölüm 2 -->
+            <div class="section" id="section2">
+                <h2>2. İlgili Çalışmalar Özeti</h2>
+                
+                <h3>Literatürün Mevcut Durumu</h3>
+                <p>Dil ve konuşma işleme üzerine nörobilimsel kodlama çalışmaları bugüne kadar çoğunlukla <strong>fMRI verileriyle</strong> yürütülmüştür. Ancak fMRI'nin düşük zaman çözünürlüğü, konuşma gibi hızlı değişen uyaranların çözümlenmesinde ciddi bir sınırlama teşkil eder.</p>
+
+                <h3>MEG Temelli Öncü Çalışmalar</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>Oota ve ark. (2023)</h4>
+                        <p>BERT temsilleriyle MEG sinyallerini tahmin eden kodlama modeli geliştirdi.</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>Défossez ve ark. (2023)</h4>
+                        <p>wav2vec2 temsilleriyle MEG sinyallerinden konuşma sesini yeniden oluşturdu (dekodlama yaklaşımı).</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Bu Çalışmanın Literatüre Katkısı</h3>
+                    <ul>
+                        <li>✅ <strong>Ses temsilleri</strong> (TFD ve wav2vec2) ile <strong>metin temsillerini</strong> (CLIP ve GPT-2) karşılaştırma</li>
+                        <li>✅ Beynin işitsel ve dilsel/semantik bilgiyi nasıl <strong>farklı şekilde kodladığını</strong> inceleme</li>
+                        <li>✅ MEG-tabanlı <strong>çoklu kodlama modelleri</strong> geliştirme</li>
+                        <li>✅ Ridge regresyon ile farklı temsil düzeylerinin nöral izlerini karşılaştırma</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bölüm 3 -->
+            <div class="section" id="section3">
+                <h2>3. Malzeme ve Yöntem</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="number">8</div>
+                        <div class="label">Katılımcı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">3 sn</div>
+                        <div class="label">MEG Parçası</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">0.5-30 Hz</div>
+                        <div class="label">Frekans Bandı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">70/30</div>
+                        <div class="label">Eğitim/Test</div>
+                    </div>
+                </div>
+
+                <h3>Veri Seti: MEG-MASC</h3>
+                <p><strong>Açık kaynak kodlu</strong> veri seti kullanıldı. Katılımcılar doğal İngilizce hikayeler dinledi (örn: "Cable Spool Boy"). MEG ile beyin manyetik aktivitesi kaydedildi.</p>
+
+                <h3>MEG Verisi Hazırlama</h3>
+                <ul>
+                    <li>0.5–30 Hz arası frekanslara filtreleme (dil işleme bantları)</li>
+                    <li>Her kelimenin başından itibaren 3 saniyelik parçalara bölme</li>
+                    <li>Her parça ~5 kelimeyi kapsıyor</li>
+                    <li>200 ms önceki sinyal baseline olarak kullanıldı</li>
+                    <li>Aşırı sinyaller normalize edildi</li>
+                </ul>
+
+                <h3>Model Temsilleri</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>🎵 Ses Modelleri</h4>
+                        <p><strong>1. Zaman-Frekans Haritaları (TFD):</strong> Sesin zaman ve frekans değişimlerini gösteren görsel temsiller</p>
+                        <p><strong>2. wav2vec2:</strong> Facebook'un derin öğrenme tabanlı konuşma modeli - 3 sn sesi anlamlı vektörlere dönüştürür</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>📝 Metin Modelleri</h4>
+                        <p><strong>CLIP:</strong> Görsel-dil modeli (sadece metin kısmı) - Her cümle 33×512 boyutlu matrise dönüştürüldü</p>
+                        <p><strong>GPT-2:</strong> Büyük dil modeli - Her kelime 768 boyutlu vektörle temsil edildi (zengin anlam bilgisi)</p>
+                        <p><em>Not: 25 kelimelik bağlam kullanıldı (20 önceki + 5 sonraki)</em></p>
+                    </div>
+                </div>
+
+                <h3>Beyin Aktivitesi Tahmini</h3>
+                <p><strong>Ridge Regresyon</strong> kullanıldı - basit ama etkili makine öğrenmesi yöntemi. En iyi ayarlar (λ = 5000) çapraz doğrulama ile belirlendi.</p>
+
+                <h3>Değerlendirme Metrikleri</h3>
+                <ul>
+                    <li><strong>Pearson Korelasyonu (PC)</strong> ve R² skorları</li>
+                    <li>Frekans bantları ayrı ayrı incelendi:
+                        <ul>
+                            <li><strong>Delta</strong> (0.5–4 Hz): derin uyku</li>
+                            <li><strong>Teta</strong> (4–8 Hz): hafif uyku / dalgınlık</li>
+                            <li><strong>Alfa</strong> (8–12 Hz): rahat uyanıklık</li>
+                            <li><strong>Beta</strong> (12–30 Hz): aktif düşünme, dikkat - dil işlemeyle en çok ilişkili</li>
+                        </ul>
+                    </li>
+                    <li>100 kez rastgele karıştırma ile istatistiksel anlamlılık testi (p < 0.05)</li>
+                </ul>
+            </div>
+
+            <!-- Bölüm 4 -->
+            <div class="section" id="section4">
+                <h2>4. Bulgular</h2>
+                
+                <div class="key-finding">
+                    <h3>🏆 Ana Bulgu</h3>
+                    <p><strong>Metin temsilleri</strong> (GPT-2 ve CLIP), MEG sinyallerini <strong>ses temsillerine</strong> (TFD ve wav2vec2) göre <strong>daha yüksek doğrulukla</strong> tahmin edebildi.</p>
+                </div>
+
+                <h3>Beyin Bölgelerine Göre Performans</h3>
+                
+                <div class="highlight-box">
+                    <h4>🎵 Ses Temsilleri Nerede Güçlü?</h4>
+                    <p><span class="brain-region">Lateral Temporal Korteks</span> <span class="brain-region">Şakak Bölgeleri</span></p>
+                    <p>İşitsel işlemeyle ilişkili alanlarda daha güçlü nöral tahminler</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>📝 Metin Temsilleri Nerede Güçlü?</h4>
+                    <p><span class="brain-region">Frontal Korteks</span> <span class="brain-region">Broca Bölgesi</span></p>
+                    <p>Üst düzey dil işleme ve anlam entegrasyonuyla ilişkili bölgelerde daha yüksek korelasyon</p>
+                </div>
+
+                <h3>Frekans Bantlarına Göre Sonuçlar</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>En Yüksek Performans</h4>
+                        <p><strong>8–30 Hz</strong> (Alfa ve Beta bantları)</p>
+                        <p>Uyanıklık, dikkat ve bilişsel işlemeyle ilişkili</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>İstatistiksel Anlamlılık</h4>
+                        <p><strong>p < 0.05</strong></p>
+                        <p>Z-skorları: ~7 (bazı sensörlerde 22'ye kadar)</p>
+                        <p>Rastgele karıştırma testleriyle doğrulandı</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="number">p < 0.05</div>
+                        <div class="label">İstatistiksel Anlamlılık</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">7-22</div>
+                        <div class="label">Z-Skor Aralığı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">8-30 Hz</div>
+                        <div class="label">En İyi Frekans</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">100x</div>
+                        <div class="label">Doğrulama Testi</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bölüm 5 -->
+            <div class="section" id="section5">
+                <h2>5. Tartışma</h2>
+                
+                <div class="highlight-box">
+                    <h3>💡 Ana Fikir</h3>
+                    <p>Beyin konuşmayı sadece bir <strong>ses dalgası</strong> olarak değil, <strong>anlam taşıyan bir dil</strong> olarak işler. Bu yüzden anlam temsilleri (GPT-2, CLIP), beynin gerçek aktivitesini akustik temsillere göre daha iyi yansıtabiliyor.</p>
+                </div>
+
+                <h3>🧠 Beyin Haritası: Hangi Bölge Ne İş Yapıyor?</h3>
+                
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>Şakak Bölgesi</h4>
+                        <p><em>(Superior Temporal Gyrus)</em></p>
+                        <p>→ Konuşmanın fiziksel sesini işler (birincil işitsel korteks)</p>
+                        <p>→ Hem ses hem metin modellerinde aktif, ama <strong>ses modelinde daha güçlü</strong></p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <h4>Alın Bölgesi</h4>
+                        <p><em>(Frontal Korteks, Broca Alanı)</em></p>
+                        <p>→ Dikkat, anlam çıkarma, karar verme</p>
+                        <p>→ <strong>Metin modelinde daha belirgin</strong> aktivasyon - anlam işlenirken çok çalışıyor</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <h4>Parietal Lob</h4>
+                        <p><em>(Üst-Arka Beyin)</em></p>
+                        <p>→ Farklı duyuları birleştirir</p>
+                        <p>→ Özellikle <strong>theta bandında</strong> (4–8 Hz) aktif - hafıza ve bilgi entegrasyonu</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <h4>Görme Bölgesi</h4>
+                        <p><em>(Occipital Lob)</em></p>
+                        <p>→ Konuşma dinlerken pek aktif değil</p>
+                        <p>→ Negatif korelasyon - bu bölge "kapatılıyor"</p>
+                    </div>
+                </div>
+
+                <h3>📊 Frekans Bantlarına Göre Farklı İşleme</h3>
+                
+                <ul>
+                    <li><strong>Delta (1–4 Hz):</strong> Uykuyla ilişkili; konuşma dinlerken zayıf etki</li>
+                    <li><strong>Theta (4–8 Hz):</strong> Hafıza ve dikkat için önemli. Şakak ve parietal bölgelerde pozitif, alın bölgesinde negatif korelasyon</li>
+                    <li><strong>Alfa (8–12 Hz):</strong> Rahat uyanıklık. Alın bölgesinde negatif korelasyon - beyin dikkat dağıtan şeyleri bastırıyor</li>
+                    <li><strong>Beta (12–30 Hz):</strong> Aktif düşünme, odaklanma, dil üretimi. En güçlü sonuçlar bu bantta 🏆</li>
+                </ul>
+
+                <h3>🎯 Ses mi, Metin mi Daha İyi?</h3>
+                
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>🎵 Ses Modeli</h4>
+                        <p><strong>Daha yoğun ve keskin aktivasyon</strong></p>
+                        <p>Özellikle işitsel bölgelerde güçlü</p>
+                        <p>Çünkü doğrudan fiziksel sesle eşleşiyor</p>
+                        <p><em>"Ne seslendi?" → Duyu odaklı</em></p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <h4>📝 Metin Modeli</h4>
+                        <p><strong>Daha yaygın ama hafif daha zayıf aktivasyon</strong></p>
+                        <p>Çünkü anlam, bağlam, hafıza gibi ek katmanlar içeriyor</p>
+                        <p>Beyni daha "karmaşık" şekilde çalıştırıyor</p>
+                        <p><em>"Ne dedi?" → Anlam odaklı</em></p>
+                    </div>
+                </div>
+
+                <div class="key-finding">
+                    <strong>🔬 Sonuç:</strong> Beyin, konuşmayı sadece bir ses dalgası olarak değil, bir anlam taşıyan dil olarak işler. Bu bulgu, hem dilin nörobilimsel temellerini anlamamıza hem de beyin-tabanlı teknolojiler geliştirmemize yardımcı olabilir.
+                </div>
+            </div>
+
+            <!-- Bölüm 6 -->
+            <div class="section" id="section6">
+                <h2>6. Sonuçlar ve Gelecek Çalışmalar</h2>
+                
+                <h3>✅ Bu Çalışmanın Gösterdiği</h3>
+                <p>GPT-2, CLIP, wav2vec2 gibi gelişmiş makine öğrenmesi modelleri, dilin beyinde nasıl işlendiğini anlamak için <strong>etkili araçlar</strong> olabilir. Ancak bu modellerin kendi sınırlılıkları ve önyargıları da dikkate alınmalıdır.</p>
+
+                <h3>🔮 Gelecek Teknik İyileştirmeler</h3>
+                <ul>
+                    <li>Daha büyük ve gelişmiş önceden eğitilmiş modellerin kullanımı</li>
+                    <li>Beyin aktivitesine daha çok benzeyen temsiller üretilmesi</li>
+                    <li>Modellerin bilişsel olarak daha gerçekçi hale gelmesi</li>
+                </ul>
+
+                <h3>📈 Güvenilirlik ve Genellenebilirlik İçin</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>Daha Fazla Katılımcı</h4>
+                        <p>Bulguların genellenebilirliği için katılımcı çeşitliliği artırılmalı</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>Çok Modlu Veri Entegrasyonu</h4>
+                        <p>MEG + fMRI + göz izleme gibi farklı veri kaynaklarının birleştirilmesi</p>
+                    </div>
+                </div>
+
+                <h3>🏥 Klinik Uygulama Potansiyeli</h3>
+                <div class="highlight-box">
+                    <ul>
+                        <li>Dil bozukluklarının tanısında (afazi, disleksi vb.)</li>
+                        <li>Nörogeri bildirim (neurofeedback) terapilerinin geliştirilmesinde</li>
+                        <li>Beyin-bilgisayar arayüzleri ve konuşma yeniden oluşturma teknolojilerinde</li>
+                        <li>Zaman serisi verilerinin tahmini gibi yeni uygulamalarda</li>
+                    </ul>
+                </div>
+
+                <h3>⚖️ Etik Sorumluluk ve Dikkat Edilmesi Gerekenler</h3>
+                <div class="key-finding">
+                    <p><strong>⚠️ Önemli Uyarı:</strong> Bu teknolojiler gelişirken etik konular göz ardı edilmemeli:</p>
+                    <ul>
+                        <li>Beyin verileri <strong>kişisel ve hassas bilgidir</strong></li>
+                        <li>"Beyinden düşünce okuma" gibi uygulamalar <strong>mahremiyet ihlali</strong> veya kötüye kullanım riski taşır</li>
+                        <li>Bu nedenle, <strong>katı etik kurallar ve veri koruma önlemleri zorunludur</strong></li>
+                    </ul>
+                </div>
+
+                <h3>🎯 Özet: Ana Katkılar</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="label">Mevcut Modellerin Rolü</div>
+                        <div class="number">✓</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Teknik İyileştirmeler</div>
+                        <div class="number">✓</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Çok Modlu Veri</div>
+                        <div class="number">✓</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Klinik Uygulamalar</div>
+                        <div class="number">✓</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Etik Sorumluluk</div>
+                        <div class="number">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🧠 MEG Tabanlı Dil İşleme Araştırması | Doktora Sunumu</p>
+            <p>Veri: MEG-MASC (Açık Kaynak) | Yöntem: Ridge Regresyon Kodlama Modelleri</p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(num) {
+            // Tüm bölümleri gizle
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Tüm butonları pasif yap
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Seçili bölümü göster
+            document.getElementById('section' + num).classList.add('active');
+            
+            // Seçili butonu aktif yap
+            buttons[num - 1].classList.add('active');
+            
+            // Yumuşak scroll
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Klavye desteği (ok tuşları)
+        document.addEventListener('keydown', function(e) {
+            const activeBtn = document.querySelector('.nav-btn.active');
+            const allBtns = document.querySelectorAll('.nav-btn');
+            const currentIndex = Array.from(allBtns).indexOf(activeBtn);
+            
+            if (e.key === 'ArrowRight' && currentIndex < 5) {
+                showSection(currentIndex + 2);
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                showSection(currentIndex);
+            }
+        });
+    </script>
+</body>
+</html>
