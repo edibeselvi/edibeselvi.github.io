@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyin Dekodlama Araştırması</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            background: #f8f9fa;
+            padding: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .subsection {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .subsection-title {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .subsection-title::before {
+            content: "▶";
+            margin-right: 10px;
+            color: #667eea;
+        }
+        
+        .subsection p, .subsection ul {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.05em;
+        }
+        
+        .subsection ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .subsection li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+        
+        .highlight-title {
+            font-weight: bold;
+            color: #d63031;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .visual-element {
+            text-align: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-radius: 15px;
+        }
+        
+        .brain-icon {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            flex: 1;
+            margin: 10px;
+            min-width: 200px;
+        }
+        
+        .process-step h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+        
+        .data-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #ff7979;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Mind captioning: Evolving descriptive text of mental content from human brain activity</h1>
+            <p>Horikawa, T. (2025). Mind captioning: Evolving descriptive text of mental content from human brain activity. Science Advances, 11(45), eadw1464. https://doi.org/10.1126/sciadv.adw1464</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('giris')">A - GİRİŞ</button>
+            <button class="nav-btn" onclick="showSection('yontem')">B - MATERYAL VE YÖNTEM</button>
+            <button class="nav-btn" onclick="showSection('bulgular')">C - BULGULAR</button>
+            <button class="nav-btn" onclick="showSection('tartisma')">D - TARTIŞMA</button>
+        </div>
+        
+        <div class="content">
+            <!-- A - GİRİŞ -->
+            <div id="giris" class="section active">
+                <h2 class="section-title">A - GİRİŞ</h2>
+                
+                <div class="visual-element">
+                    <svg class="brain-icon" viewBox="0 0 200 200">
+                        <defs>
+                            <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="100" cy="90" rx="70" ry="80" fill="url(#brainGrad)" opacity="0.3"/>
+                        <path d="M 60 60 Q 50 40, 70 30 Q 90 20, 110 30 Q 130 40, 140 60" 
+                              stroke="url(#brainGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <path d="M 60 90 Q 50 70, 70 60 Q 90 50, 110 60 Q 130 70, 140 90" 
+                              stroke="url(#brainGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <path d="M 60 120 Q 50 100, 70 90 Q 90 80, 110 90 Q 130 100, 140 120" 
+                              stroke="url(#brainGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <circle cx="70" cy="50" r="5" fill="#667eea"/>
+                        <circle cx="100" cy="40" r="5" fill="#667eea"/>
+                        <circle cx="130" cy="50" r="5" fill="#667eea"/>
+                        <circle cx="70" cy="80" r="5" fill="#764ba2"/>
+                        <circle cx="100" cy="70" r="5" fill="#764ba2"/>
+                        <circle cx="130" cy="80" r="5" fill="#764ba2"/>
+                    </svg>
+                    <h3 style="color: #667eea; font-size: 1.5em;">Beyin Sinyallerinden Metne Dönüşüm</h3>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Araştırmanın Amacı</h3>
+                    <p>Bu araştırmanın temel amacı, insan beynindeki görsel ve anlamsal temsilleri çözümleyerek (decode ederek), kişinin gördüğü veya zihninde canlandırdığı sahnelerin dilsel bir tanımını (yani metin şeklinde açıklamasını) otomatik olarak üretmektir.</p>
+                    
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <h3>1️⃣ fMRI Kaydı</h3>
+                            <p>Beyin aktivitesi ölçüldü</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="process-step">
+                            <h3>2️⃣ Özellik Çıkarımı</h3>
+                            <p>DeBERTa & RoBERTa ile analiz</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="process-step">
+                            <h3>3️⃣ Metin Üretimi</h3>
+                            <p>Anlamlı cümleler oluşturuldu</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">Kısaca:</div>
+                        "Bir kişinin beyninde gördüğü veya hayal ettiği şeyi sözcüklere dökmek"
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Araştırmanın Doldurduğu Boşluk</h3>
+                    
+                    <div class="data-box">
+                        <strong>1. Görsel içeriği sadece sınırlı kategorilerde çözümleyebilme eksikliği</strong>
+                        <ul>
+                            <li><strong>Eksiklik:</strong> Önceki yöntemler sadece sınıflandırma yapabiliyordu, "anlam" çıkaramıyordu</li>
+                            <li><strong>Katkı:</strong> Bu çalışma "beyindeki anlam temsillerini" dilsel düzeyde çözümleyerek bir yenilik sunuyor</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>2. Algı (perception) ile zihinsel imgeleme (imagery) arasındaki ortak temsilin çözümlenememiş olması</strong>
+                        <ul>
+                            <li><strong>Eksiklik:</strong> Önceki çalışmalar sadece görsel uyaranlarla (görme anı) sınırlıydı</li>
+                            <li><strong>Katkı:</strong> Bu çalışma hem "görme" hem de "zihinde canlandırma" durumlarını çözümleyerek genel bir zihinsel içerik çözümleme modeli öneriyor</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>3. Dış veri tabanlarına veya kapalı sistemlere bağımlı metin üretimi</strong>
+                        <ul>
+                            <li><strong>Eksiklik:</strong> Önceki modeller açıklama veri tabanlarına bağımlıydı</li>
+                            <li><strong>Katkı:</strong> Bu yöntem doğrudan "beyin verisinden metne" dönüşüm sağlıyor</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- B - MATERYAL VE YÖNTEM -->
+            <div id="yontem" class="section">
+                <h2 class="section-title">B - MATERYAL VE YÖNTEM</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Katılımcılar</h3>
+                    <div class="data-box">
+                        <ul>
+                            <li>Toplam 6 sağlıklı yetişkin (3 erkek, 3 kadın)</li>
+                            <li>Yaş: 22–38 arası</li>
+                            <li>Ana dili Japonca, biri dışında diğerleri İngilizcede yeterli</li>
+                            <li>Görme yetileri normal/düzeltilmiş normal düzeyde</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Görsel Uyaranlar</h3>
+                    <p>Önceki bir çalışmaya (36) ait olan 2196 kısa video</p>
+                    <ul>
+                        <li>Ortalama 6.61 saniyelik toplamda 2180 benzersiz video</li>
+                        <li>Çeşitli içerikler: nesneler, sahneler, eylemler ve olaylar</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Deneysel Tasarım</h3>
+                    
+                    <div class="highlight">
+                        <strong>Video Sunumu Deneyi</strong>
+                        <ul>
+                            <li><strong>Eğitim oturumu:</strong> 2180 video → her biri 1 kez, psödo-rastgele</li>
+                            <li><strong>Test oturumu:</strong> 72 video → her biri 5 kez, 2 run'a bölünmüş</li>
+                            <li>Her video için 20 açıklamadan tesadüfi olarak 5 tanesi gösterildi</li>
+                            <li>Katılımcılar beşli ölçekte puanladı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Zihinsel İmgeleme Deneyi</strong>
+                        <p>5 run, 4 aşamalı:</p>
+                        <ul>
+                            <li><strong>Hazırlık bloğu:</strong> Hedef videonun sözlü açıklaması sunuldu</li>
+                            <li><strong>İmgeleme bloğu:</strong> Denekler gözlerini kapatarak videoyu zihinlerinde canlandırdı</li>
+                            <li><strong>Video sunumu bloğu:</strong> Hedef video ekranda gösterildi</li>
+                            <li><strong>Değerlendirme bloğu:</strong> İmgelemenin doğruluğu ve canlılığı puanlandı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Retinotopi & Fonksiyonel Lokalizasyon Deneyi</strong>
+                        <ul>
+                            <li><strong>Retinotopi:</strong> V1–V7 gibi temel görsel alanlar haritalandı</li>
+                            <li><strong>Görsel Kategori Lokalizörü (fLoc):</strong> 5 kategori (kelime, vücut, yüz, mekân, nesne) belirlendi</li>
+                            <li><strong>MT+ Lokalizörü:</strong> Hareketli ve statik nokta bulutlar belirlendi</li>
+                            <li><strong>Dil Alanı Lokalizörü:</strong> Dil-seçici bölgeler temporal ve frontal kortekste tanımlandı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Neden Önemli:</strong> Bu çalışmada, "beynin her yerini tek tek" değil, fonksiyonel olarak anlamlı alt grupları kullanarak dekodlama yapıldı.
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">MRI Veri Toplama & Ön İşleme</h3>
+                    <ul>
+                        <li><strong>Tarayıcı:</strong> 3T Siemens Prisma, tüm beyin kapsamlı</li>
+                        <li><strong>Fonksiyonel:</strong> T2*-EPI, TR=1000 ms, 2 mm³ izotropik, multiband-6</li>
+                        <li><strong>Yapısal:</strong> T1w, 1 mm³ izotropik</li>
+                        <li><strong>Ön İşleme:</strong> fMRIPrep + Freesurfer + ANTs</li>
+                        <li>Distorsiyon düzeltme, dilim-zaman düzeltmesi, sınır-tabanlı kayıt</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Doğal Sahneler Veri Setinden (NSD) fMRI Verisi</h3>
+                    <div class="data-box">
+                        <ul>
+                            <li>8 denekten 30–40 oturum → 4'ü tamamladığı için analize dahil edildi</li>
+                            <li>1.8 mm çözünürlük → beynin görsel bölgelerindeki aktivite çok net ölçüldü</li>
+                            <li>Eğitim: 8.859 görsel / Test: 982 görsel</li>
+                            <li><strong>Amaç:</strong> Yöntemin yalnızca kendi labında değil dünyanın her yerinde geçerli olduğunu kanıtlamak</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Görsel Uyaranlar İçin Açıklama Etiketleme</h3>
+                    <ul>
+                        <li>Amazon Mechanical Turk platformu kullanılarak her video için 20 farklı ayrıntılı cümle yazıldı</li>
+                        <li>En az 8 kelimelik, bağlamı içeren açıklamalar</li>
+                        <li>El ile kalite kontrolü + ChatGPT destekli dil düzeltimi</li>
+                        <li>Yazım/dilbilgisi hatalarından arındırıldı ama anlam bozulmadı</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">DNN Modelleriyle Özellik Hesaplama</h3>
+                    
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <h3>Anlamsal Özellikler</h3>
+                            <p>42 farklı AI dil modeli test edildi</p>
+                            <p><strong>Kazanan: DeBERTa-large</strong></p>
+                        </div>
+                        <div class="arrow">+</div>
+                        <div class="process-step">
+                            <h3>Görsel Özellikler</h3>
+                            <p>TimeSformer kullanıldı</p>
+                            <p>12 katman, 768 boyut</p>
+                        </div>
+                        <div class="arrow">+</div>
+                        <div class="process-step">
+                            <h3>Görsel-Anlamsal</h3>
+                            <p>CLIP modeli</p>
+                            <p>Görsel + metin entegrasyonu</p>
+                        </div>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Önemli:</strong> Tüm özellikler z-puanı normalizasyonu ile tarayıcı, model veya dil kaynaklı sapmalardan arındırıldı — böylece karşılaştırmalar adil ve güvenilir oldu.
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Voksel Bazlı Kodlama Modelleme Analizi</h3>
+                    <p>Her küçük beyin biriminin (vokselin) neye tepki verdiğini anlamak için her voksel için ayrı bir doğrusal model kuruldu.</p>
+                    <ul>
+                        <li>Görsel modeller (TimeSformer) ile anlamsal modeller (DeBERTa) karşılaştırıldı</li>
+                        <li>Yüksek seviye görsel korteksteki voksellerin anlamsal modelle daha iyi tahmin edildiği görüldü</li>
+                    </ul>
+                    <div class="highlight">
+                        <strong>Sonuç:</strong> Beyin, bir videoyu izlerken "bir kedi masaya atlıyor" demek için yalnızca resmi değil dilin yapısını da kullanıyor.
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Özellik Dekodlama Analizi</h3>
+                    <p>Beyin aktivitesinden doğrudan anlam profili çıkarmak için her anlam birimi (DeBERTa'nın her boyutu) için ayrı bir doğrusal dekodlayıcı kuruldu.</p>
+                    <div class="highlight">
+                        <strong>Önemli:</strong> Dilsel olmayan düşüncenin metne dökülebileceğini gösterir.
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Metin Üretimi Analizi</h3>
+                    <p>3 aşamalı yinelemeli optimizasyon yöntemi:</p>
+                    
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <h3>1. Maskeleme</h3>
+                            <p>Cümlede rastgele kelime/sıra silinir</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="process-step">
+                            <h3>2. Maskelerin Açılması</h3>
+                            <p>RoBERTa-large, her boşluğa 5 öneri sunar</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="process-step">
+                            <h3>3. Aday Seçimi</h3>
+                            <p>Hedefle en iyi eşleşen 5 tanesi seçilir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Benimsenen Kriterler:</strong>
+                        <ul>
+                            <li>Uzunluk cezası (α = 0.1): "Kısa ve net" cümlelere daha fazla puan verildi</li>
+                            <li>100 yineleme + 5 tekrar: Rastgelelik nedeniyle yerel optimal çözümlere takılmamak için</li>
+                            <li>Başlangıç: &lt;unk&gt; (nötr ve boş)</li>
+                            <li>RoBERTa (çift yönlü dikkat): Bağlamı daha iyi yakalar</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Veri Tabanı Arama (DB-Search) Tabanlı Açıklama Tahmini</h3>
+                    <p>Temel başarı düzeyi (baseline) oluşturmak için DB-Search kullanıldı.</p>
+                    <ul>
+                        <li>~4.1 milyon açıklamalı büyük veri tabanları (MS-COCO, GCC, MSR-VTT)</li>
+                        <li>Her açıklama DeBERTa-large ile "anlam profiline" dönüştürülür</li>
+                        <li>Beynin verdiği anlam profiliyle en yüksek korelasyonu veren açıklama seçilir</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Doğrusal Olmayan Görüntü Açıklama Tabanlı Açıklama Tahmini</h3>
+                    <div class="data-box">
+                        <strong>GIT Yaklaşımı (Ferrante ve ark., 2022)</strong>
+                        <ul>
+                            <li><strong>Güçlü yanları:</strong> Akıcı, dilbilgisi kurallarına uygun, bağlam zenginliği yüksek</li>
+                            <li><strong>Zayıf yanları:</strong> Modelin içi "kara kutu", görselde olmayan detaylar ekleyebilir, modelin önyargılarıyla çalışır</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Bu Çalışmanın Yaklaşımı:</strong>
+                        <ul>
+                            <li>Beynin sinyalinden çıkan anlam profili doğrudan hedeflenir</li>
+                            <li>Hiçbir ek model eğitilmez ya da bağımlı olunmaz</li>
+                            <li>Kelime düzeyinde şeffaf optimizasyon ile cümle inşa edilir</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Değerlendirme Ölçütleri</h3>
+                    <p>Bilgisayarın ürettiği açıklamaların gerçek açıklamalarla benzerliğini ölçmek için:</p>
+                    <ul>
+                        <li><strong>Pearson Korelasyonu:</strong> Özellik benzerliği</li>
+                        <li><strong>BLEU ve METEOR:</strong> Metin benzerliği</li>
+                        <li><strong>ROUGE-L:</strong> Özetleme benzerliği</li>
+                        <li><strong>CIDEr:</strong> Görsel açıklama benzerliği</li>
+                        <li><strong>BERTScore:</strong> Anlam benzerliği</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">İstatistiksel Analiz</h3>
+                    <ul>
+                        <li>Tüm istatistikler çoğunlukla her denek için ayrı yapıldı</li>
+                        <li>Çoklu karşılaştırmalar için Benjamini-Hochberg yöntemi ile hata kontrolü</li>
+                        <li>Dil maskeleme modelleri arası farklar Wilcoxon testi ile test edildi</li>
+                        <li>Korelasyon analizleri, Fisher z dönüşümü sonrası t testleri ile yapıldı</li>
+                        <li>Genelleme açısı, jackknife yöntemi ile hesaplandı</li>
+                        <li>Sonuçların çoğu %95 güven aralığında raporlandı</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- C - BULGULAR -->
+            <div id="bulgular" class="section">
+                <h2 class="section-title">C - BULGULAR</h2>
+                
+                <div class="visual-element">
+                    <svg width="300" height="200" viewBox="0 0 300 200">
+                        <defs>
+                            <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00b894;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#00cec9;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="20" y="150" width="60" height="30" fill="#dfe6e9" rx="5"/>
+                        <rect x="20" y="100" width="60" height="80" fill="url(#successGrad)" rx="5"/>
+                        <text x="50" y="95" text-anchor="middle" font-size="12" fill="#2d3436">%50</text>
+                        
+                        <rect x="120" y="150" width="60" height="30" fill="#dfe6e9" rx="5"/>
+                        <rect x="120" y="80" width="60" height="100" fill="url(#successGrad)" rx="5"/>
+                        <text x="150" y="75" text-anchor="middle" font-size="12" fill="#2d3436">Yüksek</text>
+                        
+                        <rect x="220" y="150" width="60" height="30" fill="#dfe6e9" rx="5"/>
+                        <rect x="220" y="60" width="60" height="120" fill="url(#successGrad)" rx="5"/>
+                        <text x="250" y="55" text-anchor="middle" font-size="12" fill="#2d3436">p<0.01</text>
+                        
+                        <text x="50" y="195" text-anchor="middle" font-size="11" fill="#636e72">Doğruluk</text>
+                        <text x="150" y="195" text-anchor="middle" font-size="11" fill="#636e72">Uyumluluk</text>
+                        <text x="250" y="195" text-anchor="middle" font-size="11" fill="#636e72">Anlamlılık</text>
+                    </svg>
+                    <h3 style="color: #00b894; font-size: 1.5em; margin-top: 20px;">Ana Başarı Göstergeleri</h3>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Görülen İçeriklere İlişkin Açıklamaların Oluşturulması</h3>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">✅ Doğrudan beyin verisinden metin üretimi başarılı oldu:</div>
+                        <p>Yinelemeli optimizasyon süreciyle, başlangıçta anlamsız olan metinler tutarlı, anlamlı ve izlenen videoların içeriğini doğru yansıtan açıklamalara dönüştü.</p>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>🎯 Bağlamsal bilgi belirleyici rol oynadı:</strong>
+                        <p>Önceden eğitilmiş dil modelleri (MLM) kullanıldığında açıklamaların kalitesi ve beyin verileriyle uyumu belirgin biçimde arttı; eğitilmemiş modeller bu başarıyı gösteremedi.</p>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>📊 Yüksek doğruluk ve ayırt edilebilirlik sağlandı:</strong>
+                        <ul>
+                            <li>Üretilen açıklamalar, doğru videoyu <strong>%50 doğrulukla</strong> tanımlayarak şans düzeyinin çok üzerinde bir performans sergiledi</li>
+                            <li>Tüm ölçütlerde anlamlı ayırt edilebilirlik gösterdi (p < 0.01)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🚀 Yöntem mevcut yaklaşımları aştı ve geliştirilmeye açık:</div>
+                        <ul>
+                            <li>Önceki altyazı veri tabanı temelli yöntemlerden daha doğru ve esnek sonuçlar verdi</li>
+                            <li>Beyinle daha uyumlu büyük dil modellerinin (ör. GPT-3, OPT, LLaMA) kullanımıyla başarının artabileceği öngörülmektedir</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Üretilen Açıklamalarda Yapılandırılmış Anlam Bilgisinin Değerlendirilmesi</h3>
+                    
+                    <p>Araştırmacılar, üretilen metinlerin görsel sahnelerdeki ilişkisel yapıyı (nesneler arası ilişkiler, eylem yönü, konumsal bağlam) doğru biçimde yansıtıp yansıtmadığını incelediler.</p>
+                    
+                    <div class="data-box">
+                        <strong>Deney:</strong> Üretilen açıklamaların kelime sırası değiştirildi (ya tüm kelimeler ya da sadece isimler karıştırılarak). Eğer orijinal sıralama görsel ilişkileri doğru yansıtıyorsa, karıştırma performansı düşürmeliydi.
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">📌 Sonuç:</div>
+                        <ul>
+                            <li>Kelime sırasının bozulması, açıklamaların videoları doğru ayırt etme başarısını anlamlı şekilde azalttı (p < 0.01)</li>
+                            <li>Bu durum, dilsel olarak akıcı karıştırılmış cümlelerde bile geçerliydi</li>
+                            <li>Orijinal açıklamalarda, sahnedeki nesneler ve ilişkiler doğru biçimde temsil ediliyordu</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Tanımlayıcı Tutarlılığın Kaynağının Çözümlenmesi</h3>
+                    
+                    <p>Beyin aktivitesinden üretilen açıklamalarında gözlemlenen tutarlılığın metin optimizasyonunda kullanılan dil modelinden (MLM) mi yoksa beynin deşifre edilmiş özelliklerinde (feature) bulunan yapılandırılmış anlamsal bilgiden mi geldiği test edildi.</p>
+                    
+                    <div class="data-box">
+                        <strong>1️⃣ Kelime Sırasının Belirleyiciliği</strong>
+                        <ul>
+                            <li><strong>Deney:</strong> Beyin tarafından çözülen özelliklerin, orijinal açıklamaya mı yoksa karıştırılmış versiyonlara mı daha çok benzediği karşılaştırıldı</li>
+                            <li><strong>Bulgu:</strong> Orijinal açıklamalar her zaman en yüksek korelasyonu gösterdi</li>
+                            <li><strong>Sonuç:</strong> Üretilen açıklamaların anlamlı kelime sırası, beynin özellik temsillerinde kodlanan yapılandırılmış anlamsal bilgi tarafından yönlendirildi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>2️⃣ Dil Maskeleme Modelinin Sınırlı Rolü</strong>
+                        <ul>
+                            <li><strong>Deney:</strong> Kod çözücüler, kelime sırası karıştırılmış başlıkların anlamsal özellikleriyle eğitildi</li>
+                            <li><strong>Bulgu:</strong> Bu eğitimle tutarsız kelime dizileri üretildi</li>
+                            <li><strong>Ek Kanıt:</strong> En küçük sapmalar bile korelasyonu düşürdü</li>
+                            <li><strong>Sonuç:</strong> MLM'nin ön-bilgileri tek başına yeterli değildir; destekleyici rol oynar ama belirleyici değildir</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Beyin Alanlarının Katkıları</h3>
+                    
+                    <div class="visual-element">
+                        <svg width="400" height="150" viewBox="0 0 400 150">
+                            <ellipse cx="120" cy="75" rx="80" ry="60" fill="#e17055" opacity="0.3"/>
+                            <text x="120" y="70" text-anchor="middle" font-size="12" fill="#2d3436">Üst Görsel</text>
+                            <text x="120" y="85" text-anchor="middle" font-size="12" fill="#2d3436">Korteks</text>
+                            
+                            <ellipse cx="280" cy="75" rx="80" ry="60" fill="#6c5ce7" opacity="0.3"/>
+                            <text x="280" y="70" text-anchor="middle" font-size="12" fill="#2d3436">Dil Ağı</text>
+                            <text x="280" y="85" text-anchor="middle" font-size="12" fill="#2d3436">(Destekleyici)</text>
+                            
+                            <line x1="200" y1="75" x2="220" y2="75" stroke="#2d3436" stroke-width="2"/>
+                            <text x="210" y="70" text-anchor="middle" font-size="14" fill="#2d3436">+</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Model Karşılaştırması:</strong>
+                        <ul>
+                            <li><strong>Semantik model:</strong> Dil ağı, üst görsel korteks, parietal ve frontal korteks bölgelerinde beyin aktivitesini tahmin etti</li>
+                            <li><strong>Görsel model:</strong> Alt görsel kortekste (V1–V3) daha iyi performans gösterdi</li>
+                            <li>Semantik model, üst görsel korteks ve dil ağında görsel modeli geride bıraktı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🔍 Dil Ağı Çıkarıldığında:</div>
+                        <ul>
+                            <li>Performans %50 civarında gerçekleşti (şans = %1)</li>
+                            <li>Kelime sırası karıştırıldığında doğruluk ve ayırt edicilik azaldı</li>
+                            <li>Hâlâ anlaşılır tanımlar üretebildi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🎯 Önemli Sonuç:</div>
+                        <ul>
+                            <li>Yapılandırılmış görsel anlamsal bilgiler, dil ağı dışındaki bölgelerde (ön oksipital, parietal ve frontal korteks) temsil ediliyor</li>
+                            <li>Bu temsiller, global afaziye sahip bireylerde karmaşık görsel olayların anlaşılmasını destekleyebilir</li>
+                            <li>Bulgular, dil ve sözel olmayan düşünce arasındaki ayrımı destekliyor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Zihinde Hatırlanan İçerik Tanımlarının Üretilmesi</h3>
+                    
+                    <div class="data-box">
+                        <strong>Araştırma Sorusu:</strong> Görsel uyaranlarla tetiklenen beyin aktivitesi üzerinde eğitilmiş kod çözücüler (perception-trained decoders), hatırlanan videoların zihinsel imgelerine dayalı beyin aktivitesinden tanımlar üretebilir mi?
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">✅ Ana Bulgular:</div>
+                        <ul>
+                            <li>Analiz, hatırlanan videoların içeriğini doğru yansıtan tanımlar üretti (doğruluk bireyler arasında değişiklik gösterdi)</li>
+                            <li>Üretilen tanımlar, hatırlanan videoların altyazılarına, ilgisiz videolardan daha çok benziyordu</li>
+                            <li>Kelime sırasının karıştırılması, video tanımlama doğruluğunu ve ayırt ediciliği belirgin şekilde düşürdü</li>
+                            <li>Dil ağı çıkarıldığında video tanımlama doğruluğu yalnızca hafifçe azaldı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Genelleme Performansı:</strong>
+                        <ul>
+                            <li><strong>Görsel özelliklerde:</strong> Katman derinliği arttıkça genelleme performansı yükseldi</li>
+                            <li><strong>Görsel-semantik özelliklerde:</strong> Genelleme nispeten yüksekti</li>
+                            <li><strong>Semantik özellikler:</strong> Tüm katmanlarda en yüksek genelleme performansını sağladı</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🎯 Genel Sonuç:</div>
+                        <p>Semantik özellikler, görsel uyaranlarla tetiklenen beyin aktivitesi üzerinde eğitilmiş kod çözücülerin farklı bilişsel durumlarda genelleme yapmasını ve zihinsel içeriği çözümlemesini sağladı. Kod çözücüler, hem uyaran kaynaklı hem de imgeleme kaynaklı beyin aktivitelerini çözümleyerek içsel deneyimleri tutarlı metne dönüştürebildi.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- D - TARTIŞMA -->
+            <div id="tartisma" class="section">
+                <h2 class="section-title">D - TARTIŞMA</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Ana Başarılar</h3>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">✅ Tanımlar başarılı bir şekilde üretildi:</div>
+                        <p>İnsan beynindeki aktivite ile uyumlu semantik özellikler kullanılarak hem algı sırasında hem de zihinsel imgeleme sırasında deneyimlenen görsel içerikleri temsil eden açıklamalar üretildi.</p>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>🔑 Başarının İki Ana Nedeni:</strong>
+                        <ul>
+                            <li>Derin dil modellerinin (LM) beynin semantik temsillerine benzer bağlamsal semantik özellikler sunması</li>
+                            <li>MLM modeli ile kelime düzeyinde optimizasyon yapan yenilikçi metin optimizasyon yöntemi</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Yöntem Avantajları</h3>
+                    
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <h3>🎯 Doğrudan Dönüşüm</h3>
+                            <p>Beyin temsilini doğrudan metne çeviriyor</p>
+                        </div>
+                        <div class="arrow">+</div>
+                        <div class="process-step">
+                            <h3>🧩 Bağımsız Çalışma</h3>
+                            <p>Dil ağı olmadan yapılandırılmış yakalama</p>
+                        </div>
+                        <div class="arrow">+</div>
+                        <div class="process-step">
+                            <h3>💭 Sözel Olmayan Düşünce</h3>
+                            <p>Metinle ifade etme olanağı</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">İki Aşamalı Yaklaşım:</div>
+                        <ol>
+                            <li>Beyin aktivitesinin özellik alanına göre çözülmesi</li>
+                            <li>Bu özelliklerden metin üretilmesi</li>
+                        </ol>
+                        <p><strong>Sonuç:</strong> Harici başlık veritabanlarına veya öğrenilmiş özellikten-metne eşleme modüllerine olan bağımlılık ortadan kalktı ve alternatiflerden daha iyi performans gösterildi.</p>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Üretim Kapasitesi</h3>
+                    
+                    <div class="data-box">
+                        <ul>
+                            <li>Beyin çözümlenen özelliklerle uyumlu açıklamalar üretildi</li>
+                            <li>Yinelemeli ve iki yönlü MLM modeli ile bağlamın her iki yönden entegrasyonu sağlandı</li>
+                            <li>Başlangıçta bilgi içermeyen durumdan (&lt;unk&gt; token) bile tanım üretilebildi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🔬 Görsel-dışı Uyaranlarla Eğitilmiş Çözücüler:</div>
+                        <ul>
+                            <li>Dil üretimine bağlı olmayan beyin aktivitesinden semantik özellikler tahmin edildi</li>
+                            <li>İzlenen ve hatırlanan içerikler için tanım üretimi, dil ağı kullanılmadan mümkün oldu</li>
+                            <li>Katılımcıların ana dili İngilizce olmasa da başarılı çıktı elde edildi</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Uygulama Potansiyeli</h3>
+                    
+                    <div class="visual-element">
+                        <svg width="400" height="120" viewBox="0 0 400 120">
+                            <rect x="20" y="20" width="160" height="80" fill="#74b9ff" opacity="0.3" rx="10"/>
+                            <text x="100" y="50" text-anchor="middle" font-size="13" fill="#2d3436" font-weight="bold">Beyin-Makine</text>
+                            <text x="100" y="68" text-anchor="middle" font-size="13" fill="#2d3436" font-weight="bold">Arayüzleri</text>
+                            <text x="100" y="90" text-anchor="middle" font-size="11" fill="#636e72">Yeni iletişim yolları</text>
+                            
+                            <rect x="220" y="20" width="160" height="80" fill="#a29bfe" opacity="0.3" rx="10"/>
+                            <text x="300" y="50" text-anchor="middle" font-size="13" fill="#2d3436" font-weight="bold">Motor/Dil Engelli</text>
+                            <text x="300" y="68" text-anchor="middle" font-size="13" fill="#2d3436" font-weight="bold">Bireyler</text>
+                            <text x="300" y="90" text-anchor="middle" font-size="11" fill="#636e72">Alternatif iletişim</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="data-box">
+                        <strong>Örnek Uygulama Alanları:</strong>
+                        <ul>
+                            <li>Afazisi olan kişilerde alternatif iletişim olanağı</li>
+                            <li>ALS gibi motor sınırlamaları olan bireylerde iletişim desteği</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Beyin Bölgelerinin Katkısı</h3>
+                    
+                    <div class="highlight">
+                        <p>Dil ağı ve posterior kategori-seçici bölgeler çıkarıldığında açıklama kalitesi çok fazla etkilenmedi.</p>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Deneysel Sınırlamalar</h3>
+                    
+                    <div class="data-box">
+                        <ul>
+                            <li>Videoların doğal kaynaklardan alınması kontrolü zorlaştırıyor</li>
+                            <li>Oluşturulan açıklamaların hangi ilişkisel yapıları yansıttığı tam olarak bilinmiyor</li>
+                            <li>Model ön bilgileri ve veri dağılımı potansiyel önyargı oluşturabilir</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Çeviri Değil, Yorumlayıcı Arayüz</h3>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">⚠️ Önemli Dikkat:</div>
+                        <ul>
+                            <li>Üretilen metinler doğrudan beyin aktivitelerinin "dili" değil; deneyimlerin yorumlanmış dilsel temsilleridir</li>
+                            <li>Ön bilgiler, kullanılan dil, açıklama türü ve deney materyalleri çıktıyı şekillendiriyor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Tek Deneme fMRI Başarıları</h3>
+                    
+                    <div class="data-box">
+                        <ul>
+                            <li>Tek denemeden bile hatırlanan içerikler anlaşılır biçimde üretebildi</li>
+                            <li>Bu, rüya veya tekrar edilemeyen deneyimler için uygulanabilirlik sağlıyor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Etik Kaygılar</h3>
+                    
+                    <div class="highlight" style="background: linear-gradient(120deg, #fab1a0 0%, #ff7675 100%); border-left: 5px solid #d63031;">
+                        <div class="highlight-title" style="color: #2d3436;">⚠️ Dikkat Edilmesi Gereken Noktalar:</div>
+                        <ul>
+                            <li><strong>Gizlilik riski:</strong> Bireyler düşüncelerini ifade etmeden önce açığa çıkabilir</li>
+                            <li><strong>Model önyargıları:</strong> Dil modellerindeki önyargılar sonucu etkileyebilir</li>
+                            <li><strong>Etik düzenlemeler:</strong> Açık rıza kritik öneme sahip</li>
+                            <li><strong>Gelecek:</strong> Gelişmiş veri hizalama teknolojileri ile veri toplama ihtiyacı azalabilir</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="visual-element" style="margin-top: 40px;">
+                    <svg width="100%" height="200" viewBox="0 0 600 200">
+                        <defs>
+                            <linearGradient id="finalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#667eea;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <text x="300" y="80" text-anchor="middle" font-size="28" fill="url(#finalGrad)" font-weight="bold">
+                            Beyin → Semantik Özellikler → Metin
+                        </text>
+                        <text x="300" y="120" text-anchor="middle" font-size="16" fill="#636e72">
+                            Hem algılanan hem de hayal edilen içerikler için başarılı dekodlama
+                        </text>
+                        <text x="300" y="150" text-anchor="middle" font-size="14" fill="#636e72" font-style="italic">
+                            Gelecek: Daha güçlü dil modelleri ve beyin-bilgisayar arayüzleri
+                        </text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🧠 Beyin Dekodlama Araştırması Sunumu | 2024</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">fMRI Verilerinden Görsel İçerik ve Zihinsel İmgelerin Metin Olarak Çözümlenmesi</p>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Tüm bölümleri gizle
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Tüm butonların aktif durumunu kaldır
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Seçili bölümü göster
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Seçili butonu aktif yap
+            event.target.classList.add('active');
+            
+            // Sayfayı en üste kaydır
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
