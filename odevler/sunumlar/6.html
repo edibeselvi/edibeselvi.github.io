@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okumayı Öğrenmek Dinleme Beynini Nasıl Değiştirir?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            min-height: 100vh;
+            padding: 80px 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide:nth-child(even) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .slide:nth-child(3n) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .slide li {
+            margin: 20px 0;
+            padding-left: 50px;
+            position: relative;
+            font-size: 1.3em;
+            line-height: 1.8;
+        }
+
+        .slide li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .slide ol {
+            margin-left: 60px;
+            margin-top: 15px;
+        }
+
+        .slide ol li {
+            padding-left: 10px;
+        }
+
+        .slide ol li:before {
+            content: none;
+        }
+
+        .slide p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+
+        .highlight-box {
+            background: rgba(255,255,255,0.2);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 6px solid white;
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-box strong {
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-size: 1.3em;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .intro-slide {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-slide h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+        }
+
+        .intro-slide p {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        .icon-large {
+            font-size: 6em;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+            z-index: 1000;
+        }
+
+        .section-header {
+            background: rgba(0,0,0,0.3);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">42</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn">◀ Önceki</button>
+        <button class="nav-btn" id="next-btn">Sonraki ▶</button>
+    </div>
+
+    <!-- Slide 1: Kapak -->
+    <div class="slide intro-slide">
+        <div class="icon-large">🧠📚</div>
+        <h1>Okumayı Öğrenmek<br>Dinleme Beynini Nasıl Değiştirir?</h1>
+        <p>Romanovska, L., & Bonte, M. (2023)</p>
+        <p style="margin-top: 30px; opacity: 0.9;">Frontiers in Psychology, 14, Article 1125234</p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+        <h1>1. GİRİŞ</h1>
+        <h2>Okuma Akıcılığındaki Bireysel Farklılıklar</h2>
+        <ul>
+            <li>Standartlaştırılmış müfredatlar ve öğretim programlarına rağmen çocuklar okuma akıcılığı konusunda çok farklı düzeylere ulaşmaktadır</li>
+            <li>Okuma yeterliliği, ilköğretim ve ortaöğretimdeki bireysel başarımı ve yaşamın ilerleyen dönemlerindeki toplumsal kazanımları belirlemektedir</li>
+            <li>Bu durum özellikle gelişimsel disleksiye sahip çocukların %5–10'unu etkilemektedir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <h2>Okuma Kazanımı: Beyin Ağlarının Yeniden Yapılandırılması</h2>
+        <ul>
+            <li>Okuma becerisinin kazanımı, yıllar süren bir alıştırma süreci gerektirir</li>
+            <li>Bu süreç, mevcut dorsal konuşma dili ve ventral görsel beyin ağlarının zaman içinde entegre bir görsel-işitsel okuma ağına dönüşmesini içerir</li>
+            <li>Sol ventral oksipito-temporal korteks (vOTC) bölgesinde dikkat çekici değişiklikler meydana gelir</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>🔄 Nöroplastisite</strong>
+            Beyin ağlarının okuma öğrenimi ile birlikte yeniden şekillenmesi
+        </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <h2>Görsel-İşitsel Entegrasyon ve Nöroplastisite</h2>
+        <ul>
+            <li>Yazılı semboller ile konuşma sesleri arasındaki ilişkiler kurulurken pSTC içindeki işitsel bölgeler, üst düzey görsel bölgelerle bağlantılı hâle gelir</li>
+            <li>Bu bölgeler artık yalnızca konuşulan dile değil yazılı metne de tepki vermeye başlar</li>
+            <li>Disleksili okuyucularda metne dayalı görsel-işitsel bağlantılar daha az otomatik veya zayıftır</li>
+        </ul>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Bireysel Farklılıklar ve Yazı Sistemlerinin Etkisi</h2>
+        <ul>
+            <li>Bireysel okuma becerisi farklılıkları, beyin bölgelerinin okuma süreciyle tetiklenen değişikliklere ne ölçüde uyum sağlayabildiğiyle ilişkilidir</li>
+            <li>Bu ilişki, büyük ölçüde farklı yazı sistemlerinde de geçerlidir</li>
+            <li>Kültürel farklılıklar, yazılı dil ile konuşulan dil arasındaki ilişkilerin hangi temsil düzeyinde kurulduğunu etkiler</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+        <h2>Dinamik Bir Beceri Öğrenme Perspektifi Gerekli</h2>
+        <div class="highlight-box">
+            <ul>
+                <li>Bazı çocukların okumada başarılı olurken diğerlerinin neden sürekli zorlandığını anlamak için dinamik bir beceri öğrenme perspektifi gerekmektedir</li>
+                <li>Bu yaklaşım, işitsel ve/veya görsel öğrenme paradigmlerini ve çok düzeyli uzun dönemli çalışmaları içermelidir</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🔬</div>
+            <h1>2. GELİŞİMSEL DİSLEKSİ</h1>
+        </div>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide">
+        <h1>GELİŞİMSEL DİSLEKSİ</h1>
+        <h2>Beyin Ağlarını İnceleme Modeli</h2>
+        <ul>
+            <li>Gelişimsel disleksi, okuma gelişiminde dorsal ve ventral beyin ağlarının rolünü incelemek için iyi bir modeldir</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>Çoğu disleksili okuyucu:</strong>
+            <ul>
+                <li>Konuşulan dilin ses yapısını işlemekte zorlanır</li>
+                <li>Harf/harf kümeleri ile konuşma sesleri arasında ilişki kurmakta güçlük çeker</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide">
+        <h2>Yazılı-Sözlü Dil Birleşimi: Evrensel mi?</h2>
+        <ul>
+            <li>Yazılı dilden sözlü dile temsil birleşiminin, akıcı okumanın evrensel bir işareti olup olmadığı tartışmalıdır</li>
+            <li>Bu birleşim, dil-specific "tanecik büyüklüğünde" gerçekleşiyor olabilir</li>
+            <li>Bu süreç, düzenli harf-ses eşlemesi olan dillerde disleksiyi açıklamada daha belirleyiciyken düzensiz eşlemesi olan dillerde daha az önemlidir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+        <h2>Disleksinin Heterojen Doğası</h2>
+        <div class="highlight-box">
+            <strong>Önerilen nedenler:</strong>
+            <ul>
+                <li>Harf-ses entegrasyonu eksikliği</li>
+                <li>Zayıf konuşma temsilleri</li>
+                <li>Konuşma temsillerine erişim bozukluğu</li>
+                <li>Zamansal işitsel örneklenme sorunu</li>
+                <li>İşitsel/görsel/dikkat mekanizmalarındaki eksiklikler</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+        <h2>Uzun Dönemli Nörogörüntüleme Çalışmaları</h2>
+        <ul>
+            <li>Kesitsel çalışmalar, disleksinin gelişimsel dinamiklerini yeterince yakalayamaz</li>
+            <li>Artık birçok ekip, çocukların okuma gelişimini takip eden longitudinal nörogörüntüleme çalışmaları yürütmektedir</li>
+            <li>Bu çalışmalar kritik öneme sahiptir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide">
+        <h2>Genetik, Çevre ve Süreklilik</h2>
+        <ul>
+            <li>Okuma becerisindeki bireysel farklılıklar, genetik ve çevresel faktörlerin etkileşimiyle oluşur</li>
+            <li>Ailevi disleksi öyküsü olan çocukların disleksi riski %40–50'dir</li>
+            <li>Risk faktörleri, koruyucu faktörlerle dengelenebilir</li>
+            <li>Okuma becerisi sürekli bir dağılım gösterir; disleksi bu spektrumun bir ucudur</li>
+        </ul>
+    </div>
+
+    <!-- Slide 13 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🎵</div>
+            <h1>3. DORSAL DİL AĞI VE KONUŞMA ALGISI</h1>
+        </div>
+    </div>
+
+    <!-- Slide 14 -->
+    <div class="slide">
+        <h1>DORSAL DİL AĞI</h1>
+        <ul>
+            <li>Çocuklar okumayı öğrenmeye başladıklarında, konuşma algısı ve üretimi için nöral işlevler zaten yıllardır gelişmiştir</li>
+            <li>Konuşma dili işlevleri okuma kazanımının temelini oluşturur</li>
+            <li>Konuşmayı dinlemek, superior temporal kortekste (STC) yaygın bilateral aktivasyon oluşturur</li>
+        </ul>
+    </div>
+
+    <!-- Slide 15 -->
+    <div class="slide">
+        <h2>Konuşma Temsillerinin Karmaşıklığı</h2>
+        <ul>
+            <li>STC'deki konuşma sesi temsilleri yalnızca düşük düzey akustik özelliklerle sınırlı değildir</li>
+            <li>Bu temsiller, dinleyicinin hedefleri, öğrenmesi ve bağlam tarafından modüle edilen yüksek düzey algısal süreçleri içerir</li>
+            <li>Yazılı metnin görsel sunumu, işitsel korteksteki konuşma temsillerini değiştirir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 16 -->
+    <div class="slide">
+        <h2>Okuma Kaynaklı Nöroplastisite</h2>
+        <ul>
+            <li>Metin ile konuşma arasındaki görsel-işitsel eşlemeler, işitsel kortekste okuma kaynaklı plastisiteyi işaret eder</li>
+            <li>STC'deki konuşma ile uyarılmış yanıtların gücü, çocukların okuma düzeyi ve fonolojik becerileri ile ilişkilidir</li>
+            <li>Disleksili çocuklar bu bölgede daha zayıf yanıtlar gösterebilir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 17 -->
+    <div class="slide">
+        <h2>Erken Gelişimsel Risk</h2>
+        <ul>
+            <li>Disleksili bireylerde, konuşma seslerindeki istatistiksel düzenliliklere duyarlılık daha az veya daha yavaş gelişir</li>
+            <li>İşitsel korteksteki atipik yanıtlar, ailevi riskle ilişkili olabilir ama okuma başarısını doğrudan öngörmeyebilir</li>
+            <li>Bu durum, okuma sorunlarına yatkınlık olarak değerlendirilmelidir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 18 -->
+    <div class="slide">
+        <h2>Anatomik Bulgular ve PT Asimetrisi</h2>
+        <ul>
+            <li>Planum temporale (PT) morfolojisi, disleksiyle uzun süredir ilişkilendirilmiştir</li>
+            <li>Erken çalışmalarda disleksili bireylerde PT asimetrisinin kaybolduğu bildirilmiştir</li>
+            <li>Ancak bu bulgu sistematik olarak tekrarlanamamıştır</li>
+            <li>PT morfolojisi, nörobiyolojik risk faktörü olarak görülmelidir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 19 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🔗</div>
+            <h1>4. İŞİTSEL-GÖRSEL İŞLEME</h1>
+        </div>
+    </div>
+
+    <!-- Slide 20 -->
+    <div class="slide">
+        <h1>İŞİTSEL-GÖRSEL İŞLEME</h1>
+        <h2>Görsel-İşitsel Entegrasyon ve pSTC</h2>
+        <div class="highlight-box">
+            <strong>pSTC:</strong> Konuşulan kelimeleri anlamaya yardımcı olur, yazılı bir harf gördüğünde onun sesini zihinde "duymamızı" sağlar
+        </div>
+        <ul>
+            <li>pSTC'nin uzun gelişimi, görsel semboller ile konuşma temsilleri arasındaki nöral ilişkilerin kurulmasında kilit rol oynar</li>
+            <li>Disleksili okuyucularda harf-ses entegrasyonu gecikmelidir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 21 -->
+    <div class="slide">
+        <h2>STC'de Çok Duyulu Modülasyon</h2>
+        <ul>
+            <li>Uyumlu harf-ses çiftleri, pSTC'de daha yüksek aktivasyon yaratır</li>
+            <li>Bu modülasyonlar, tipik okuyucularda fonolojik beceri ve okuma deneyimiyle ilişkilidir</li>
+            <li>Disleksili okuyucularda bu etki azalmıştır</li>
+        </ul>
+    </div>
+
+    <!-- Slide 22 -->
+    <div class="slide">
+        <h2>İPL ve İFG: Dorsal Ağın Rolü</h2>
+        <ul>
+            <li>İPL, harf-ses ilişkilerinin ilk kurulmasında aracılık eder; gelişimle aktivitesi azalır</li>
+            <li>Disleksili bireylerde İPL aktivasyonu azalmıştır</li>
+            <li>İFG, okuma becerisi arttıkça daha fazla devreye girer</li>
+            <li>Sağ İFG ve premotor bölgeler, telafi mekanizmaları olarak işlev görebilir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 23 -->
+    <div class="slide">
+        <h2>VWFA ve Ventral Ağ</h2>
+        <ul>
+            <li>Sol vOTC'deki görsel kelime form alanı (VWFA), okuma gelişimiyle metne karşı uzmanlaşır</li>
+            <li>Disleksili okuyucularda VWFA aktivasyonu daha düşüktür</li>
+            <li>VWFA, dorsal ağ bölgeleriyle işlevsel bağlantı kurar</li>
+            <li>Bölge, kör bireylerde Braille okumada da aktiftir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 24 -->
+    <div class="slide">
+        <h2>Risk mi, Sonuç mu?</h2>
+        <ul>
+            <li>Dislekside dorsal/ventral ağlardaki azalmış aktivasyon, risk faktörü mü yoksa okuma deneyiminin eksikliğinin sonucu mu?</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>Ailevi riskli okuma öncesi çocuklarda:</strong>
+            <ul>
+                <li>Sol vOTC ve STC'de azalmış aktivite</li>
+                <li>Sol temporo-parietal aktivitede azalma</li>
+                <li>Ancak bu bulgular okuma başarısını öngörmemektedir</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 25 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">📈</div>
+            <h1>5. GELİŞİMSEL DİNAMİKLER</h1>
+        </div>
+    </div>
+
+    <!-- Slide 26 -->
+    <div class="slide">
+        <h1>GELİŞİMSEL DİNAMİKLER</h1>
+        <h2>Erken Okuma ve Dorsal Ağ</h2>
+        <ul>
+            <li>Çocuklar okumayı öğrenirken başlangıçta dorsal ağa dayanır</li>
+            <li>Özellikle İPL, harfleri ve harf dizilerini konuşma seslerine eşlemek için kullanılır</li>
+            <li>Bu aşama, harf harf, zorlu ve bilinçli okumayı içerir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 27 -->
+    <div class="slide">
+        <h2>Ağların Şekillenmesi</h2>
+        <ul>
+            <li>Sürekli alıştırma, fonolojik farkındalık ve entegre kelime temsilleri gelişimiyle dorsal ve ventral ağları şekillendirir</li>
+            <li>Bu süreç, dorsal ve ventral sistemler arasında işlevsel ve yapısal bağlantıların güçlenmesine yol açar</li>
+            <li>Sol vOTC, görsel metin işleme için giderek uzmanlaşır</li>
+        </ul>
+    </div>
+
+    <!-- Slide 28 -->
+    <div class="slide">
+        <h2>STG ve PT'deki Gelişimsel Değişimler</h2>
+        <ul>
+            <li>Tipik okuyucularda, görsel kelimeler sol STG'yi otomatik olarak aktive eder</li>
+            <li>Okuma öncesi çocuklarda, harf-ses öğrenme hızı sağ STG aktivasyonuyla ilişkilidir</li>
+            <li>Sol PT aktivasyonu, gelecekteki akıcı ve zayıf okuyucuları ayırt edebilir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 29 -->
+    <div class="slide">
+        <h2>IPL-vOTC Bağlantısı</h2>
+        <ul>
+            <li>Başlangıçta, İPL-vOTC işlevsel bağlantısı, harf-ses entegrasyonu için kilit öneme sahiptir</li>
+            <li>Akıcı okuma kazanıldığında, ventral ağ baskın hâle gelir</li>
+            <li>Dorsal ağ, zor/düzensiz kelimeler için kullanılmaya devam eder</li>
+        </ul>
+    </div>
+
+    <!-- Slide 30 -->
+    <div class="slide">
+        <h2>Dinamik Bağlantı ve Ters U Yörüngesi</h2>
+        <ul>
+            <li>5–6 yaşta İPL-vOTC bağlantısının artması, okuma akıcılığı ile ilişkilidir</li>
+            <li>8–14 yaşta bu bağlantının azalması, okuma akıcılığındaki daha büyük kazanımlarla ilişkilidir</li>
+            <li>Bu, dorsal-ventral ağ bağlantısının ters U şeklinde bir gelişim yörüngesi izlediğini düşündürür</li>
+        </ul>
+    </div>
+
+    <!-- Slide 31 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🎯</div>
+            <h1>6. BECERİ ÖĞRENME</h1>
+        </div>
+    </div>
+
+    <!-- Slide 32 -->
+    <div class="slide">
+        <h1>BECERİ ÖĞRENİMİ: TERS U KURALI</h1>
+        <table>
+            <tr>
+                <th>Aşama</th>
+                <th>Açıklama</th>
+            </tr>
+            <tr>
+                <td><strong>Açık (Bilinçli) Aşama</strong></td>
+                <td>Yeni bir beceriyi öğrenirken, kuralları tek tek ve bilinçli olarak düşünürüz</td>
+            </tr>
+            <tr>
+                <td><strong>Beyin Genişlemesi</strong></td>
+                <td>Beynin ilgili bölgelerinde aktivite ve bağlantı gücü dramatik olarak artar</td>
+            </tr>
+            <tr>
+                <td><strong>Kapalı (Otomatik) Aşama</strong></td>
+                <td>Sürekli pratikle beceri otomatikleşir, bilinçaltına iner</td>
+            </tr>
+            <tr>
+                <td><strong>Aktivite Azalması</strong></td>
+                <td>Beyin gereksiz enerji harcamayı keser; aktivite ve bağlantı gücü azalır</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 33 -->
+    <div class="slide">
+        <h2>Okuma Ağları: Dinamik Yol Haritası</h2>
+        <div class="highlight-box">
+            <strong>Okuma, beynin Dorsal (Ses/Yavaş) ve Ventral (Görsel/Hızlı) olmak üzere iki ana ağı arasındaki trafik akışıdır</strong>
+        </div>
+        <h3>Gelişim Yörüngesi</h3>
+        <ul>
+            <li><strong>Başlangıç:</strong> Bağlantılar Zayıf</li>
+            <li><strong>Öğrenme:</strong> Bağlantı Gücü ARTAR (Genişleme)</li>
+            <li><strong>Akıcılık:</strong> Bağlantı Gücü AZALIR (Yeniden Normalleşme)</li>
+        </ul>
+    </div>
+
+    <!-- Slide 34 -->
+    <div class="slide">
+        <h2>Disleksi: Gecikmeli Otomatikleşme</h2>
+        <table>
+            <tr>
+                <th>Özellik</th>
+                <th>Açıklama</th>
+            </tr>
+            <tr>
+                <td><strong>Bağlantı Sorunu</strong></td>
+                <td>Disleksi, tipik okuyucularda görülen otomatikleşme yoluna geçişteki gecikme içerir</td>
+            </tr>
+            <tr>
+                <td><strong>Gecikmeli Gelişim</strong></td>
+                <td>Disleksili çocuklarda, işlevsel bağlantıların gelişimi daha yavaş ilerler</td>
+            </tr>
+            <tr>
+                <td><strong>Anormal Bağlantı</strong></td>
+                <td>Kritik okuma ağları arasında daha az sağlam bağlantılara sahiptir</td>
+            </tr>
+            <tr>
+                <td><strong>Telafi Mekanizması</strong></td>
+                <td>Beyin, yan yolları kullanma eğilimi gösterir</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 35 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🔤🔊</div>
+            <h1>7. YAZI-SES ÖĞRENME</h1>
+        </div>
+    </div>
+
+    <!-- Slide 36 -->
+    <div class="slide">
+        <h1>DİSLEKSİNİN ANA SORUNU</h1>
+        <table>
+            <tr>
+                <th>Kavram</th>
+                <th>Açıklama</th>
+            </tr>
+            <tr>
+                <td><strong>Görsel-İşitsel Eşleştirme</strong></td>
+                <td>Okuma akıcılığı, harflerin seslerle otomatik ve hızlı birleştirilmesine bağlıdır</td>
+            </tr>
+            <tr>
+                <td><strong>Disleksideki Fark</strong></td>
+                <td>Sorun, pekiştirme ve otomatikleştirme aşamasında ortaya çıkar</td>
+            </tr>
+            <tr>
+                <td><strong>Kanıt</strong></td>
+                <td>Yapay sembol-ses öğrenme testlerinde, disleksili çocuklar genel öğrenme yeteneğinde akranlarıyla benzerdir</td>
+            </tr>
+            <tr>
+                <td><strong>Farkın Ortaya Çıkışı</strong></td>
+                <td>Farklılık, eşleştirmenin hızla adlandırılması gerektiğinde belirginleşir</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 37 -->
+    <div class="slide">
+        <h2>Yeniden Kalibrasyon Testi</h2>
+        <table>
+            <tr>
+                <th>Kavram</th>
+                <th>Açıklama</th>
+            </tr>
+            <tr>
+                <td><strong>Fonetik Yeniden Kalibrasyon</strong></td>
+                <td>Görsel ve işitsel bilginin beyin tarafından nasıl birleştirildiğini ölçen algısal bir testtir</td>
+            </tr>
+            <tr>
+                <td><strong>Klasik Paradigma</strong></td>
+                <td>Belirsiz bir sese karşılık gelen dudak hareketleri gösterildiğinde, beynin algıyı kaydırması</td>
+            </tr>
+            <tr>
+                <td><strong>Metin Tabanlı</strong></td>
+                <td>Okuma mekanizmalarını incelemek için görsel girdi olarak metin kullanılır</td>
+            </tr>
+            <tr>
+                <td><strong>Yaş/Grup Çelişkisi</strong></td>
+                <td>Disleksili yetişkinlerde bu kayma görülmezken, 8 yaşındaki disleksili çocuklarda kayma tipik akranlarıyla benzer bulunmuştur</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 38 -->
+    <div class="slide">
+        <h2>Beyin Tepkisi: vOTC Aktivasyon Farkı</h2>
+        <ul>
+            <li><strong>Dislekside Farklı Sinirsel Yol:</strong> Davranışsal olarak benzer sonuçlar verse bile, beyinleri farklı çalışır</li>
+            <li><strong>Ventral Ağ Eksikliği:</strong> Disleksili çocuklar, vOTC'de tipik okuyuculara göre daha az aktivasyon gösterir</li>
+            <li><strong>Telafi Çabası:</strong> Daha az akıcı okuyucular, Dorsal Ağı aşırı zorlamakta olabilir</li>
+            <li><strong>Uzun Vadeli Etki:</strong> Bu farklılık, kalıcı bağlantı farklılıklarının temeli olabilir</li>
+        </ul>
+    </div>
+
+    <!-- Slide 39 -->
+    <div class="slide intro-slide">
+        <div class="section-header">
+            <div class="icon-large">🎓</div>
+            <h1>SONUÇ</h1>
+        </div>
+    </div>
+
+    <!-- Slide 40 -->
+    <div class="slide">
+        <h1>SONUÇ</h1>
+        <h2>Okuma Gelişiminin Çerçevesi</h2>
+        <div class="highlight-box">
+            <strong>Okuma Gelişimi: Dinamik Bir Uyum Süreci</strong>
+            <p>Okuma, beynin kültürel bir beceriye uyum sağlama yeteneğinin göstergesidir</p>
+        </div>
+        <ul>
+            <li><strong>Ana Mekanizma:</strong> Dorsal (Ses) ve Ventral (Görsel) temsiller arasında kurulan sağlam ve otomatik bağlantılar</li>
+            <li><strong>Değişkenlik Kaynağı:</strong> Beynin uyum kapasitesindeki bireysel farklılıklar ile telafi edici güçlerin etkileşimi</li>
+        </ul>
+    </div>
+
+    <!-- Slide 41 -->
+    <div class="slide">
+        <h2>Disleksi: Bireysel Öğrenme Yörüngeleri</h2>
+        <ul>
+            <li><strong>Disleksideki Farklılıklar:</strong> Tipik ve disleksili okuyucular arasındaki değişkenlik, bireysel öğrenme yörüngeleri ile karakterize edilmelidir</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>Zorlukların İki Yüzü:</strong>
+            <ol style="margin-left: 20px; margin-top: 10px;">
+                <li>Yazı-ses eşleştirmelerini başlangıçta kurarken zorlanma</li>
+                <li>Öğrenilen becerileri pekiştirmeye, ince ayarlamaya veya genelleştirmeye geçişte zorlanma</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Slide 42 -->
+    <div class="slide">
+        <h2>Gelecek: Çok Düzeyli Destek</h2>
+        <ul>
+            <li><strong>Umut Veren Paradigmalar:</strong> Yapay yazı öğrenimi ve metin tabanlı yeniden kalibrasyon gibi öğrenme paradigmaları kullanılmalıdır</li>
+            <li><strong>İdeal Yaklaşım:</strong> Okuma müdahalesi, uzunlamasına ve çok düzeyli bir yaklaşımla entegre edilmelidir</li>
+            <li><strong>İncelenecek Veriler:</strong> Genetik veriler, Sosyal Çevre, Beyin Bağlantıları ve Bilişsel Faktörler</li>
+        </ul>
+        <div class="highlight-box" style="margin-top: 30px;">
+            <strong>Nihai Hedef:</strong> Disleksinin "Çoklu Eksiklik Spektral Görüşü"nü benimseyerek, erken tahmini iyileştirmek ve kişiselleştirilmiş müdahale programları geliştirmek
+        </div>
+    </div>
+
+    <!-- Slide 43 -->
+    <div class="slide intro-slide">
+        <div class="icon-large">✨</div>
+        <h1>Teşekkürler</h1>
+        <p style="font-size: 1.5em; margin-top: 30px;">Romanovska, L., & Bonte, M. (2023)</p>
+        <p style="margin-top: 20px;">How learning to read changes the listening brain</p>
+        <p style="margin-top: 10px; opacity: 0.9;">Frontiers in Psychology, 14, Article 1125234</p>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideSpan = document.getElementById('current-slide');
+        const totalSlidesSpan = document.getElementById('total-slides');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            currentSlide = (n + totalSlides) % totalSlides;
+            window.scrollTo({
+                top: currentSlide * window.innerHeight,
+                behavior: 'smooth'
+            });
+            currentSlideSpan.textContent = currentSlide + 1;
+        }
+
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSlide(currentSlide - 1);
+        });
+        
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSlide(currentSlide + 1);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                showSlide(currentSlide - 1);
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                showSlide(currentSlide + 1);
+            }
+        });
+
+        // Scroll ile slayt takibi
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(function() {
+                const newSlide = Math.round(window.scrollY / window.innerHeight);
+                if (newSlide !== currentSlide && newSlide >= 0 && newSlide < totalSlides) {
+                    currentSlide = newSlide;
+                    currentSlideSpan.textContent = currentSlide + 1;
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
