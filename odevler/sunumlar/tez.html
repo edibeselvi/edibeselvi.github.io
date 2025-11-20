@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçe Semantik Sözel Akıcılık Testlerinin Analizi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid #667eea;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card.active {
+            border-left-color: #764ba2;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .card h3 {
+            color: #764ba2;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .card p {
+            color: #555;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #667eea20, #764ba220);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+            color: #667eea;
+        }
+
+        .list-item {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .findings-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .findings-section h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 15px;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .method-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .method-box h3 {
+            color: white;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .success-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .limitation-badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button.active {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Türkçe Semantik Sözel Akıcılık Testlerinin Hesaplamalı Dilbilimsel Yöntemlerle Analizi</h1>
+            <p class="subtitle">Yasa Kostas, R. (2024). Automatic detection of clusters and switches in Turkish semantic verbal fluency data - Doktora tezi özeti</p>
+        </header>
+
+        <div class="nav-buttons">
+            <button class="active" onclick="showSection('concepts')">Temel Kavramlar</button>
+            <button onclick="showSection('methodology')">Yöntem</button>
+            <button onclick="showSection('findings')">Bulgular</button>
+            <button onclick="showSection('conclusion')">Sonuç</button>
+        </div>
+
+        <!-- TEMEL KAVRAMLAR -->
+        <div id="concepts" class="section-content active">
+            <div class="sections-grid">
+                <div class="card">
+                    <h2>📋 SVF Testi Nedir?</h2>
+                    <h3>Tanım</h3>
+                    <p>Semantik Sözel Akıcılık (SVF), kişinin belirli bir kategoriye (hayvanlar, meyveler, süpermarket ürünleri gibi) ait kelimeleri kısa sürede (genellikle 60 saniye) üretme yeteneğini ölçen bir testtir.</p>
+                    
+                    <div class="example-box">
+                        <strong>Örnek:</strong> "Size 60 saniye içinde aklınıza gelen tüm hayvan isimlerini söyleyin" → Katılımcı: "köpek, kedi, aslan, kaplan, fare, tavşan..."
+                    </div>
+
+                    <h3>Nasıl Ölçülür?</h3>
+                    <div class="list-item"><strong>Toplam kelime sayısı:</strong> Kişi kaç kelime üretmiş?</div>
+                    <div class="list-item"><strong>Tekrarlar (Perseverasyon):</strong> Aynı kelimeyi tekrar etmiş mi?</div>
+                    <div class="list-item"><strong>Kategori ihlalleri:</strong> Kategoriye uygun olmayan kelime söylemiş mi?</div>
+
+                    <h3>İleri Düzey Ölçüm (Troyer Metodu)</h3>
+                    <div class="list-item"><strong>Kümeleme:</strong> Kişi benzer hayvanları arka arkaya mı söylüyor? (Örn: evcil hayvanlar kümesi, büyük kediler kümesi)</div>
+                    <div class="list-item"><strong>Geçiş:</strong> Kişi bir kümeden diğerine ne kadar iyi geçiyor?</div>
+
+                    <h3>Ne İşe Yarar?</h3>
+                    <p><span class="highlight">Klinik Kullanım:</span></p>
+                    <div class="list-item">Alzheimer, Parkinson, Hafif Bilişsel Bozukluk gibi hastalıkların erken belirtilerini yakalar</div>
+                    <div class="list-item">Zayıf SVF → Temporal lob (hafıza bölgesi) hasarı</div>
+                    <div class="list-item">Zayıf geçiş → Frontal lob (yürütücü işlevler) hasarı</div>
+                </div>
+
+                <div class="card">
+                    <h2>🔤 Kelime Gömme Nedir?</h2>
+                    <p>Kelime gömme (Word Embedding), kelimeleri bilgisayarın anlayabileceği sayılara (vektörlere) dönüştürme yöntemidir. Bu sayılar, kelimelerin anlamsal yakınlığını gösterir.</p>
+                    
+                    <div class="example-box">
+                        <strong>Basit Benzetme:</strong> Harita üzerinde evlerin konumları gibi düşünün. Yakın evler birbirine yakın mahallelerdedir. Kelime gömme de kelimeleri bir "anlam haritası"na yerleştirir.
+                    </div>
+
+                    <h3>Çalışma Prensibi</h3>
+                    <p><strong>Temel Fikir:</strong> "Bir kelimeyi, etrafındaki kelimelerden anlarsın"</p>
+                    <div class="example-box">
+                        • "Köpek havladı" → köpek bir hayvandır<br>
+                        • "Kedi miyavladı" → kedi de bir hayvandır<br>
+                        • "Araba çalıştı" → araba hayvan değildir
+                    </div>
+
+                    <h3>Sayısal Gösterim</h3>
+                    <div class="example-box">
+                        köpek = [0.2, 0.8, 0.1, 0.5, ...] (300 sayı)<br>
+                        kedi = [0.3, 0.7, 0.2, 0.4, ...] (300 sayı)<br>
+                        araba = [0.8, 0.1, 0.9, 0.1, ...] (300 sayı)<br><br>
+                        "Köpek" ile "kedi" arasındaki uzaklık küçük → anlamca yakınlar
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Bigram Nedir?</h2>
+                    <p>Bigram, iki kelimenin bir metin içinde yan yana gelme sıklığını ölçen basit bir istatistiksel yöntemdir.</p>
+                    
+                    <div class="example-box">
+                        <strong>Basit Benzetme:</strong> Telefonda mesaj yazarken otomatik tamamlama önerilerini düşünün. "Bugün hava" yazdığınızda telefon "çok güzel" önerir çünkü bu kelimeler sıklıkla yan yana gelir.
+                    </div>
+
+                    <h3>Çalışma Prensibi</h3>
+                    <div class="list-item"><strong>Adım 1:</strong> Büyük metinleri tara (Wikipedia vb.)</div>
+                    <div class="list-item"><strong>Adım 2:</strong> Birlikte geçme sayısını hesapla</div>
+                    <div class="list-item"><strong>Adım 3:</strong> Bir eşik değeri belirle</div>
+                    <div class="list-item"><strong>Adım 4:</strong> SVF dizisine uygula</div>
+
+                    <h3>Tezdeki Rolü</h3>
+                    <p>Bigram, tezin en basit otomatik yöntemidir:</p>
+                    <div class="list-item"><strong>Avantaj:</strong> Hesaplaması çok hızlı, karmaşık matematik gerektirmez</div>
+                    <div class="list-item"><strong>Dezavantaj:</strong> Sadece yan yana gelmeye bakar, anlamsal ilişkiyi tam yakalar</div>
+                    <div class="list-item"><strong>Bulgu:</strong> Bigram AD hastalarını ayırt edebilmiş (ρ=0.72)</div>
+                </div>
+
+                <div class="card">
+                    <h2>🧠 Word2vec Nedir?</h2>
+                    <p>Word2vec, kelime gömme yöntemlerinin en popülerlerinden biridir. Google tarafından 2013'te geliştirilmiştir. Kelimeleri anlamsal vektörlere dönüştürür.</p>
+                    
+                    <h3>Bigram'dan Farkı</h3>
+                    <div class="list-item"><strong>Bigram:</strong> Sadece yan yana gelmeye bakar (2 kelimelik pencere)</div>
+                    <div class="list-item"><strong>Word2vec:</strong> Daha geniş bağlama bakar (4-10 kelimelik pencere) ve anlamsal ilişkileri öğrenir</div>
+
+                    <h3>İki Ana Yöntemi</h3>
+                    <p><strong>1. CBOW (Continuous Bag of Words)</strong> - Çevredeki Kelimelerden Ortayı Tahmin Et</p>
+                    <div class="example-box">
+                        "Köpek bahçede _____ ve oynadı" → koştu (tahmin)
+                    </div>
+
+                    <p><strong>2. Skip-gram</strong> - Ortadaki Kelimeden Çevreyi Tahmin Et</p>
+                    <div class="example-box">
+                        "köpek" → havlamak, tasma, mama, yavru, kuyruk, veteriner
+                    </div>
+
+                    <h3>SVF'de Kullanımı</h3>
+                    <div class="list-item">Wikipedia'daki metinlerle model eğitilir</div>
+                    <div class="list-item">Her hayvanın sayısal vektörü oluşturulur</div>
+                    <div class="list-item">Benzer hayvanlar (aslan-kaplan) yakın vektörler</div>
+                    <div class="list-item">Farklı hayvanlar (aslan-köpek) uzak vektörler → geçiş!</div>
+                </div>
+				<div class="findings-section" style="width: 200%; max-width: 2000px; margin: 0 auto;">
+    <h2 style="text-align: center;">Genel Akış: Tezde Nasıl Çalışıyor?</h2>
+    
+    <div style="position: relative; padding: 30px 0; display: flex; flex-direction: column; align-items: center;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white; padding: 20px; border-radius: 10px;
+                    margin-bottom: 20px; text-align: center; font-weight: 600; width: 50%;">
+            1️⃣ SVF Testi Yap<br>
+            <span style="font-weight: 400; font-size: 0.9em; margin-top: 5px; display: block;">
+                "Hayvanları say: köpek, kedi, tavşan, aslan, kaplan..."
+            </span>
+        </div>
+
+        <div style="text-align: center; color: #667eea; font-size: 1.5em; margin: 10px 0;">↓</div>
+
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white; padding: 20px; border-radius: 10px;
+                    margin-bottom: 20px; text-align: center; font-weight: 600; width: 50%;">
+            2️⃣ Kelime Gömme Uygula (Word2vec)<br>
+            <span style="font-weight: 400; font-size: 0.9em; margin-top: 5px; display: block;">
+                Her hayvanı sayılara dönüştür ve aralarındaki uzaklığı hesapla
+            </span>
+        </div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em; margin: 10px 0;">↓</div>
+                    
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: 600;">
+                        3️⃣ Kümeleri Otomatik Bul<br>
+                        <span style="font-weight: 400; font-size: 0.9em; margin-top: 5px; display: block;">Yakın vektörler → Aynı küme | Uzak vektörler → Farklı küme → Geçiş!</span>
+                    </div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em; margin: 10px 0;">↓</div>
+                    
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: 600;">
+                        4️⃣ Manuel Troyer ile Karşılaştır<br>
+                        <span style="font-weight: 400; font-size: 0.9em; margin-top: 5px; display: block;">Bilgisayar bulduğu kümeler, insanın bulduğuyla aynı mı?</span>
+                    </div>
+                    <div style="text-align: center; color: #667eea; font-size: 1.5em; margin: 10px 0;">↓</div>
+                    
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 1.1em;">
+                        ✅ SONUÇ<br>
+                        <span style="font-weight: 400; font-size: 0.9em; margin-top: 8px; display: block;">
+                            ✓ Word2vec manuel analize çok yakın (F1&gt;0.74)<br>
+                            ✓ Zaman kazandırır (1 saniye vs 20 dakika)<br>
+                            ✓ Tutarlıdır (herkes aynı sonucu bulur)
+                        </span>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- YÖNTEM -->
+        <div id="methodology" class="section-content">
+            <div class="findings-section">
+                <h2>Araştırma Soruları</h2>
+                <div class="list-item"><strong>1. Sistematik İnceleme:</strong> Türkçe konuşanların SVF performansları hakkında kategori kullanımı, puanlama metrikleri ve normatif veriler açısından neler biliniyor?</div>
+                <div class="list-item"><strong>2. Algoritma Doğrulaması:</strong> Hesaplamalı dilbilimsel yöntemler (bigram ve Word2vec), SVF dizilerinin iç yapısının manuel etiketlemesine ne kadar başarılı yaklaşabiliyor?</div>
+                <div class="list-item"><strong>3. Veri Toplama:</strong> Türkçe SVF verileri için çevrimiçi bir veri toplama aracı nasıl tasarlanır ve bu stratejinin faydaları ve zorlukları nelerdir?</div>
+                <div class="list-item"><strong>4. Türkçe Veri Analizi:</strong> Hesaplamalı yöntemler Türkçe SVF dizilerinin iç yapısını çoğaltmakta ne kadar başarılı ve bu metrikler demografik farklılıkları yansıtabilir mi?</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Tezin Dolduracağı Boşluk</h2>
+                <p>Türkçe dünyada yaklaşık 100 milyon kişi tarafından konuşulmasına rağmen:</p>
+                <div class="list-item"><strong>Normatif veri eksikliği:</strong> Sağlıklı Türkçe konuşanlar için normatif veriler ve otomatik puanlama algoritmaları yok</div>
+                <div class="list-item"><strong>İleri metriklerin yokluğu:</strong> Kümeleme ve geçiş gibi gelişmiş Troyer metrikleri hiçbir normatif çalışmada kullanılmamış</div>
+                <div class="list-item"><strong>Hesaplamalı araç eksikliği:</strong> Türkçe SVF analizi için otomatik hesaplamalı yöntemler daha önce geliştirilmemiş</div>
+                <div class="list-item"><strong>Erişim sorunu:</strong> Mevcut az sayıdaki çalışma çoğunlukla Türkçe tezler olup uluslararası araştırmacılar için erişimi zor</div>
+                <div class="list-item"><strong>Çokdilli veri boşluğu:</strong> Türkçe-İngilizce gibi iki/çok dilli bireylerin performansı hakkında çok az veri var</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Yöntem</h2>
+                
+                <div class="method-grid">
+                    <div class="method-box">
+                        <h3>1. Sistematik İnceleme</h3>
+                        <p>Uluslararası ve ulusal veri tabanlarında 121 çalışma incelendi</p>
+                    </div>
+                    <div class="method-box">
+                        <h3>2. Algoritma Doğrulama</h3>
+                        <p>İspanyolca veri: 14 AD hastası + 50 kontrol</p>
+                    </div>
+                    <div class="method-box">
+                        <h3>3. Türkçe Veri Toplama</h3>
+                        <p>Çevrimiçi platform: N=137 katılımcı</p>
+                    </div>
+                    <div class="method-box">
+                        <h3>4. Türkçe Veri Analizi</h3>
+                        <p>Manuel etiketleme + hesaplamalı yöntemler</p>
+                    </div>
+                </div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Algoritma Doğrulama Detayları</h3>
+                <div class="list-item"><strong>Veri:</strong> Kolombiyalı genetik Alzheimer hastaları (N=14) ve sağlıklı kontroller (N=50)</div>
+                <div class="list-item"><strong>Manuel etiketleme:</strong> Troyer metodunun İspanyolca'ya uyarlanması</div>
+                <div class="list-item"><strong>Hesaplamalı yöntemler:</strong> Bigram ve Word2vec (12 farklı hiperparametre kombinasyonu)</div>
+                <div class="list-item"><strong>Değerlendirme:</strong> Spearman korelasyonu ve F1 skoru</div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Türkçe Veri Toplama</h3>
+                <div class="list-item"><strong>Platform:</strong> Web tabanlı ses kayıt uygulaması + Qualtrics anketi</div>
+                <div class="list-item"><strong>Kategoriler:</strong> Hayvanlar, Meyve ve Sebzeler, Süpermarket Ürünleri (70 saniye)</div>
+                <div class="list-item"><strong>Katılımcılar:</strong> N=137 (anket dolduran 263 kişiden %52'si)</div>
+                <div class="list-item"><strong>Veri hazırlama:</strong> Google Speech-to-Text ile otomatik deşifre, manuel bütünlük kontrolü</div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Türkçe Veri Analizi</h3>
+                <div class="list-item"><strong>Manuel etiketleme:</strong> Troyer metodunun Türkçe'ye uyarlanması (hayvanlar kategorisi)</div>
+                <div class="list-item"><strong>Hesaplamalı analiz:</strong> Türkçe Wikipedia korpusu ile Word2vec modelleri eğitildi</div>
+                <div class="list-item"><strong>Karşılaştırma:</strong> Cinsiyet ve çokdillilik grupları arasındaki farklar incelendi</div>
+            </div>
+        </div>
+
+        <!-- BULGULAR -->
+        <div id="findings" class="section-content">
+            <div class="findings-section">
+                <h2>Sistematik İnceleme Bulguları</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-number">121</div>
+                        <div class="stat-label">İncelenen Çalışma</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">%94</div>
+                        <div class="stat-label">Hayvanlar Kategorisi</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">%4</div>
+                        <div class="stat-label">Troyer Metrikleri Kullanan</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">%7</div>
+                        <div class="stat-label">Normatif Veri Amaçlı</div>
+                    </div>
+                </div>
+
+                <div class="list-item"><strong>En yaygın kategori:</strong> Hayvanlar (%94)</div>
+                <div class="list-item"><strong>Tüm çalışmalar:</strong> Sadece toplam kelime sayısını rapor etmiş</div>
+                <div class="list-item"><strong>Kümeleme/geçiş:</strong> Sadece 5 çalışmada (%4) kullanılmış, hiçbiri metodunu açıkça paylaşmamış</div>
+                <div class="list-item"><strong>Normatif veri:</strong> Sadece 7 çalışma normatif veri sağlamayı amaçlamış</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Algoritma Doğrulama (İspanyolca) Bulguları</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-number">ρ=0.72</div>
+                        <div class="stat-label">Bigram Korelasyonu</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">ρ≥0.80</div>
+                        <div class="stat-label">Word2vec Korelasyonu</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">F1=0.83</div>
+                        <div class="stat-label">En İyi Model</div>
+                    </div>
+                </div>
+
+                <div class="list-item"><strong>Manuel bulgular çoğaltıldı:</strong> AD hastalarında anlamlı ölçüde daha az geçiş (p&lt;0.0005)</div>
+                <div class="list-item"><strong>Yüksek korelasyon:</strong> Bigram ρ=0.72, en iyi Word2vec ρ≥0.80</div>
+                <div class="list-item"><strong>Üstün performans:</strong> En iyi Word2vec modeli (1000-10-skipgram) F1=0.83, Bigram F1=0.76</div>
+                <div class="list-item"><strong>Klinik ayırt edicilik:</strong> Hesaplamalı yöntemler AD hastalarını sağlıklı bireylerden ayırt edebildi</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Türkçe Veri Analizi Bulguları</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-number">25-26</div>
+                        <div class="stat-label">Ort. Kelime Sayısı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">ρ&gt;0.76</div>
+                        <div class="stat-label">Word2vec Korelasyonu</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">F1=0.74</div>
+                        <div class="stat-label">Manuel Uyum</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">p&lt;0.01</div>
+                        <div class="stat-label">Cinsiyet Farkı</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Geleneksel Metrikler</h3>
+                <div class="list-item"><strong>Ortalama kelime sayısı:</strong> 25-26 kelime</div>
+                <div class="list-item"><strong>Cinsiyet farkı:</strong> Anlamlı fark yok</div>
+                <div class="list-item"><strong>Çokdillilik farkı:</strong> Anlamlı fark yok</div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Troyer Metrikleri</h3>
+                <div class="list-item"><strong>Kümeleme (Clustering):</strong> Erkekler anlamlı ölçüde daha büyük kümeler oluşturdu (p&lt;0.01)</div>
+                <div class="list-item"><strong>Geçiş (Switching):</strong> Demografik grup farklılıkları tespit edildi</div>
+
+                <h3 style="color: #667eea; margin-top: 30px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">Hesaplamalı Başarı</h3>
+                <div class="list-item"><strong>Word2vec geçiş sayısı korelasyonu:</strong> ρ&gt;0.76, F1=0.738</div>
+                <div class="list-item"><strong>Bigram geçiş sayısı korelasyonu:</strong> ρ=0.87, F1=0.667</div>
+                <div class="list-item"><strong>Demografik fark çoğaltma:</strong> En iyi Word2vec modeli (600-10-skipgram) manuel bulgudaki cinsiyet farkını çoğalttı</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Ana Başarılar</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: #10b98120; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-bottom: 10px;">✓ Doğrulama</h3>
+                        <p>Hesaplamalı yöntemler (özellikle Word2vec) manuel Troyer analizinin bulgularını yüksek doğrulukla çoğalttı</p>
+                    </div>
+                    <div style="background: #10b98120; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-bottom: 10px;">✓ Ölçeklenebilirlik</h3>
+                        <p>Otomatik yöntemler, zaman alıcı manuel etiketlemenin yerine büyük veri setlerinde kullanılabilir</p>
+                    </div>
+                    <div style="background: #10b98120; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-bottom: 10px;">✓ İlk Türkçe Veri Seti</h3>
+                        <p>Tamamen çevrimiçi toplanan ve açık erişime sunulacak ilk Türkçe SVF veri seti oluşturuldu</p>
+                    </div>
+                    <div style="background: #10b98120; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-bottom: 10px;">✓ Açık Kaynak Araçlar</h3>
+                        <p>GitHub'da paylaşılan kod ve uygulama, diğer dillere kolayca uyarlanabilir</p>
+                    </div>
+                    <div style="background: #10b98120; padding: 20px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-bottom: 10px;">✓ Şeffaflık</h3>
+                        <p>Türkçe için uyarlanmış Troyer taksonomisi ve kurallar açıkça paylaşıldı</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Klinik Önemi</h2>
+                <div class="list-item"><strong>Hızlı tarama aracı:</strong> SVF testleri bilişsel bozukluklar (Alzheimer, Parkinson, Hafif Bilişsel Bozukluk) için hızlı ve kolay bir tarama aracı</div>
+                <div class="list-item"><strong>Semantik depo:</strong> Kümeleme semantik depoyu ölçer</div>
+                <div class="list-item"><strong>Yürütücü işlevler:</strong> Geçiş yürütücü işlevleri ölçer</div>
+                <div class="list-item"><strong>Zaman kazandırır:</strong> Otomatik analiz, klinik değerlendirmelerde pratik kullanım için zaman kazandırır (1 saniye vs 20 dakika)</div>
+            </div>
+        </div>
+
+        <!-- SONUÇ -->
+        <div id="conclusion" class="section-content">
+            <div class="findings-section">
+                <h2>Tezin Kısıtlılıkları</h2>
+                
+                <h3 style="color: #f59e0b; margin-top: 20px; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">Veri Toplama Kısıtlılıkları</h3>
+                <div class="list-item"><strong>Yüksek kayıp oranı:</strong> Anketi dolduranların sadece %52'si ses kaydına devam etti</div>
+                <div class="list-item"><strong>Örneklem yanlılığı:</strong> Katılımcılar çoğunlukla genç (18-49 yaş) ve yüksek eğitimli (%84 lisans/lisansüstü)</div>
+                <div class="list-item"><strong>Yaş/eğitim analizi yapılamadı:</strong> Dar demografik dağılım nedeniyle kritik karşılaştırmalar mümkün olmadı</div>
+                <div class="list-item"><strong>Ekstra konuşma:</strong> Klinisyen yokluğunda katılımcılar daha fazla "yüksek sesle düşündü"</div>
+
+                <h3 style="color: #f59e0b; margin-top: 20px; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">Metodolojik Kısıtlılıklar</h3>
+                <div class="list-item"><strong>Küçük klinik veri:</strong> İspanyolca doğrulamada AD hasta grubu küçüktü (N=14)</div>
+                <div class="list-item"><strong>Düşük kaynaklı dil:</strong> Türkçe için sınırlı NLP araçları (lemmatizasyon, kök bulma)</div>
+                <div class="list-item"><strong>Troyer bağımlılığı:</strong> Hesaplamalı yöntemler, kendisi de kültüre/dile uyarlama gerektiren Troyer metodunu "altın standart" olarak aldı</div>
+                <div class="list-item"><strong>Statik modeller:</strong> Word2vec bağlam duyarlı değil, bir kelimenin farklı anlamlarını yakalayamaz</div>
+            </div>
+
+            <div class="findings-section">
+                <h2>Gelecek Çalışma Önerileri</h2>
+                
+                <h3 style="color: #667eea; margin-top: 20px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">1. Veri Kalitesi ve Miktarı</h3>
+                <div class="list-item"><strong>Kayıp oranını azaltma:</strong> Gizlilik endişelerinin araştırılması, teknik zorlukların giderilmesi</div>
+                <div class="list-item"><strong>Demografik çeşitliliği artırma:</strong> Daha geniş yaş ve eğitim gruplarından veri toplanması</div>
+                <div class="list-item"><strong>İyileştirme:</strong> Türkçe için daha gelişmiş otomatik konuşma tanıma sistemlerinin kullanılması</div>
+
+                <h3 style="color: #667eea; margin-top: 20px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">2. Gelişmiş Hesaplamalı Yöntemler</h3>
+                <div class="list-item"><strong>Dinamik kelime gömme:</strong> BERT, RoBERTa gibi bağlam duyarlı LLM'lerin Türkçe SVF'ye uygulanması</div>
+                <div class="list-item" style="margin-left: 40px;"><em>Kelimenin farklı alt kategorilerdeki anlamlarını bağlama göre yakalayabilir</em></div>
+                <div class="list-item" style="margin-left: 40px;"><em>Word2vec'in statik yapısının ötesine geçer</em></div>
+                <div class="list-item"><strong>Konuşma tabanlı özellikler:</strong> Konuşma hızı, duraklamalar, vurgu, entonasyon gibi prosodik özelliklerin analiz edilmesi</div>
+                <div class="list-item" style="margin-left: 40px;"><em>Erken evre bilişsel bozukluklarda kelime tabanlı metriklerin yetersiz kaldığı durumlarda ek tanısal bilgi sağlayabilir</em></div>
+
+                <h3 style="color: #667eea; margin-top: 20px; border-bottom: 2px solid #764ba2; padding-bottom: 10px;">3. Klinik Uygulama</h3>
+                <div class="list-item"><strong>Klinik popülasyonlarda test:</strong> Türkçe konuşan Alzheimer, Parkinson hastalarında doğrulanması</div>
+                <div class="list-item"><strong>Norm geliştirme:</strong> Geniş demografik grupları kapsayan normatif verilerin oluşturulması</div>
+                <div class="list-item"><strong>Klinik entegrasyon:</strong> Geliştirilen araçların klinik değerlendirme süreçlerine entegre edilmesi</div>
+            </div>
+
+                        <div class="findings-section">
+                <h2>Özet Sonuç</h2>
+                <div style="background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%); padding: 30px; border-radius: 12px; border-left: 5px solid #667eea;">
+                    <p style="font-size: 1.05em; line-height: 1.8; color: #333;">
+                        Bu tez, <strong>Türkçe Semantik Sözel Akıcılık (SVF) testlerinin manuel etiketlemesini otomatikleştirmek</strong> için hesaplamalı dilbilimsel yöntemleri başarıyla uygulamıştır. 
+                    </p>
+                    <p style="font-size: 1.05em; line-height: 1.8; color: #333; margin-top: 15px;">
+                        <strong>Word2vec</strong> modelleri, Troyer metodunun ruh haliyle uyumlu kalitede kümeleme ve geçiş analizini otomatik hale getirmiş, böylece:
+                    </p>
+                    <ul style="margin-top: 15px; margin-left: 20px; font-size: 1.05em; line-height: 1.8;">
+                        <li>✓ Klinik zaman kazandırılmış</li>
+                        <li>✓ Türkçe için ilk kapsamlı normatif veri seti oluşturulmuş</li>
+                        <li>✓ Açık kaynak araçlar sağlanmış</li>
+                        <li>✓ Diğer dillere uyarlanabilir bir metodoloji geliştirilmiştir</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Doktora Tezi - Türkçe Semantik Sözel Akıcılık Testlerinin Hesaplamalı Dilbilimsel Yöntemlerle Analizi</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Tüm section-content öğelerini gizle
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Tüm buttonları aktif olmayan duruma getir
+            const buttons = document.querySelectorAll('.nav-buttons button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Seçilen section'u göster
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+
+            // Tıklanan buttonu aktif yap
+            const clickedButton = document.querySelector(`button[onclick="showSection('${sectionId}')"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+
+            // Sayfanın en üstüne scroll et
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
