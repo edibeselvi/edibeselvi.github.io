@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Eric R. Kandel'in Bellek Araştırmaları</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-left: 5px solid #764ba2;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        p, li {
+            color: #333;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            margin-left: 30px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Slayt 1: Başlık -->
+        <div class="slide active">
+            <h1>Dr. Eric R. Kandel'in Bellek Araştırmaları: Belleğin Peşinde</h1>
+            <p class="subtitle">Nobel'e Giden Kronolojik Süreç</p>
+            <div class="highlight-box" style="margin-top: 80px;">
+                <h3>Özet ve Kapsam</h3>
+                <p>Bu akademik inceleme, Dr. Eric R. Kandel'in öğrenme ve belleğin hücresel ve moleküler temellerini aydınlatan ve 2000 yılında Nobel Fizyoloji veya Tıp Ödülü ile taçlandırılan araştırmalarının kronolojik gelişimini sistematik olarak sunmaktadır.</p>
+                <p>Kandel'in bilimsel yolculuğu, travmatik kişisel deneyimlerden aldığı ilhamla başlayıp zihinsel süreçlerin sinir hücreleri ve moleküler sinyallerle çözümlenebilir olduğunu kanıtlayan bir sürece odaklanmıştır.</p>
+            </div>
+        </div>
+
+        <!-- Slayt 2: Kişisel ve Felsefi Kökenler -->
+        <div class="slide">
+            <h2>I. Kişisel ve Felsefi Kökenler</h2>
+            <h3>Belleğe Yönelişin Tetikleyicileri (Erken Dönem)</h3>
+            <p>Kandel'in bilimsel arayışının temelini, travmatik çocukluk anılarının sinir hücrelerinde nasıl kalıcı izler bıraktığı sorusu oluşturur.</p>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Dönem</th>
+                        <th>Olay / Fikir</th>
+                        <th>Etki ve Bilimsel Çerçeve</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Erken Çocukluk</strong></td>
+                        <td>9. doğum gününde yaşanan Viyana'daki Nazi baskını gibi olayların canlı biçimde anımsanması</td>
+                        <td>Bellek ve Kimlik Sürekliliği: Belleğin, bireysel kimliğin sürekliliğini sağladığı, ruhsal bozukluklarda (PTSD, Şizofreni) görülen işlev bozukluklarının anlaşılmasında kilit rol oynadığı fikri pekişti</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Akademik Yönelim</strong></td>
+                        <td>Tarih → Psikanaliz → Tıp Fakültesi (Belleğin biyolojik temellerini arayış)</td>
+                        <td>Biyolojikleştirme: Zihnin ve bilincin de biyolojik temelli olduğu ve moleküler sinyallerle açıklanabileceği fikri kabul edildi</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slayt 3: Kuramsal Temellerin Atılması -->
+        <div class="slide">
+            <h2>II. Kuramsal Temellerin Atılması ve Metodolojik Yönelim</h2>
+            <h3>(1955–1957)</h3>
+            <p>Bu dönem, psikanalitik arayışın sona erip nöron düzeyinde öğrenme-bellek araştırmasına odaklanıldığı ve belleğin çoğulluğu ilkesinin benimsendiği dönemi kapsar.</p>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Yıl</th>
+                        <th>Olay / Kuramsal Gelişim</th>
+                        <th>Ana Bulgular / Dönüm Noktası</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1955</strong></td>
+                        <td>Columbia Üniversitesi'nde Harry Grundfest Laboratuvarı'nda Çalışma</td>
+                        <td>Psikanalitik arayıştan nörobiyolojik indirgemeciliğe geçiş: Grundfest'in yönlendirmesiyle bu arayışın o dönemdeki beyin biliminin sınırlarını aştığı kabul edildi. Hücre düzeyinde öğrenme-bellek araştırmasına odaklanıldı</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1957</strong></td>
+                        <td>Brenda Milner'in H.M. Vakası'nın Yayınlanması</td>
+                        <td>Belleğin Çoğulluğu ve Yerelleşmesi kanıtlandı: Hipokampus, yeni anıların uzun süreli belleğe dönüşümü için zorunludur. Açık (bildirimsel) bellek ile Örtük (yordamsal) bellek ayrıştırıldı</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slayt 4: Örtük Belleğin Hücresel Analizi -->
+        <div class="slide">
+            <h2>III. Örtük Belleğin Hücresel Analizi</h2>
+            <h3>(1960'lar – 1970'ler)</h3>
+            <p>Bu dönem, Aplysia californica (Deniz Salyangozu) modelinin kullanılmasıyla örtük öğrenmenin ve kısa/uzun süreli belleğin sinaptik temellerinin haritalandırılmasına adanmıştır.</p>
+            
+            <div class="highlight-box">
+                <h3>1960'lar Başları - Aplysia'da Sinirsel Öğrenme Analogları</h3>
+                <ul>
+                    <li>Alışma analogunda homosinaps çöküşü (zayıflama) gözlemlendi</li>
+                    <li>Duyarlılaştırma analogunda heterosinaps pekişmesi (kuvvetlenme) gösterdi</li>
+                    <li>Klasik koşullama analogunda tepki artışı, yalnızca eşleştirme zamanlaması doğru olduğunda maksimize edildi</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>1962–1965 - Paris'te Ladislav Tauc ile Çalışmalar</h3>
+                <p>Uzun süreli alışmanın sinaptik bağlantıların kalıcı olarak yeniden düzenlenmesiyle ilişkili olduğu ortaya çıktı. Belleğin, sinir devrelerindeki plastisiteye dayandığı kanıtlandı.</p>
+            </div>
+        </div>
+
+        <!-- Slayt 5: Sinir Devrelerinin Haritalandırılması -->
+        <div class="slide">
+            <h2>III. Örtük Belleğin Hücresel Analizi (devam)</h2>
+            <h3>1968–1971: Aplysia Solungaç Geri Çekme Refleksi</h3>
+            
+            <div class="highlight-box">
+                <h3>Temel Bulgular</h3>
+                <p>Belleğin, sabit devrelerdeki sinaps kuvvetindeki değişikliklere dayandığı kanıtlandı; sinaps değişikliklerinin kalıcılığı, belleğin süresiyle örtüştürüldü.</p>
+                <p><strong>Sonuç:</strong> Belleğin oluşumu, var olan sinirsel bağlantılardan belirli bir alt kümenin seçilip kuvvetinin değiştirilmesiyle gerçekleştiği sonucuna varıldı.</p>
+            </div>
+        </div>
+
+        <!-- Slayt 6: Moleküler Temeller -->
+        <div class="slide">
+            <h2>IV. Moleküler Temellerin ve Açık Belleğin Çözümlenmesi</h2>
+            <h3>(1970'ler Sonu – 2000)</h3>
+            <p>Bu dönem, öğrenme ve belleğin ardındaki moleküler anahtarların (CREB) ve bu ilkelerin memeli hipokampusundaki açık belleğe uygulanmasının araştırılmasına odaklanmıştır.</p>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Yıl</th>
+                        <th>Çalışma</th>
+                        <th>Ana Bulgular</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1970'ler Sonu</strong></td>
+                        <td>Uzun Süreli Bellek</td>
+                        <td>Uzun süreli belleğin tekrara, sağlamlaşma sürecine ve sinir hücreleri arasındaki kalıcı yapısal değişikliklere dayandığı açıklandı. Öğrenmenin sinaps sayısını artırıp azaltarak sinir devrelerini yeniden yapılandırdığı gösterildi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1980'ler</strong></td>
+                        <td>cAMP, PKA, CREB Yolları</td>
+                        <td>Kısa süreli belleğin mevcut bağlantıların geçici olarak güçlenmesiyle sınırlı olduğu; uzun süreli belleğin ise yeni protein sentezi ve gen ekspresyonunu (cAMP → PKA → CREB yolu) gerektirdiği keşfedildi</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slayt 7: Açık Bellek Çalışmaları -->
+        <div class="slide">
+            <h2>IV. Moleküler Temeller (devam)</h2>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Yıl</th>
+                        <th>Çalışma</th>
+                        <th>Ana Bulgular</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1989</strong></td>
+                        <td>Açık Bellek Çalışmalarının Başlatılması (LTP ve Mekân Hücresi)</td>
+                        <td>NMDA reseptörünü engellemenin farelerde mekânsal öğrenme bozukluğuna yol açtığı gösterildi. Aplysia'daki temel moleküler mekanizmaların (sinaptik güçlenme, CREB düzenlemesi) memelilerde de kullanıldığı, dolayısıyla öğrenmenin temel prensiplerinin evrimsel olarak korunduğu kanıtlandı</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1990</strong></td>
+                        <td>Morris/Barnes Labirentleri ile Farelerde Uzamsal Bellek Testi</td>
+                        <td>Uzamsal haritanın kalıcılığının, hayvanın çevreye gösterdiği dikkat derecesiyle doğrudan ilişkili olduğu bulundu. Sabitlemenin ardındaki ayarcı patikanın Dopamin olduğu gösterildi</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slayt 8: Nobel Ödülü -->
+        <div class="slide">
+            <h2>2000 Nobel Fizyoloji veya Tıp Ödülü</h2>
+            
+            <div class="highlight-box" style="margin-top: 60px;">
+                <h3>Ödül Konusu</h3>
+                <p>Öğrenme ve belleğin moleküler temelleri, özellikle cAMP → PKA → CREB → protein sentezi yolunun keşfi.</p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Kandel'in Nobel Konuşması</h3>
+                <ul>
+                    <li>Zihnin beynin işlem dizisinden ibaret olduğunu ilan etti</li>
+                    <li>Kendini bilmenin moleküler süreçlerin çözülebilir bilimsel bir sorusu haline geldiğini vurguladı</li>
+                    <li>Beyin plastisitesi ve belleğin kimyasal temeli üzerine odaklandı</li>
+                    <li>Zihin biliminin doğa bilimleri ve beşeri bilimler arasında bir köprü kurma potansiyeli taşıdığını vurguladı</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 9: Disiplinlerarası Dirençler -->
+        <div class="slide">
+            <h2>V. Gelecek Perspektifleri ve Disiplinlerarası Direnç</h2>
+            <h3>1. Disiplinlerarası Dirençler</h3>
+            
+            <div class="highlight-box">
+                <h3>Psikanalitik Direnç</h3>
+                <p>Psikanalist Herman Nunberg'in, Kandel'in beyin araştırmalarına yönelmesini psikanalizdeki başarısızlık olarak yorumlaması. Marshall Edelson gibi bazı psikanalistlerin, zihnin ve bedenin ayrı ele alınması gereken mutlak bir ayrım olduğunu savunması.</p>
+                <p><strong>Kandel'in Yanıtı:</strong> Her zihinsel durumun bir beyin hali olduğunu ve her zihin bozukluğunun beyin işlevinde bir bozukluk olduğunu vurguladı.</p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Memeli Takıntısı</h3>
+                <p>Memeli beyni üzerinde çalışan bilimcilerin, omurgasız hayvanlarla yapılan araştırmaların (Aplysia) insan için genelleştirilemeyeceği yönündeki düşünceleri.</p>
+                <p><strong>Çözüm:</strong> Bu direnç, evrim boyunca genlerin ve proteinlerin inanılmaz biçimde muhafaza edildiğinin moleküler biyoloji ile kanıtlanmasıyla aşılmıştır.</p>
+            </div>
+        </div>
+
+        <!-- Slayt 10: Araştırmanın Evrenselliği -->
+        <div class="slide">
+            <h2>2. Araştırmanın Evrenselliği</h2>
+            
+            <div class="highlight-box">
+                <p>Basit hayvanlarla yapılan araştırmalardan ortaya çıkan molekül ve hücre düzeyindeki öğrenme ve bellek mekanizmalarının genellenebilirliği kanıtlanmıştır.</p>
+                
+                <h3>Temel Bulgu</h3>
+                <p>İlk kez Aplysia'da tespit edilen düzenleyici CREB proteininin, salyangozlardan farelere ve insanlara kadar pek çok öğrenme biçiminde kısa süreli bellekten uzun süreli belleğe geçişin önemli bir bileşeni olduğu bulunmuştur.</p>
+                
+                <p><strong>Sonuç:</strong> Öğrenmenin, ortak bir mantığı ve kilit bileşenleri paylaşan bir süreçler ailesi olduğu anlaşılmıştır.</p>
+            </div>
+        </div>
+
+        <!-- Slayt 11: Gelecek Araştırma Gündemi -->
+        <div class="slide">
+            <h2>3. Geleceğin Araştırma Gündemi</h2>
+            <h3>Yeni Zihin Biliminde Beklentiler</h3>
+            
+            <p>Kandel, gelecekteki araştırmaların, sistem özelliklerini incelemeye odaklanması gerektiğini ve bunun için hücre ve molekül sinirbilimini bilişsel sinirbilime bağlayan kavramsal değişikliklere ihtiyaç duyulduğunu savunur.</p>
+            
+            <div class="highlight-box">
+                <h3>Üç Ana Araştırma Sorusu:</h3>
+                <ul>
+                    <li><strong>Bilinç ve Dikkat Mekanizması:</strong> Bilinçdışı duyu bilgisinin nasıl işlendiğini ve bilinçli dikkatin (Dopamin gibi ayarcı sistemlerle) beyinde belleği nasıl kararlı hale getirdiğini anlamak</li>
+                    <li><strong>Bilinçli ve Bilinçdışı Zihinsel İşlemlerin İlişkisi:</strong> Helmholtz ve Freud'un fikirlerinden yola çıkarak, zihinsel süreçlerin çoğunun bilinçdışı olduğu ve dikkatle bilince erişilebildiği fikrini beyin görüntüleme teknikleriyle incelemek</li>
+                    <li><strong>Moleküler Sosyobiyoloji:</strong> Sosyoloji ile moleküler biyoloji arasında köprü kurarak, sosyal davranışların moleküler temellerini araştırmak</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 12: Sonuç -->
+        <div class="slide">
+            <h2>Sonuç</h2>
+            
+            <div class="highlight-box" style="margin-top: 80px;">
+                <p>Kandel, psikiyatri eğitimi ve psikanalize duyduğu ilginin çalışmalarını ve bilinçli/bilinçdışı belleğe olan ilgisini şekillendiren kapsamlı fikirler için eğitimsel bir temel oluşturduğunu belirtir.</p>
+                
+                <p><strong>Kariyerindeki bu başlangıç aşaması bir sapma değil, tüm başarılarının tabanı olmuştur.</strong></p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Bilim Yapmanın Doğası</h3>
+                <p>Kandel, kariyerini gözden geçirirken bilim yapmanın (Talmud geleneği gibi) yoğun, sosyal ve duygusal açıdan ödüllendirici bir süreç olduğunu belirtmiştir.</p>
+            </div>
+        </div>
+
+        <!-- Kontrol Paneli -->
+        <div class="controls">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Önceki</button>
+            <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">12</span></span>
+            <button id="nextBtn" onclick="changeSlide(1)">Sonraki →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+        
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            if (event.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
