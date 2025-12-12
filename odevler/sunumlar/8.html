@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L2 Dinleme: Anlam Yaratma Sanatı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+
+        .box p {
+            font-size: 1em;
+            margin-bottom: 0;
+        }
+
+        .quote {
+            background: #f8f9fa;
+            border-left: 5px solid #764ba2;
+            padding: 30px;
+            margin: 30px 0;
+            font-style: italic;
+            font-size: 1.3em;
+            border-radius: 10px;
+        }
+
+        .quote-author {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .strategy-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .strategy-box h4 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .strategy-box ul {
+            list-style: none;
+            font-size: 0.9em;
+            text-align: left;
+        }
+
+        .strategy-box li {
+            font-size: 0.9em;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .strategy-box li:before {
+            content: "• ";
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1em;
+            font-weight: bold;
+            color: white;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .circle1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .circle2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .circle3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+        ul {
+            margin-left: 30px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .logo {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            color: white;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Kapak -->
+        <div class="slide active">
+            <h1 class="center-text">Dinlemek Sadece Duymak Değildir:<br>İkinci Dilde Anlam Yaratma Sanatı</h1>
+            <p class="subtitle center-text">Bilişsel bilimin ötesine geçerek dinleme sürecini Hermenötik ve İçsel Konuşma mercekleriyle yeniden keşfetmek.</p>
+        </div>
+
+        <!-- Slide 2: Mevcut Resim -->
+        <div class="slide">
+            <h2>Mevcut Resim: Dinleme Aktif ve Stratejik Bir Süreçtir</h2>
+            <p>Son 15 yıldır, ikinci dil (L2) dinleme anlayışımız bilişsel bilim tarafından şekillendirilmiştir. Bu görüş, dinlemeyi pasif bir beceri olarak gören eski yapısalcı/davranışçı modelleri geride bırakmıştır.</p>
+            <div class="grid-2">
+                <div class="box">
+                    <h3>Dinamik Etkileşim</h3>
+                    <p>Dinleyiciler gelen mesajları pasif bir şekilde almazlar; anlamı aktif olarak inşa ederler.</p>
+                </div>
+                <div class="box">
+                    <h3>Stratejik Katılım</h3>
+                    <p>Konu gelişimini tahmin etme, tanımlanabilir dinleme stratejileri kullanma ve duyduklarını ön bilgileriyle ilişkilendirme gibi bilinçli ve otomatik stratejiler kullanırlar.</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <p><strong>Okuma Araştırmalarından Etkilenme:</strong> Bu model, büyük ölçüde okuma süreci üzerine yapılan araştırmalardan esinlenmiştir.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Boşluk -->
+        <div class="slide">
+            <h2>Ancak Resim Tamamlanmış Değil: Test Etmede İyiyiz, Peki ya Öğretme?</h2>
+            <p>Bilişsel model güçlü olsa da, bir boşluk bırakır. Bu durum, L2 eğitiminde bir ikileme yol açar:</p>
+            <div class="quote">
+                "İkinci dil eğitiminde, öğrencilerin dinleme becerilerini temel süreçleri net bir şekilde anlayarak geliştirmekten çok, dinlediğini anlama becerisini test etmede daha iyi hale geldik."
+                <div class="quote-author">- D. Matthews (1982)</div>
+            </div>
+            <div class="box">
+                <p><strong>Sorunlar:</strong></p>
+                <ul>
+                    <li>Anlamanın öznel, birlikte yaratılan doğasını tam olarak yakalayamaz.</li>
+                    <li>Odak, genellikle doğru ürün ('doğru cevap') üzerindedir, sürecin kendisi üzerinde değil.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Hermenötik -->
+        <div class="slide">
+            <h2>İlk Renk Katmanı: Hermenötik ile Anlam Yaratımına Giriş</h2>
+            <p>Kelimenin tam anlamıyla 'yorumlama sanatı' anlamına gelen Hermenötik, felsefi bir gelenektir.</p>
+            <div class="quote">
+                Yorumcu, yazar tarafından başlangıçta yaratılan nesnel bir anlamı yeniden yaratmaz; yorumcu, anlamın yaratılmasında yazara katılır.
+            </div>
+            <div class="highlight">
+                <p><strong>Anlamı:</strong> Konuşmacılar mesajlar sunar, ancak asıl anlamlar dinleyicilerin dünyasına hermenötik yorumlama süreciyle girer. Dinleme, bir işbirliği sürecidir.</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Hermenötiğin 4 Teması -->
+        <div class="slide">
+            <h2>Hermenötiğin Dört Teması: Dinleme Sürecine Felsefi Bir Bakış</h2>
+            <div class="grid-4">
+                <div class="box">
+                    <h3>1. Açıklık (Openness)</h3>
+                    <p>Anlamlar statik veya kapalı değildir; sürekli gelişime ve değişime açıktır. Dinleyicinin öznelliği sürecin ayrılmaz bir parçasıdır.</p>
+                </div>
+                <div class="box">
+                    <h3>2. Dilsellik (Linguisticality)</h3>
+                    <p>Dil, deneyim dünyasını sadece temsil etmez, onu 'açığa çıkarır'. Dil, dünyayı deneyimlemek, düşünmek ve anlamak için bir araçtır.</p>
+                </div>
+                <div class="box">
+                    <h3>3. Oyun (Play)</h3>
+                    <p>Konuşma, kuralları olan ancak sonucu belirsiz bir oyuna benzer. Katılımcılar hem oyunu oynar hem de oyun tarafından oynanır.</p>
+                </div>
+                <div class="box">
+                    <h3>4. Ufukların Kaynaşması</h3>
+                    <p>Anlama, iki veya daha fazla insanın 'ufkunun' birleşmesiyle gerçekleşir. Bu, dinlemeyi bir müzakere süreci olarak tanımlar.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Ufukların Kaynaşması -->
+        <div class="slide">
+            <h2>Ufukların Kaynaşması: İki Dünyanın Buluştuğu An</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Tanım:</h3>
+                    <p>"Ufuk", bir kişinin belirli bir bakış açısından görülebilen her şeyi kapsayan görüş alanıdır. Dinleyicinin ön bilgisi, önyargıları, duygusal durumu, hırsları, korkuları ve onu bir birey olarak tanımlayan her şeydir.</p>
+                </div>
+                <div>
+                    <h3>Süreç:</h3>
+                    <ul>
+                        <li>Ufuklar statik değil, akışkandır.</li>
+                        <li>Anlama gerçekleştiğinde, yorumcunun ufku diğerininkini içerecek şekilde genişler.</li>
+                        <li>'Kaynaşma', ufukların tamamen uzlaştığı anlamına gelmez. Bu iki dünya arasındaki 'gerilim' de anlamın bir parçasıdır.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: İçsel Konuşma -->
+        <div class="slide">
+            <h2>İkinci Katman: İçsel Konuşma ile Zihnin İç Dünyasına Yolculuk</h2>
+            <p>Vygotsky, Luria ve Sokolov'un çalışmalarından türetilen İçsel Konuşma, insanların kendi zihinleri içinde (kişisel-içi) iletişim kurma biçimidir.</p>
+            <div class="box">
+                <h3>Temel Fikir</h3>
+                <p>Başkalarını dinlerken, bunu "içsel konuşma" adını verdikleri bir aracı aracılığıyla yaparız.</p>
+            </div>
+            <div class="highlight">
+                <p><strong>Süreç Olarak Dinleme:</strong> Bu bakış açısıyla dinleme, "başkaları tarafından üretilen kelime ve fikirlerin, bireysel dinleyicinin zihnindeki kavramsal düşüncelere dönüştürülmesini içeren bir içsel konuşma davranışıdır."</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Dışsal vs İçsel -->
+        <div class="slide">
+            <h2>Dışsal ve İçsel Konuşmanın Farklı Dünyaları</h2>
+            <p>İçsel konuşma, dışsal konuşmanın sadece içsel bir versiyonu değildir; kendi başına bir işlevdir ve kendine özgü nitelikleri vardır:</p>
+            <div class="grid-2">
+                <div class="box">
+                    <h3>İçsel Konuşma (Kişisel-içi)</h3>
+                    <ul>
+                        <li><strong>Mesajlar:</strong> Son derece benmerkezci</li>
+                        <li><strong>Anlam:</strong> Anlamsal olarak yoğun</li>
+                        <li><strong>Yapı:</strong> Yoğunlaştırılmış, eliptik</li>
+                        <li><strong>Amaç:</strong> Düşünme ve planlama</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>Dışsal Konuşma (Kişilerarası)</h3>
+                    <ul>
+                        <li><strong>Mesajlar:</strong> Dinleyici odaklı</li>
+                        <li><strong>Anlam:</strong> Açık ve ayrıntılı</li>
+                        <li><strong>Yapı:</strong> Tam ve gramatikal</li>
+                        <li><strong>Amaç:</strong> İletişim</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Vygotsky Alıntı -->
+        <div class="slide">
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                <div class="quote" style="font-size: 1.6em;">
+                    Dışsal konuşmada düşünce kelimelerde somutlaşırken, içsel konuşmada kelimeler, düşünceyi doğururken ölür. İçsel konuşma, büyük ölçüde saf anlamlarla düşünmektir.
+                    <div class="quote-author">L.S. Vygotsky, Thought and Language</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Zihinsel Esneklik -->
+        <div class="slide">
+            <h2>Zihinsel Esneklik: Akademik Dinlemenin İki Temel Becerisi</h2>
+            <p>Vygotsky, dinleyicinin zihninde daha büyük talepler ortaya çıktığında devreye giren iki zihinsel aktivite önermiştir.</p>
+            <div class="grid-2">
+                <div class="box">
+                    <h3>1. Merkezden Uzaklaşma (Decentering)</h3>
+                    <p><strong>Ne?</strong> Mesajları tarafsızca veya başka birinin bakış açısından anlama girişimi.</p>
+                    <p><strong>Neden Önemli?</strong> Başkasının perspektifini geçici olarak benimseme, kendini aşma ve dünyayı başkalarının gördüğü gibi görme esnekliğini gösterir.</p>
+                </div>
+                <div class="box">
+                    <h3>2. Yer Değiştirme (Displacement)</h3>
+                    <p><strong>Ne?</strong> Dili dinlerken zaman ve mekânı aşmak için hayal gücünü kullanma kapasitesi.</p>
+                    <p><strong>Örnek:</strong> Bir radyo tiyatrosu dinlerken zihinde setleri, kostümleri ve jestleri yeniden yaratmak.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Teoriden Pratiğe -->
+        <div class="slide">
+            <h2>Teoriden Pratiğe: Bu İki Bakış Açısı Sınıfı Nasıl Değiştirir?</h2>
+            <p>Hermenötik ve İçsel Konuşma, dinleme öğretimine yönelik yaklaşımımızı temelden zenginleştirir.</p>
+            <div class="grid-2">
+                <div class="box">
+                    <h3>Hermenötik'ten Çıkarımlar</h3>
+                    <ul>
+                        <li><strong>Odak Değişimi:</strong> 'Doğru' cevabı bulmaktan, anlamı ortaklaşa inşa etme sürecini geliştirmeye geçiş.</li>
+                        <li><strong>Öznelliği Kucaklama:</strong> Öğrencinin ön bilgisinin ve kişisel yorumlarının değerli bir katkı olduğunu kabul etme.</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3>İçsel Konuşma'dan Çıkarımlar</h3>
+                    <ul>
+                        <li><strong>Doğal Eğilimlerle Çalışma:</strong> Öğrencilerin doğal özetleme eğilimiyle birlikte çalışmak.</li>
+                        <li><strong>Strateji Öğretimi:</strong> Ana kavramları dinlemeyi ve daha az kritik olanları ayıklamayı öğretmek.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Tamamlanmış Model -->
+        <div class="slide">
+            <h2>Tamamlanmış Resim: Dinlemenin Bütünsel ve Dinamik Bir Modeli</h2>
+            <p class="center-text">Dinleme sürecini sadece bilişsel bir şema olarak değil, canlı ve çok katmanlı bir sanat eseri olarak anladığımızda, onu daha etkili bir şekilde öğretebiliriz.</p>
+            <div class="diagram">
+                <div class="circle circle1">Yapı (İskelet):<br>Bilişsel Bilim</div>
+                <div class="circle circle2">Renk ve Akışkanlık:<br>Hermenötik</div>
+                <div class="circle circle3">Derinlik ve Doku:<br>İçsel Konuşma</div>
+            </div>
+            <p class="center-text">Bu zenginleştirilmiş model, bize sadece dinlemeyi test etmek için değil, aynı zamanda onu öğretmek için de yeni araçlar sunar.</p>
+        </div>
+
+        <!-- Slide 13: Stratejiler -->
+        <div class="slide">
+            <h2>Dinleyicinin Alet Çantası: Akademik Ortamlar İçin Stratejiler</h2>
+            <p>Öğrencilerin akademik dersleri anlamlandırmayı öğrenirken kullanabilecekleri zihinsel stratejiler:</p>
+            <div class="strategy-grid">
+                <div class="strategy-box">
+                    <h4>1. Hatırlama ve Özetleme</h4>
+                    <ul>
+                        <li>Bu sunumun genel amacı ne?</li>
+                        <li>Şu anda konuşmacı ne diyor?</li>
+                        <li>Bunu hatırlamam gerekiyor mu?</li>
+                    </ul>
+                </div>
+                <div class="strategy-box">
+                    <h4>2. Tahmin Yürütme</h4>
+                    <ul>
+                        <li>Konuşmacı nereye gidiyor?</li>
+                        <li>Bu bilgiyi bildiğim bir şeyle ilişkilendirebilir miyim?</li>
+                        <li>Bir sonraki adım ne olabilir?</li>
+                    </ul>
+                </div>
+                <div class="strategy-box">
+                    <h4>3. Kendini Sınama</h4>
+                    <ul>
+                        <li>Konuşmacının anlattıklarını özetleyebilir miyim?</li>
+                        <li>Çoğunu anlıyor muyum?</li>
+                        <li>Dikkatim dağılıyor mu?</li>
+                    </ul>
+                </div>
+                <div class="strategy-box">
+                    <h4>4. Konuyu Derinlemesine İnceleme</h4>
+                    <ul>
+                        <li>Kullanılan anahtar kelimeler neler?</li>
+                        <li>Hangi kavramlar daha önemli?</li>
+                        <li>Fikirler arasında bağlantı var mı?</li>
+                    </ul>
+                </div>
+                <div class="strategy-box" style="grid-column: 2;">
+                    <h4>5. Başkalarıyla Etkileşim</h4>
+                    <ul>
+                        <li>Sınıfta söz almak için uygun bir zaman mı?</li>
+                        <li>Soru sormak veya yardım istemek için ne yapmalıyım?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Eğitimcinin Rolü -->
+        <div class="slide">
+            <h2>Eğitimcinin Rolü: Öğrencilerin Pratik Yapacağı "Stüdyoyu" Yaratmak</h2>
+            <p>Öğrencilerin akademik dinleme becerilerini geliştirmeleri için sadece stratejilere değil, aynı zamanda bu stratejileri uygulayabilecekleri otantik ortamlara da ihtiyaçları vardır.</p>
+            <div class="box">
+                <h3>Eğitimci Sorumlulukları:</h3>
+                <ul>
+                    <li><strong>İçerik Sunucusu Olmak:</strong> Akademik olarak zorlayıcı konularda rahat ve yetenekli bir şekilde sözlü sunumlar yapmak.</li>
+                    <li><strong>Etkileşimli Dersler Vermek:</strong> Canlı, spontane ve öngörülemez etkileşimler yaratmak. Öğrencilerin soru sormasına, özetlemesine ve tartışmasına olanak tanımak.</li>
+                    <li><strong>Dengeli Bir Yaklaşım:</strong> Öğretmen merkezli ders anlatımını, küçük grup ve öğrenci merkezli etkinliklerle dengelemek.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 15: Üç Mercek -->
+        <div class="slide">
+            <h2>Anlama Sürecini Aydınlatan Üç Mercek</h2>
+            <p>Dinleme deneyiminin temelini oluşturan süreçleri daha iyi kavramak için, öğretmenler olarak elimizde güçlü araçlar var.</p>
+            <div class="diagram">
+                <div class="circle circle1">Bilişsel Bilim Merceği:<br>Sürecin yapısını gösterir</div>
+                <div class="circle circle2">Hermenötik Merceği:<br>Yorumun öznelliğini ortaya çıkarır</div>
+                <div class="circle circle3">İçsel Konuşma Merceği:<br>Zihnin içsel işleyişini aydınlatır</div>
+            </div>
+            <div class="highlight">
+                <p class="center-text"><strong>Kapanış Mesajı:</strong> Bu tamamlayıcı mercekler, L2 dinleme öğretiminde daha derin bir kavramsal anlayışı teşvik ederek, öğrencilerimizin anlam yaratma sanatında ustalaşmalarına yardımcı olmamızı sağlar.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current">1</span> / <span id="total">15</span>
+    </div>
+
+    <div class="controls">
+        <button id="prev">← Önceki</button>
+        <button id="next">Sonraki →</button>
+    </div>
+
+    <div class="logo">NotebookLM</div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current').textContent = currentSlide + 1;
+            
+            document.getElementById('prev').disabled = currentSlide === 0;
+            document.getElementById('next').disabled = currentSlide === totalSlides - 1;
+        }
+
+        document.getElementById('prev').addEventListener('click', () => {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        });
+
+        document.getElementById('next').addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) showSlide(currentSlide + 1);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) showSlide(currentSlide - 1);
+            } else if (e.key === 'ArrowRight') {
+                if (currentSlide < totalSlides - 1) showSlide(currentSlide + 1);
+            }
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
