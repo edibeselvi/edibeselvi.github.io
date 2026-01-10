@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İki Dilli Çocuklarda Okuduğunu Anlama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.6s ease-in;
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .citation {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        p, li {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1em;
+            margin: 15px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #764ba2;
+            margin: 25px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .stats-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            margin-top: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 12px;
+            margin: 10px 0;
+            background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+            border-radius: 10px;
+            padding-left: 20px;
+            transition: all 0.3s ease;
+        }
+
+        ul li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        ul li::before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-prev {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            flex-grow: 1;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .slide-counter {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .icon {
+            font-size: 2.5em;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+            
+            .stats-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slide-counter" id="slideCounter">Slayt 1 / 7</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Slide 1: Başlık ve Atıf -->
+        <div class="slide active">
+            <div class="citation">
+                <strong>Kaynak Atıf:</strong><br>
+                Ortiz-Villalobos, V., Kovelman, I., & Satterfield, T. (2025). Can the simple view of reading inform the study of reading comprehension in young Spanish heritage language learners? <em>Reading Research Quarterly</em>, 60, Article e70013. https://doi.org/10.1002/rrq.70013
+            </div>
+            <h1>📚 İki Dilli Çocuklarda Okuduğunu Anlama</h1>
+            <h2>İspanyolca Miras Dili Üzerine Bir Araştırma</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 Bu Araştırma Neden Önemli?</h3>
+                <p>Amerika Birleşik Devletleri'ndeki okul nüfusunun <strong>%29'unu</strong> Hispanik öğrenciler oluşturmaktadır. Bu çocuklar evde İspanyolca konuşarak büyürken, eğitimlerini İngilizce egemen bir ortamda sürdürmektedir.</p>
+            </div>
+
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="icon">🏫</div>
+                    <div class="stat-number">%29</div>
+                    <div class="stat-label">Hispanik Öğrenci Oranı</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon">🌍</div>
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Dil: İspanyolca + İngilizce</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Okumanın Basit Görünümü -->
+        <div class="slide">
+            <h2>🔍 Okumanın Basit Görünümü (OBG) Modeli</h2>
+            
+            <div class="formula-box">
+                OKUDUĞUNU ANLAMA = KOD ÇÖZME × DİLSEL ANLAMA
+            </div>
+
+            <div class="highlight-box">
+                <p>Bu model, bir binanın temelini oluşturan iki ana sütun gibidir. Biri zayıfsa, tüm yapı sallanır. Hatta bileşenlerden biri sıfırsa, okuduğunu anlama da sıfır olur!</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bileşen</th>
+                        <th>Tanım</th>
+                        <th>Örnek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Kod Çözme</strong></td>
+                        <td>Basılı kelimeleri doğru ve akıcı bir şekilde tanıma ve seslendirme becerisi</td>
+                        <td>"k-e-d-i" harflerini görüp "kedi" kelimesini hızlıca okuyabilmek</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dilsel Anlama</strong></td>
+                        <td>Konuşulan dili anlama yeteneği. Kelime bilgisi ve dilbilgisini içerir</td>
+                        <td>"Kedi koltuğun altına saklandı" cümlesinin anlamını kavramak</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 3: Miras Dili Konuşanları -->
+        <div class="slide">
+            <h2>🌟 Miras Dili Konuşanları Kimlerdir?</h2>
+            
+            <div class="highlight-box">
+                <p><strong>Miras Dili Konuşanı:</strong> Evde ailesiyle anadilini (İspanyolca) konuşan, ancak okul ve sosyal hayatının büyük bölümünü farklı bir baskın dilin (İngilizce) konuşulduğu bir ülkede geçiren iki dilli bireyler.</p>
+            </div>
+
+            <h3>💎 İspanyolca Okuryazarlığının Önemi</h3>
+            <ul>
+                <li>Kültürel kimliklerini güçlendirir</li>
+                <li>Aileleri ve topluluklarıyla olan bağlarını derinleştirir</li>
+                <li>Sosyal faaliyetlere aktif katılımlarını sağlar</li>
+                <li>İngilizce'deki okuryazarlık gelişimini destekler</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Önemli Bulgu:</strong> Miras dilindeki beceriler, ikinci dil olan İngilizce'deki okuryazarlık gelişimini de desteklemektedir. İspanyolca'da kazanılan güçlü bir temel, çocuğun İngilizce'de de başarılı olmasına yardımcı olan bir köprü görevi görür!</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Araştırma Yöntemi -->
+        <div class="slide">
+            <h2>🔬 Araştırmanın Amacı ve Yöntemi</h2>
+            
+            <h3>🎯 Araştırmanın Hedefleri</h3>
+            <ul>
+                <li><strong>Erken Okurlar İçin:</strong> İspanyolca kod çözme ve dilsel anlama becerileri, okuduğunu anlamayı ne ölçüde etkiliyor?</li>
+                <li><strong>Okuma Öncesi Çocuklar İçin:</strong> Bu iki temel becerinin öncüleri erken gelişim döneminde nasıl bir ilişki içindedir?</li>
+            </ul>
+
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="icon">👶</div>
+                    <div class="stat-number">74</div>
+                    <div class="stat-label">Toplam Katılımcı</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon">📖</div>
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">Erken Okur</div>
+                </div>
+                <div class="stat-item">
+                    <div class="icon">🎨</div>
+                    <div class="stat-number">32</div>
+                    <div class="stat-label">Okuma Öncesi</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grup</th>
+                        <th>Beceri Alanı</th>
+                        <th>Değerlendirilen Beceriler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><strong>Erken Okurlar</strong></td>
+                        <td>Kod Çözme</td>
+                        <td>Doğru ve akıcı okuma</td>
+                    </tr>
+                    <tr>
+                        <td>Dilsel Anlama</td>
+                        <td>Kelime dağarcığı ve dilbilgisi</td>
+                    </tr>
+                    <tr>
+                        <td>Okuduğunu Anlama</td>
+                        <td>Metni yeniden anlatma</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Okuma Öncesi</strong></td>
+                        <td>Kod Çözme Öncülleri</td>
+                        <td>Harf tanıma, ses farkındalığı</td>
+                    </tr>
+                    <tr>
+                        <td>Dilsel Anlama</td>
+                        <td>Kelime dağarcığı ve dilbilgisi</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 5: Ana Bulgular - Erken Okurlar -->
+        <div class="slide">
+            <h2>📊 Ana Bulgular: Erken Okurlar</h2>
+            
+            <div class="highlight-box">
+                <h3>🏆 En Önemli Bulgu</h3>
+                <p style="font-size: 1.3em; font-weight: bold; color: #764ba2;">İspanyolca okuduğunu anlamayı en güçlü şekilde yordayan beceri DİLSEL ANLAMA olmuştur!</p>
+            </div>
+
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="icon">📈</div>
+                    <div class="stat-number">%56.6</div>
+                    <div class="stat-label">İki Beceri Birlikte</div>
+                </div>
+            </div>
+
+            <h3>🔑 Üç Ana Nokta</h3>
+            <ul>
+                <li><strong>Güçlü Etki:</strong> Kelime bilgisi ve dilbilgisinden oluşan dilsel anlama becerisi, okuduğunu anlamayı tek başına güçlü bir şekilde açıkladı</li>
+                <li><strong>Beklenmedik Sonuç:</strong> Akıcı ve doğru okuma (kod çözme), tek başına doğrudan bir katkı sağlamadı (ancak önemsiz değil!)</li>
+                <li><strong>Takım Oyunu:</strong> İki beceri birleştiğinde okuduğunu anlama düzeyinin %56.6'sını açıkladı. Kod çözme, dilsel anlama ile birlikte çalışarak etkisini gösteriyor</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p>Kod çözme okuduğunu anlamayı <strong>dolaylı olarak</strong>, yani dilsel anlama becerileriyle olan güçlü ilişkisi üzerinden etkilemektedir. Başarılı bir kod çözme, dilsel anlama süreçlerini destekler!</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Ana Bulgular - Okuma Öncesi -->
+        <div class="slide">
+            <h2>📊 Ana Bulgular: Okuma Öncesi Grup</h2>
+            
+            <div class="highlight-box">
+                <h3>🌱 Erken Gelişim Dönemi</h3>
+                <p style="font-size: 1.3em; font-weight: bold; color: #764ba2;">Dilsel anlama ile kod çözmenin öncüleri arasında ÇOK GÜÇLÜ bir ilişki bulundu!</p>
+            </div>
+
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="icon">🔗</div>
+                    <div class="stat-number">0.83</div>
+                    <div class="stat-label">Korelasyon Katsayısı</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Sarmaşık Metaforu:</strong> Bu erken yaşta, dil becerileri ile okumaya hazırlık becerileri "birbirine sıkıca sarılmış iki sarmaşık" gibidir. O kadar iç içe gelişmektedir ki, birini diğerinden ayırmak neredeyse imkansızdır.</p>
+            </div>
+
+            <h3>💡 Bu Ne Anlama Geliyor?</h3>
+            <ul>
+                <li>Harf tanıma ve ses farkındalığı, kelime dağarcığı ve dilbilgisi ile birlikte gelişir</li>
+                <li>Bir alandaki gelişim, diğerini de doğrudan besler</li>
+                <li>Erken yaş döneminde bütünsel bir yaklaşım kritik önem taşır</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Sonuç ve Öneriler -->
+        <div class="slide">
+            <h2>🎓 Sonuç ve Eğitim İçin Öneriler</h2>
+            
+            <div class="highlight-box">
+                <h3>📌 Genel Sonuç</h3>
+                <p>OBG modeli İspanyolca miras dili konuşanları için de geçerlidir, ancak bu çocuklarda <strong>dilsel anlama bileşeni özellikle ağır basmaktadır</strong>.</p>
+            </div>
+
+            <h3>✨ Eğitimciler ve Aileler İçin 3 Temel Öneri</h3>
+            
+            <ul>
+                <li><strong>1️⃣ Sözlü Dil Becerilerini Güçlendirin:</strong> Kelime dağarcığı ve dilbilgisi gelişimine odaklanın. Aile içi sohbetler, hikaye anlatımı, bilmeceler ve birlikte kitap okuma paha biçilmezdir</li>
+                
+                <li><strong>2️⃣ Kod Çözme Eğitimini İhmal Etmeyin:</strong> Dilsel anlama daha baskın olsa da akıcı okuma hala gereklidir. "Ya o ya bu" değil, "hem o hem bu" yaklaşımı benimseyin</li>
+                
+                <li><strong>3️⃣ Erken Değerlendirme Hayat Kurtarır:</strong> Çocukların miras dilindeki becerilerini erken yaşta değerlendirmek, olası zorlukları önceden tespit etme şansı verir</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p style="font-size: 1.2em; text-align: center;"><strong>🌈 Unutmayın: Bir dildeki güçlü temel, diğer dildeki başarıyı da destekler!</strong></p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="btn-prev" onclick="previousSlide()">◀ Önceki</button>
+            <button class="btn-home" onclick="goToStart()">🏠 Başa Dön</button>
+            <button class="btn-next" onclick="nextSlide()">Sonraki ▶</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            document.getElementById('slideCounter').textContent = `Slayt ${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progressFill').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            
+            document.querySelector('.btn-prev').disabled = currentSlide === 0;
+            document.querySelector('.btn-next').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function goToStart() {
+            currentSlide = 0;
+            updateSlide();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Klavye navigasyonu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === 'Home') goToStart();
+        });
+
+        // Başlangıçta ilk slaytı göster
+        updateSlide();
+    </script>
+</body>
+</html>
