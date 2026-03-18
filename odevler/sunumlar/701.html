@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror System Hypothesis - Dilin Kökeni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            display: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: flex;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(120deg, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #a78bfa;
+            border-bottom: 3px solid #a78bfa;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin: 25px 0 15px;
+            color: #c4b5fd;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #e0e7ff;
+            margin-bottom: 40px;
+        }
+
+        .highlight {
+            background: rgba(167, 139, 250, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(167, 139, 250, 0.4);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #a78bfa, #c4b5fd);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background: #a78bfa;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        button {
+            background: rgba(167, 139, 250, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background: rgba(167, 139, 250, 1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(167, 139, 250, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            z-index: 1000;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #a78bfa;
+            font-weight: bold;
+        }
+
+        .evolution-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .evolution-step {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            margin: 10px;
+            position: relative;
+        }
+
+        .evolution-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #a78bfa;
+        }
+
+        .evolution-step:last-child::after {
+            display: none;
+        }
+
+        .emphasis {
+            font-size: 1.4em;
+            color: #fcd34d;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(252, 211, 77, 0.1);
+            border-radius: 10px;
+            border-left: 5px solid #fcd34d;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter">
+        Slayt <span id="current">1</span> / <span id="total">12</span>
+    </div>
+
+    <div class="container">
+        <!-- Slayt 1: Başlık -->
+        <div class="slide active">
+            <h1>Mirror System Hypothesis</h1>
+            <p class="subtitle">Beyin Dil Yeteneğini Nasıl Kazandı?</p>
+            <div class="box">
+                <h3>Michael A. Arbib</h3>
+                <p><em>"How the Brain Got Language: The Mirror System Hypothesis"</em></p>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.3em; color: #e0e7ff;">
+                Dilin kökenine yönelik nörobilimsel ve evrimsel bir yaklaşım
+            </p>
+        </div>
+
+        <!-- Slayt 2: Ana Soru -->
+        <div class="slide">
+            <h2>Temel Soru</h2>
+            <div class="box">
+                <p style="font-size: 1.5em; text-align: center; margin: 30px 0;">
+                    "İnsan beyni <span class="highlight">dil yeteneğini</span> nasıl kazandı?"
+                </p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h3>🧬 Biyolojik Evrim</h3>
+                    <p>Beyin, dili destekleyebilecek şekilde evrimleşti</p>
+                </div>
+                <div class="card">
+                    <h3>🌍 Kültürel Evrim</h3>
+                    <p>Sosyal etkileşimlerle dil on binlerce yılda gelişti</p>
+                </div>
+            </div>
+            <p class="emphasis">
+                "Dil için Hazır Beyin" (Language-Ready Brain)
+            </p>
+        </div>
+
+        <!-- Slayt 3: İki Tür Evrim -->
+        <div class="slide">
+            <h2>Evrim İkilemi</h2>
+            <div class="box">
+                <h3>🧠 Biyolojik Evrim (Milyonlarca Yıl)</h3>
+                <ul>
+                    <li>Erken Homo sapiens'in beyni dil için yeterliydi</li>
+                    <li>Ancak gramer ve dil kuralları henüz yoktu</li>
+                    <li>Beynin mevcut yetenekleri yeni bir amaç için kullanıldı</li>
+                </ul>
+            </div>
+            <div class="box">
+                <h3>🗣️ Kültürel Evrim (On Binlerce Yıl)</h3>
+                <ul>
+                    <li>Toplumsal etkileşimlerle dil ve gramer oluştu</li>
+                    <li>Diller öğrenildi, değişti, çeşitlendi</li>
+                    <li>İnternet örneği: Beynimiz internet için evrilmedi, ama onu kullanabiliyor</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 4: MSH'nin Özü -->
+        <div class="slide">
+            <h2>Mirror System Hypothesis (MSH)</h2>
+            <p class="emphasis">
+                Dil, konuşma ile değil, EL HAREKETLERİ ile başladı!
+            </p>
+            <div class="evolution-diagram">
+                <div class="evolution-step">
+                    <strong>Maymunlar</strong><br>
+                    Basit ayna sistemi
+                </div>
+                <div class="evolution-step">
+                    <strong>Şempanzeler</strong><br>
+                    Basit taklit
+                </div>
+                <div class="evolution-step">
+                    <strong>İnsanlar</strong><br>
+                    Karmaşık taklit
+                </div>
+                <div class="evolution-step">
+                    <strong>Jest İletişimi</strong><br>
+                    Pantomim
+                </div>
+                <div class="evolution-step">
+                    <strong>Protosign</strong><br>
+                    İşaret sistemi
+                </div>
+                <div class="evolution-step">
+                    <strong>Protodil</strong><br>
+                    Kelimeler, gramer yok
+                </div>
+            </div>
+        </div>
+
+        <!-- Slayt 5: Ayna Nöronlar -->
+        <div class="slide">
+            <h2>Ayna Nöronlar ve Ayna Sistemi</h2>
+            <div class="box">
+                <h3>🔬 Keşif</h3>
+                <p>İlk kez makak maymunlarında keşfedildi</p>
+                <p><strong>Özellik:</strong> Hem kendi eyleminde, hem başkasının eylemini izlerken ateşlenir</p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h3>Maymunlarda</h3>
+                    <ul>
+                        <li>Ayna nöronlar var</li>
+                        <li>Ama taklit etmezler</li>
+                        <li>Dil öğrenemezler</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>İnsanlarda</h3>
+                    <ul>
+                        <li>Ayna SİSTEMİ var (Broca bölgesi)</li>
+                        <li>Karmaşık taklit yaparlar</li>
+                        <li>Jest → Dil geçişi mümkün</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 30px;"><strong>Önemli:</strong> Ayna sistemi tek başına dil vermez, ama kritik bir temeldir!</p>
+        </div>
+
+        <!-- Slayt 6: Maymun vs İnsan -->
+        <div class="slide">
+            <h2>Neden Maymun Sesleri Değil?</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🐒 Maymun Sesleri</h3>
+                    <ul>
+                        <li>Sabit repertuar (10-30 ses)</li>
+                        <li>Doğuştan gelen</li>
+                        <li>Öğrenilmez</li>
+                        <li>Bilinçsiz (orta beyin kontrolü)</li>
+                    </ul>
+                    <p style="color: #fca5a5; margin-top: 20px;">❌ Dil için uygun DEĞİL</p>
+                </div>
+                <div class="card">
+                    <h3>👐 Büyük Maymun Jestleri</h3>
+                    <ul>
+                        <li>Değişken repertuar</li>
+                        <li>Gruplar arası farklılık</li>
+                        <li>Öğrenilebilir</li>
+                        <li>Sosyal öğrenme ile gelişir</li>
+                    </ul>
+                    <p style="color: #86efac; margin-top: 20px;">✓ Dil için uygun zemin</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slayt 7: Taklit Türleri -->
+        <div class="slide">
+            <h2>Taklit: Dilin Motor Kökeni</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Maymunlar: Taklit Yok</h3>
+                    <p>Ayna nöronları olsa da gerçek taklit yapmazlar</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Şempanzeler: Basit Taklit</h3>
+                    <p>Tanıdık hareketleri deneme-yanılma ile öğrenirler</p>
+                    <p><em>Örnek: Goriller ısırgan yaprağı yemeyi aylarca gözlemler</em></p>
+                </div>
+                <div class="timeline-item">
+                    <h3>İnsanlar: Karmaşık Taklit</h3>
+                    <p>Yeni hareketleri bile tek seferde taklit edebilirler</p>
+                    <ul>
+                        <li>Hareketi parçalara ayırma</li>
+                        <li>Yeniden birleştirme</li>
+                        <li>Farklılıkları öğrenme</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="emphasis">Karmaşık taklit → Pantomim → Protosign → Dil</p>
+        </div>
+
+        <!-- Slayt 8: Pantomim ve Protosign -->
+        <div class="slide">
+            <h2>Pantomimden Protosign'e</h2>
+            <div class="box">
+                <h3>🎭 Pantomim</h3>
+                <p>Bir eylemin indirgenmiş halini kullanarak nesne/durumu anlatmak</p>
+                <ul>
+                    <li>Örnek: Kolları çırpmak → kuş / uçmak / uçan kuş</li>
+                    <li><strong>Avantaj:</strong> Açık uçlu anlam - her şey ifade edilebilir</li>
+                    <li><strong>Dezavantaj:</strong> Belirsizlik - aynı hareket farklı anlamlara gelebilir</li>
+                </ul>
+            </div>
+            <div class="box">
+                <h3>📝 Protosign (İlk İşaret Sistemi)</h3>
+                <p>Belirsizliği azaltmak için anlaşmalı işaretler</p>
+                <ul>
+                    <li>Topluluklar standart işaretler geliştirdi</li>
+                    <li>Pantomim → iskele görevi gördü</li>
+                    <li>Anlamsız el hareketleri → anlamlı semboller</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 9: Protodil -->
+        <div class="slide">
+            <h2>Protosign + Protospeech = Protodil</h2>
+            <div class="box">
+                <h3>"Genişleyen Sarmal" Modeli</h3>
+                <p>Jest ve ses, birbirini besleyerek gelişti</p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h3>Protosign (Jest)</h3>
+                    <p>Pantomimden evrildi</p>
+                    <p>Açık uçlu anlam sağladı</p>
+                </div>
+                <div class="card">
+                    <h3>↔️ Sinerji</h3>
+                    <p>İkisi birlikte</p>
+                    <p>Birbirini destekledi</p>
+                </div>
+                <div class="card">
+                    <h3>Protospeech (Ses)</h3>
+                    <p>Başta duygusal sesler</p>
+                    <p>Jest sayesinde sembolleşti</p>
+                </div>
+            </div>
+            <div class="box">
+                <h3>🗣️ Protodil Özellikleri</h3>
+                <ul>
+                    <li>✓ Sözcükler var</li>
+                    <li>✓ Sembolik iletişim</li>
+                    <li>✗ Gramer yok</li>
+                    <li>✗ Yeni anlamlar sınırlı</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 10: 11 İlke -->
+        <div class="slide">
+            <h2>"Dil İçin Hazır Beyin" - 11 İlke</h2>
+            <div class="box">
+                <h3>🧬 Biyolojik Evrimle Kazanılan (7 İlke)</h3>
+                <ul>
+                    <li>1. Karmaşık eylem tanıma ve taklit</li>
+                    <li>2. İletişim niyeti</li>
+                    <li>3. Sembolleştirme</li>
+                    <li>4. Parite (üretici-alıcı eşitliği)</li>
+                    <li>5. Hiyerarşik yapıdan zaman sıralamasına</li>
+                    <li>6. Burada ve şimdinin ötesi - 1 (bellek)</li>
+                    <li>7. Paedomorfi ve sosyallik</li>
+                </ul>
+            </div>
+            <div class="box">
+                <h3>🌍 Kültürel Evrimle Kazanılan (4 İlke)</h3>
+                <ul>
+                    <li>8. Sembolleştirme & bileşimsellik</li>
+                    <li>9. Söz dizimi, anlam ve yineleme</li>
+                    <li>10. Buhere ve şimdinin ötesi - 2 (zaman ifadeleri)</li>
+                    <li>11. Öğrenilebilirlik</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slayt 11: Kanıtlar -->
+        <div class="slide">
+            <h2>Günümüz Kanıtları</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>👶 Çocuk Dil Edinimi</h3>
+                    <p>Çocuklar dili taklit, parçalama ve yapı inşası ile öğrenirler</p>
+                    <p><em>Evrensel Dilbilgisi yerine: genel bilişsel yetenekler</em></p>
+                </div>
+                <div class="card">
+                    <h3>🤟 Yeni İşaret Dilleri</h3>
+                    <p><strong>Nikaragua İşaret Dili (NSL)</strong></p>
+                    <ul>
+                        <li>1970'lerde spontan oluştu</li>
+                        <li>Pantomim → parçalama → yapılar</li>
+                        <li>MSH'nin "canlı kanıtı"</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🧠 Nörobilim</h3>
+                    <p><strong>Broca Bölgesi:</strong></p>
+                    <ul>
+                        <li>Hem konuşmada aktif</li>
+                        <li>Hem işaret dilinde aktif</li>
+                        <li>Dil = motor sistem uzantısı</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slayt 12: Sonuç -->
+        <div class="slide">
+            <h2>Sonuç ve Çıkarımlar</h2>
+            <div class="box">
+                <p class="emphasis" style="font-size: 1.6em;">
+                    Dil, hareket sisteminden doğdu
+                </p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Ayna Nöron Sistemi</h3>
+                    <p>El hareketlerini anlama ve üretme</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Karmaşık Taklit</h3>
+                    <p>Yeni hareketleri parçalayıp yeniden birleştirme</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Pantomim & Protosign</h3>
+                    <p>Jest temelli iletişim</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Protospeech</h3>
+                    <p>Sesli iletişim jesti tamamladı</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Gerçek Dil</h3>
+                    <p>Gramer, fonoloji, soyutlama - kültürel evrim</p>
+                </div>
+            </div>
+            <div class="box">
+                <h3>🎯 Ana Mesaj</h3>
+                <p>Dil, ne sadece biyolojik ne de sadece kültürel bir olgudur - <strong>ikisinin birleşimidir.</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button id="prevBtn" onclick="changeSlide(-1)">◀ Önceki</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Sonraki ▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current').textContent = currentSlide + 1;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < totalSlides - 1) changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) changeSlide(-1);
+            }
+        });
+        
+        showSlide(0);
+    </script>
+</body>
+</html>
