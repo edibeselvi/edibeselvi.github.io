@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasat Zamanı – Gelişim Günlüğü | Eğitim Dokümanı</title>
+  <style>
+    /* ─── Tokens ─── */
+    :root {
+      --bg:        #F7F3EC;
+      --surface:   #FFFFFF;
+      --soil:      #6B4226;
+      --leaf:      #3A7D44;
+      --leaf-lt:   #D4EDDA;
+      --sun:       #E8A838;
+      --sun-lt:    #FFF3D6;
+      --text:      #2C1A0E;
+      --text-muted:#7A6355;
+      --border:    #DDD4C8;
+      --correct:   #2E7D32;
+      --correct-bg:#E8F5E9;
+      --wrong:     #C62828;
+      --wrong-bg:  #FFEBEE;
+      --drop-zone: #EAF4FF;
+      --drop-border:#4A90D9;
+      --radius:    14px;
+      --shadow:    0 8px 32px rgba(44,26,14,0.13);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    header {
+      background: var(--soil);
+      color: #fff;
+      padding: 32px 40px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .header-icon { font-size: 2.8rem; }
+    header h1 { font-size: 1.75rem; line-height: 1.25; font-weight: normal; }
+    header p  { font-size: 0.9rem; color: #D9BBA0; margin-top: 4px; font-family: sans-serif; }
+
+    /* ─── Progress Bar ─── */
+    #progress-bar-wrap {
+      background: #E5D8CB;
+      height: 8px;
+    }
+    #progress-bar {
+      height: 8px;
+      background: var(--leaf);
+      width: 0%;
+      transition: width 0.6s ease;
+    }
+
+    /* ─── Video container ─── */
+    .video-wrap {
+      max-width: 820px;
+      margin: 36px auto 0;
+      padding: 0 20px;
+    }
+    .video-frame {
+      position: relative;
+      padding-bottom: 56.25%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #000;
+    }
+    .video-frame iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ─── Chapter markers ─── */
+    .chapter-strip {
+      max-width: 820px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .chapter-pill {
+      background: var(--sun-lt);
+      border: 1.5px solid var(--sun);
+      border-radius: 30px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-family: sans-serif;
+      color: var(--soil);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chapter-pill.done { background: var(--leaf-lt); border-color: var(--leaf); color: var(--leaf); }
+    .chapter-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+    /* ─── Content sections ─── */
+    .section-card {
+      max-width: 820px;
+      margin: 28px auto 0;
+      padding: 0 20px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      padding: 28px 32px;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      color: var(--soil);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card h2 .time-badge {
+      font-family: monospace;
+      font-size: 0.72rem;
+      background: var(--sun-lt);
+      border: 1px solid var(--sun);
+      border-radius: 6px;
+      padding: 2px 8px;
+      color: var(--soil);
+      font-weight: normal;
+    }
+    .card p {
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 0.97rem;
+    }
+    .card p + p { margin-top: 10px; }
+    .highlight {
+      background: var(--sun-lt);
+      border-left: 4px solid var(--sun);
+      padding: 10px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 14px;
+      font-style: italic;
+    }
+
+    .quiz-trigger {
+      margin-top: 22px;
+      text-align: center;
+    }
+    .quiz-btn {
+      background: var(--leaf);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-family: sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(58,125,68,0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .quiz-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(58,125,68,0.3); }
+    .quiz-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+    /* ─── OVERLAY ─── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(44,26,14,0.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .overlay.active { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 36px 36px 32px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: var(--shadow);
+      animation: popIn 0.28s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .modal-icon { font-size: 1.9rem; }
+    .modal-title { font-size: 1.1rem; color: var(--soil); }
+    .modal-subtitle { font-size: 0.78rem; color: var(--text-muted); font-family: sans-serif; margin-top: 2px; }
+
+    .question-block { margin-bottom: 26px; }
+    .question-text {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .question-num {
+      font-family: sans-serif;
+      font-size: 0.72rem;
+      background: var(--soil);
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 8px;
+      margin-right: 6px;
+    }
+
+    /* ─── Multiple Choice ─── */
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: sans-serif;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .option:hover:not(.locked) { border-color: var(--leaf); background: var(--leaf-lt); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); color: var(--correct); }
+    .option.wrong   { border-color: var(--wrong);   background: var(--wrong-bg);   color: var(--wrong);   }
+    .option .opt-letter {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: bold; flex-shrink: 0;
+    }
+    .option.correct .opt-letter { background: var(--correct); color: #fff; }
+    .option.wrong   .opt-letter { background: var(--wrong);   color: #fff; }
+
+    /* ─── Fill in the blank ─── */
+    .blank-sentence {
+      font-size: 0.97rem;
+      line-height: 2.1;
+      font-family: 'Georgia', serif;
+      color: var(--text);
+    }
+    .blank {
+      display: inline-block;
+      border-bottom: 2.5px solid var(--soil);
+      min-width: 90px;
+      margin: 0 4px;
+      text-align: center;
+      color: var(--soil);
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+    .blank.filled { color: var(--leaf); border-color: var(--leaf); }
+    .blank.correct-fill { border-color: var(--correct); color: var(--correct); }
+    .blank.wrong-fill   { border-color: var(--wrong);   color: var(--wrong);   }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .word-chip {
+      background: var(--sun-lt);
+      border: 1.5px solid var(--sun);
+      border-radius: 8px;
+      padding: 5px 14px;
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      cursor: grab;
+      transition: opacity 0.18s, transform 0.12s;
+      user-select: none;
+    }
+    .word-chip:active { transform: scale(0.95); }
+    .word-chip.used { opacity: 0.3; cursor: default; pointer-events: none; }
+    .word-chip.correct-chip { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+    .word-chip.wrong-chip   { background: var(--wrong-bg);   border-color: var(--wrong);   color: var(--wrong); }
+
+    /* ─── Drop target highlight ─── */
+    .blank.drag-over {
+      background: var(--drop-zone);
+      border-color: var(--drop-border);
+    }
+
+    /* ─── Feedback ─── */
+    .feedback {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .feedback.show { display: block; }
+    .feedback.ok  { background: var(--correct-bg); color: var(--correct); }
+    .feedback.err { background: var(--wrong-bg);   color: var(--wrong);   }
+
+    /* ─── Modal footer ─── */
+    .modal-footer {
+      margin-top: 24px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-check {
+      background: var(--leaf);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+    .btn-close {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+    .score-badge {
+      display: none;
+      background: var(--sun-lt);
+      border: 1.5px solid var(--sun);
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-family: sans-serif;
+      font-size: 0.9rem;
+      color: var(--soil);
+    }
+    .score-badge.show { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* ─── Footer ─── */
+    footer {
+      max-width: 820px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-family: sans-serif;
+      font-size: 0.8rem;
+    }
+    footer span { color: var(--leaf); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">🌱</div>
+  <div>
+    <h1>Hasat Zamanı – Gelişim Günlüğü</h1>
+    <p>Bölüm 4.4 &nbsp;|&nbsp; Etkileşimli Eğitim Dokümanı &nbsp;|&nbsp; 5 Konu · 12 Soru</p>
+  </div>
+</header>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<!-- Chapter pills -->
+<div class="chapter-strip">
+  <div class="chapter-pill" id="pill-0"><span class="dot"></span> Giriş & Felsefe</div>
+  <div class="chapter-pill" id="pill-1"><span class="dot"></span> Anlama Eşiği</div>
+  <div class="chapter-pill" id="pill-2"><span class="dot"></span> Kelime Filizlenmesi & Yaratıcı Hatalar</div>
+  <div class="chapter-pill" id="pill-3"><span class="dot"></span> Dilin İçselleşmesi</div>
+  <div class="chapter-pill" id="pill-4"><span class="dot"></span> Kelime Kumbarası & Kapanış</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- VIDEO -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe id="yt-player"
+      src="https://www.youtube.com/embed/iN_87LIRxcc?enablejsapi=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 1 – Giriş & Felsefe (0:00 – 1:57) -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="card">
+    <h2>🌾 Giriş &amp; Hasat Felsefesi <span class="time-badge">0:00 – 1:57</span></h2>
+    <p>Bu bölümde, uzun bir yolculuğun "hasat zamanı"na geldiğimizden söz ediliyor. Ebeveynler toprak hazırladı, tohum ekti ve uygun iklimi yarattı. Şimdi sıra geriye bakıp, kutlamaya ve süreci fark etmeye geldi.</p>
+    <p>Önemli bir hatırlatma: Çocukların dil gelişimi tıpkı doğadaki çiçekler gibi farklı ritimlerde gerçekleşir. "Geri kalma" diye bir şey yoktur; her çocuk kendi vaktinde açar. Ebeveynin rolü ölçüp biçmek değil, <em>şefkatli bir gözlemci</em> olmaktır.</p>
+    <div class="highlight">"Hasat etmek demek sadece sonuç almak değildir. Hasat etmek fark etmektir."</div>
+    <div class="quiz-trigger">
+      <button class="quiz-btn" onclick="openQuiz(0)">🌼 Bu konuyu test et</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 2 – Anlama Eşiği (1:57 – 3:31) -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="card">
+    <h2>👂 Anlama Eşiği <span class="time-badge">1:57 – 3:31</span></h2>
+    <p>Gelişimi fark etmenin ilk göstergesi <strong>anlama eşiği</strong>dir: Çocuğun basit bir yönergeyi doğru ve eksiksiz şekilde yerine getirebildiği an. Örneğin "Mutfaktaki mavi bardağı getir" denildiğinde onca eşyanın arasından tam olarak o bardağı bulup getirmesi, kelimelerin artık zihinde anlam kazandığını ve harekete dönüştüğünü gösterir.</p>
+    <p>Bu an yakalandığında ise sihirli bir kutlama cümlesi var: <em>"Beni çok iyi anladın, teşekkür ederim."</em> Bu ifade çocuğa sadece "aferin" değil; "seni görüyorum, çabanın farkındayım" mesajı verir.</p>
+    <div class="highlight">"Kelimeler artık onun için havada uçuşan anlamsız sesler değil. Zihninde anlam bulan ve harekete dönüşen köprüler."</div>
+    <div class="quiz-trigger">
+      <button class="quiz-btn" onclick="openQuiz(1)">🌼 Bu konuyu test et</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 3 – Kelime Filizlenmesi & Yaratıcı Hatalar (3:31 – 5:11) -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="card">
+    <h2>🌿 Kelime Filizlenmesi &amp; Yaratıcı Hatalar <span class="time-badge">3:31 – 5:11</span></h2>
+    <p>İkinci büyük adım <strong>kelime filizlenmesi</strong>dir. Çocuğun artık tek tek kelimelerin yanı sıra "çünkü", "fakat", "bence" gibi bağlaçları da cümlelerinde kullanmaya başlaması, düşüncenin de olgunlaştığının kanıtıdır.</p>
+    <p>Bu süreçte kaçınılması gereken en önemli hata: <strong>yaratıcı hataları hemen düzeltmek</strong>. Örneğin çocuk "turuncu" yerine "portakal rengi" diyebilir. Bu başarısızlık değil, dili deneme ve kendi mantığını kurma cesaretinin parlak bir göstergesidir. Sert düzeltmeler çocukta "yanlış yapma korkusu" oluşturur; bu korku ise dil sevgisinin en büyük düşmanıdır.</p>
+    <div class="highlight">"Hatalar öğrenmenin en doğal parçasıdır."</div>
+    <div class="quiz-trigger">
+      <button class="quiz-btn" onclick="openQuiz(2)">🌼 Bu konuyu test et</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 4 – Dilin İçselleşmesi (5:11 – 7:01) -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="card">
+    <h2>🌳 Dilin İçselleşmesi <span class="time-badge">5:11 – 7:01</span></h2>
+    <p>En derin ve mucizevi adım, <strong>dilin içselleşmesi</strong>dir. Çocuk sabah uyanıp Türkçe bir rüya anlatıyorsa, esprilerle kahkaha atıyorsa ya da kendi kendine oyun oynarken kendiliğinden Türkçe kullanıyorsa dil artık dışarıdan öğrenilen bir beceri değil; çocuğun ruhunun, hayal dünyasının ve kimliğinin organik bir parçası olmuştur.</p>
+    <p>Metaforu tamamlamak gerekirse: En başta küçük bir tohumdan bahsedilmişti. O tohum artık kökleri yere sağlam basan, yaprakları güneşe dönük canlı bir fidana dönüşmüştür. Bu fidan ebeveynin şefkatinin ve birlikte geçirilen zamanın somut anıtıdır.</p>
+    <div class="highlight">"O tohum artık kökleri yere çok sağlam basan, taze yaprakları güneşe dönük canlı bir fidan var karşınızda."</div>
+    <div class="quiz-trigger">
+      <button class="quiz-btn" onclick="openQuiz(3)">🌼 Bu konuyu test et</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 5 – Kelime Kumbarası & Kapanış (7:01 – 9:07) -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="card">
+    <h2>🫙 Kelime Kumbarası Ritüeli &amp; Kapanış <span class="time-badge">7:01 – 9:07</span></h2>
+    <p>Gelişimi somutlaştırmak için önerilen ritüel: <strong>Kelime Kumbarası</strong>. Evin güzel bir köşesine şeffaf bir cam kavanoz koyun. Her hafta çocuğun kurduğu tatlı bir cümleyi ya da yeni öğrendiği kelimeyi küçük bir kağıda yazıp kavanozu doldurun. Ay sonunda ailecek açıp birlikte okuyun.</p>
+    <p>Bu ritüelin psikolojik gücü büyük: çocuğa "senin söylediklerin bizim için değerli" mesajı verilir. Çocuk kendi sesinin duyulduğunu hisseder ve özgüveni beslenir.</p>
+    <p>Kapanış mesajı: Ebeveynler bu süreçte birer öğretmen değil, <em>yol arkadaşı</em> oldular. Dil gramer değil, kalpten kalbe kurulan bir köprüdür. Asl olan mükemmellik değil, <strong>sürekliliktir</strong>.</p>
+    <div class="highlight">"Bugün sizden duyduğu o destekleyici, her an kutlayan, asla yargılamayan sesiniz yarın o zorluklarla karşılaştığında kendi iç sesi olacak."</div>
+    <div class="quiz-trigger">
+      <button class="quiz-btn" onclick="openQuiz(4)">🌼 Bu konuyu test et</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>🌱 Her soruyu tamamladıkça ilerleme çubuğu güncellenir. &nbsp;|&nbsp; Hazırlayan: <span>Yapay Zeka Destekli Eğitim Aracı</span></p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- OVERLAY / MODAL -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────
+   DATA
+───────────────────────────────────────────── */
+const quizzes = [
+
+  /* ── 0: Giriş & Felsefe ── */
+  {
+    title: "Giriş & Hasat Felsefesi",
+    icon: "🌾",
+    time: "0:00 – 1:57",
+    questions: [
+      {
+        type: "mc",
+        text: "Videoya göre ebeveynin asıl rolü nedir?",
+        options: [
+          "Çocuğu düzenli olarak test etmek ve not vermek",
+          "Küçük günlük ilerlemeleri fark eden şefkatli bir göz olmak",
+          "Çocuğu diğer çocuklarla kıyaslayarak değerlendirmek",
+          "Akademik kaygıları ön planda tutarak süreci yönetmek"
+        ],
+        correct: 1,
+        feedback: "Doğru! Ebeveynin rolü çocuğu test etmek değil, o küçük sıradan görünen günlük ilerlemeleri fark eden şefkatli bir göz olmaktır."
+      },
+      {
+        type: "fill",
+        text: "Aşağıdaki cümledeki boşlukları uygun kelimelerle doldurun:",
+        sentence: "Hasat etmek sadece [BLANK1] almak demek değildir. Hasat etmek [BLANK2] etmektir.",
+        blanks: ["BLANK1","BLANK2"],
+        labels: ["birinci boşluk","ikinci boşluk"],
+        answers: ["sonuç","fark"],
+        wordBank: ["sonuç","fark","kelime","başarı","ödül","test"]
+      }
+    ]
+  },
+
+  /* ── 1: Anlama Eşiği ── */
+  {
+    title: "Anlama Eşiği",
+    icon: "👂",
+    time: "1:57 – 3:31",
+    questions: [
+      {
+        type: "mc",
+        text: "Videoda verilen örnekte çocuğun "anlama eşiğini" geçtiğini hangi davranış kanıtlar?",
+        options: [
+          "Bardağın rengini kendi kendine söylemesi",
+          "Onca eşyanın arasından tam olarak istenen bardağı bulup getirmesi",
+          "Bardağı kırıp özür dilemesi",
+          "Bardak kelimesini Türkçe telaffuz etmesi"
+        ],
+        correct: 1,
+        feedback: "Doğru! Anlama eşiği, yönergeyi eksiksiz yerine getirebildiği andır. Onca eşya arasından tam o bardağı bulması dilin zihinsel anlama dönüştüğünü gösterir."
+      },
+      {
+        type: "mc",
+        text: "\"Beni çok iyi anladın, teşekkür ederim.\" cümlesi neden \"Aferin!\" demekten daha etkilidir?",
+        options: [
+          "Daha uzun olduğu için çocuğun daha fazla kelime duymasını sağlar",
+          "Çocuğa gösterilen zihinsel çabanın fark edildiğini ve değer gördüğünü hissettirir",
+          "İngilizce öğrenmesine yardımcı olan bir ifadedir",
+          "Sadece olumlu bir kelime içerdiği için psikolojik etkisi aynıdır"
+        ],
+        correct: 1,
+        feedback: "Doğru! Bu cümle çocuğa sadece 'aferin' yerine; 'seni görüyorum, anlama çabanın farkındayım' mesajı verir. Zihinsel çabayı onaylamak çok daha güçlü bir etkidir."
+      }
+    ]
+  },
+
+  /* ── 2: Kelime Filizlenmesi & Yaratıcı Hatalar ── */
+  {
+    title: "Kelime Filizlenmesi & Yaratıcı Hatalar",
+    icon: "🌿",
+    time: "3:31 – 5:11",
+    questions: [
+      {
+        type: "mc",
+        text: "Çocuğun "çünkü", "fakat", "bence" gibi bağlaçları kullanmaya başlaması neyin kanıtıdır?",
+        options: [
+          "Yalnızca dilin değil, düşüncenin de filizlendiğinin",
+          "Gramer kurallarını ezberlediğinin",
+          "Dili dışarıdan öğrenmeye başladığının",
+          "Dikkatinin dağıldığının ve sözcükleri karıştırdığının"
+        ],
+        correct: 0,
+        feedback: "Doğru! Bağlaçların kullanımı çocuğun dünyayı algılama biçimini ve nedensel düşüncesini gösterir — bu dilin değil, düşüncenin de filizlenmesidir."
+      },
+      {
+        type: "fill",
+        text: "Sürükle-bırak: Aşağıdaki cümlelerdeki boşlukları doğru kelimelerle tamamlayın.",
+        sentence: "Yaratıcı hatalar, çocuğun dili [BLANK1] ve kendi [BLANK2] kurma cesaretinin parlak bir işaretidir. Sert düzeltmeler çocukta [BLANK3] korkusu oluşturur.",
+        blanks: ["BLANK1","BLANK2","BLANK3"],
+        labels: ["birinci","ikinci","üçüncü"],
+        answers: ["deneme","mantığını","yanlış yapma"],
+        wordBank: ["deneme","mantığını","yanlış yapma","başarma","ezber","test etme","kuralı"]
+      }
+    ]
+  },
+
+  /* ── 3: Dilin İçselleşmesi ── */
+  {
+    title: "Dilin İçselleşmesi",
+    icon: "🌳",
+    time: "5:11 – 7:01",
+    questions: [
+      {
+        type: "mc",
+        text: "Aşağıdakilerden hangisi dilin içselleştiğinin bir göstergesidir?",
+        options: [
+          "Çocuğun kelime testlerinde yüksek puan alması",
+          "Çocuğun sabah uyanıp kendiliğinden Türkçe bir rüya anlatması",
+          "Ebeveynin hatırlattıkça Türkçe konuşması",
+          "Haftada en az 3 saat Türkçe ders alması"
+        ],
+        correct: 1,
+        feedback: "Doğru! Kendiliğinden rüya anlatmak, esprilere gülmek veya oyun oynarken kendi kendine Türkçe kullanmak — bunlar dilin artık kimliğin organik bir parçası olduğunu gösterir."
+      },
+      {
+        type: "mc",
+        text: "Videoda kullanılan "tohum → fidan" metaforuyla ne anlatılmak isteniyor?",
+        options: [
+          "Çocukların küçük yaşta hızla büyüdüğü",
+          "Ebeveynin sabır ve sevgiyle beslediği küçük başlangıçların zamanla sağlam bir dil kimliğine dönüştüğü",
+          "Doğada bitkilerle oynamanın dil gelişimini desteklediği",
+          "Çocukların okula başlamadan önce dili öğrenmesi gerektiği"
+        ],
+        correct: 1,
+        feedback: "Doğru! Tohum ebeveynin başlangıçtaki emeğini; fidan ise sabır ve sevgiyle büyüyen, köklü dil kimliğini temsil ediyor."
+      }
+    ]
+  },
+
+  /* ── 4: Kelime Kumbarası & Kapanış ── */
+  {
+    title: "Kelime Kumbarası & Kapanış",
+    icon: "🫙",
+    time: "7:01 – 9:07",
+    questions: [
+      {
+        type: "mc",
+        text: "Kelime kumbarası ritüelinin temel amacı nedir?",
+        options: [
+          "Çocuğun kaç kelime öğrendiğini sayısal olarak takip etmek",
+          "Çocuğa sesinin duyulduğunu ve söylediklerinin değerli olduğunu hissettirmek",
+          "Ailenin haftalık ev ödevlerini arşivlemek",
+          "Çocukla aynı dili konuşan kişileri kayıt altına almak"
+        ],
+        correct: 1,
+        feedback: "Doğru! Kavanozun gücü test arşivi olmaktan değil, 'senin sesini saklıyoruz' mesajından gelir. Bu özgüveni besler ve sesi duyulduğunu hissettirir."
+      },
+      {
+        type: "fill",
+        text: "Kapanış mesajına göre boşlukları doldurun:",
+        sentence: "Bu yolculukta asıl olan [BLANK1] değil, [BLANK2] dir. Ebeveynler bu süreçte birer [BLANK3] değil, yol [BLANK4] oldular.",
+        blanks: ["BLANK1","BLANK2","BLANK3","BLANK4"],
+        labels: ["birinci","ikinci","üçüncü","dördüncü"],
+        answers: ["mükemmellik","süreklilik","öğretmen","arkadaşı"],
+        wordBank: ["mükemmellik","süreklilik","öğretmen","arkadaşı","başarı","rehber","disiplin","hız"]
+      }
+    ]
+  }
+];
+
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
+let currentQuiz = null;
+const completedSections = new Set();
+// drag-drop state
+let draggedWord = null;
+let draggedFromBlank = null; // chip came from a blank (return it)
+
+/* ─────────────────────────────────────────────
+   OPEN QUIZ
+───────────────────────────────────────────── */
+function openQuiz(idx) {
+  currentQuiz = idx;
+  const quiz = quizzes[idx];
+  const modal = document.getElementById("modal");
+
+  let html = `
+    <div class="modal-header">
+      <span class="modal-icon">${quiz.icon}</span>
+      <div>
+        <div class="modal-title">${quiz.title}</div>
+        <div class="modal-subtitle">${quiz.time} · ${quiz.questions.length} soru</div>
+      </div>
+    </div>`;
+
+  quiz.questions.forEach((q, qi) => {
+    html += `<div class="question-block" id="qblock-${qi}">
+      <p class="question-text"><span class="question-num">S${qi+1}</span>${q.text}</p>`;
+
+    if (q.type === "mc") {
+      html += `<div class="options">`;
+      q.options.forEach((opt, oi) => {
+        const letters = ["A","B","C","D"];
+        html += `<div class="option" id="opt-${qi}-${oi}" onclick="selectOption(${qi},${oi})">
+          <span class="opt-letter">${letters[oi]}</span>${opt}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (q.type === "fill") {
+      // build sentence with blank spans
+      let sentenceHtml = q.sentence;
+      q.blanks.forEach((blankId, bi) => {
+        sentenceHtml = sentenceHtml.replace(
+          `[${blankId}]`,
+          `<span class="blank" id="blank-${qi}-${bi}"
+            ondragover="ev.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="dropOnBlank(event,${qi},${bi})"
+            onclick="clickBlank(${qi},${bi})"
+            data-qi="${qi}" data-bi="${bi}">______</span>`
+        );
+      });
+      html += `<p class="blank-sentence">${sentenceHtml}</p>`;
+      // word bank
+      html += `<div class="word-bank" id="bank-${qi}">`;
+      q.wordBank.forEach((w,wi) => {
+        html += `<div class="word-chip" id="chip-${qi}-${wi}" draggable="true"
+          ondragstart="startDrag(event,${qi},${wi},'${w}')"
+          ondragend="endDrag(event)"
+          onclick="clickChip(${qi},${wi},'${w}')"
+          data-word="${w}">${w}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `<div class="feedback" id="fb-${qi}"></div></div>`;
+  });
+
+  html += `
+    <div class="modal-footer">
+      <span class="score-badge" id="score-badge"></span>
+      <button class="btn-close" onclick="closeModal()">Kapat</button>
+      <button class="btn-check" id="btn-check" onclick="checkAll()">Cevapları Kontrol Et</button>
+    </div>`;
+
+  modal.innerHTML = html;
+  document.getElementById("overlay").classList.add("active");
+}
+
+/* ─────────────────────────────────────────────
+   MC SELECTION
+───────────────────────────────────────────── */
+function selectOption(qi, oi) {
+  const q = quizzes[currentQuiz].questions[qi];
+  if (q._answered) return;
+  // clear previous selection
+  q.options.forEach((_,i) => {
+    const el = document.getElementById(`opt-${qi}-${i}`);
+    el.classList.remove("correct","wrong");
+    el.classList.remove("locked");
+  });
+  // mark
+  const chosen = document.getElementById(`opt-${qi}-${oi}`);
+  if (oi === q.correct) {
+    chosen.classList.add("correct");
+  } else {
+    chosen.classList.add("wrong");
+    document.getElementById(`opt-${qi}-${q.correct}`).classList.add("correct");
+  }
+  // lock all
+  q.options.forEach((_,i) => document.getElementById(`opt-${qi}-${i}`).classList.add("locked"));
+  q._chosen = oi;
+}
+
+/* ─────────────────────────────────────────────
+   DRAG & DROP + CLICK for fill
+───────────────────────────────────────────── */
+function startDrag(ev, qi, wi, word) {
+  draggedWord = word;
+  draggedFromBlank = null;
+  ev.dataTransfer.effectAllowed = "move";
+}
+function endDrag(ev) {
+  // remove all drag-over
+  document.querySelectorAll(".blank").forEach(b => b.classList.remove("drag-over"));
+}
+function dropOnBlank(ev, qi, bi) {
+  ev.preventDefault();
+  const blank = document.getElementById(`blank-${qi}-${bi}`);
+  blank.classList.remove("drag-over");
+  if (!draggedWord) return;
+  placeWord(qi, bi, draggedWord);
+  draggedWord = null;
+}
+
+// click on chip to select, then click on blank to place
+let selectedChip = null;
+function clickChip(qi, wi, word) {
+  const q = quizzes[currentQuiz].questions[qi];
+  if (q._answered) return;
+  const chip = document.getElementById(`chip-${qi}-${wi}`);
+  if (chip.classList.contains("used")) return;
+  // deselect previous
+  document.querySelectorAll(".word-chip").forEach(c => c.style.outline = "");
+  selectedChip = { qi, wi, word };
+  chip.style.outline = "3px solid var(--leaf)";
+}
+function clickBlank(qi, bi) {
+  const q = quizzes[currentQuiz].questions[qi];
+  if (q._answered) return;
+  const blank = document.getElementById(`blank-${qi}-${bi}`);
+
+  // if blank already filled, return word to bank
+  if (blank.dataset.filled) {
+    returnWordToBank(qi, blank.dataset.filled);
+    blank.textContent = "______";
+    blank.classList.remove("filled");
+    blank.dataset.filled = "";
+  }
+
+  if (selectedChip && selectedChip.qi === qi) {
+    placeWord(qi, bi, selectedChip.word);
+    document.getElementById(`chip-${qi}-${selectedChip.wi}`).style.outline = "";
+    selectedChip = null;
+  }
+}
+
+function placeWord(qi, bi, word) {
+  const q = quizzes[currentQuiz].questions[qi];
+  if (q._answered) return;
+  const blank = document.getElementById(`blank-${qi}-${bi}`);
+
+  // if blank was already filled with something else, return that word
+  if (blank.dataset.filled) {
+    returnWordToBank(qi, blank.dataset.filled);
+  }
+
+  // find chip for this word (first unused one)
+  const bank = document.getElementById(`bank-${qi}`);
+  const chips = bank.querySelectorAll(`.word-chip[data-word="${word}"]`);
+  for (const chip of chips) {
+    if (!chip.classList.contains("used")) {
+      chip.classList.add("used");
+      break;
+    }
+  }
+
+  blank.textContent = word;
+  blank.classList.add("filled");
+  blank.dataset.filled = word;
+}
+
+function returnWordToBank(qi, word) {
+  const bank = document.getElementById(`bank-${qi}`);
+  const chips = bank.querySelectorAll(`.word-chip[data-word="${word}"]`);
+  for (const chip of chips) {
+    if (chip.classList.contains("used")) {
+      chip.classList.remove("used");
+      break;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────
+   CHECK ALL
+───────────────────────────────────────────── */
+function checkAll() {
+  const quiz = quizzes[currentQuiz];
+  let correct = 0; let total = quiz.questions.length;
+
+  quiz.questions.forEach((q, qi) => {
+    const fb = document.getElementById(`fb-${qi}`);
+    fb.classList.remove("ok","err");
+
+    if (q.type === "mc") {
+      if (q._chosen === undefined) { fb.textContent = "⚠ Lütfen bir seçenek işaretleyin."; fb.classList.add("err","show"); return; }
+      q._answered = true;
+      if (q._chosen === q.correct) {
+        correct++;
+        fb.textContent = "✅ " + q.feedback;
+        fb.classList.add("ok","show");
+      } else {
+        fb.textContent = "❌ " + q.feedback;
+        fb.classList.add("err","show");
+      }
+    }
+
+    if (q.type === "fill") {
+      let allFilled = true;
+      let allCorrect = true;
+      q.blanks.forEach((_, bi) => {
+        const blank = document.getElementById(`blank-${qi}-${bi}`);
+        const expected = q.answers[bi].toLowerCase().trim();
+        const got = (blank.dataset.filled || "").toLowerCase().trim();
+        if (!got) { allFilled = false; return; }
+        if (got === expected) {
+          blank.classList.add("correct-fill");
+        } else {
+          blank.classList.add("wrong-fill");
+          blank.textContent = `${got} ✗ (${q.answers[bi]})`;
+          allCorrect = false;
+        }
+      });
+      if (!allFilled) {
+        fb.textContent = "⚠ Lütfen tüm boşlukları doldurun.";
+        fb.classList.add("err","show");
+        return;
+      }
+      q._answered = true;
+      if (allCorrect) {
+        correct++;
+        fb.textContent = "✅ Tüm boşluklar doğru!";
+        fb.classList.add("ok","show");
+        // highlight chips
+        q.blanks.forEach((_,bi) => {
+          const blank = document.getElementById(`blank-${qi}-${bi}`);
+          blank.classList.remove("wrong-fill");
+          blank.classList.add("correct-fill");
+        });
+      } else {
+        fb.textContent = "❌ Bazı boşluklar hatalı. Doğru cevaplar gösterildi.";
+        fb.classList.add("err","show");
+      }
+    }
+  });
+
+  // score badge
+  const badge = document.getElementById("score-badge");
+  badge.textContent = `🏅 ${correct} / ${total} doğru`;
+  badge.classList.add("show");
+
+  document.getElementById("btn-check").disabled = true;
+
+  // mark section complete if all answered
+  const allAnswered = quiz.questions.every(q => q._answered);
+  if (allAnswered) {
+    completedSections.add(currentQuiz);
+    updateProgress();
+    // mark pill
+    const pill = document.getElementById(`pill-${currentQuiz}`);
+    if (pill) pill.classList.add("done");
+    // disable quiz button for this section
+    const btns = document.querySelectorAll(".quiz-btn");
+    btns[currentQuiz].textContent = "✅ Tamamlandı";
+    btns[currentQuiz].disabled = true;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PROGRESS
+───────────────────────────────────────────── */
+function updateProgress() {
+  const pct = (completedSections.size / quizzes.length) * 100;
+  document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+/* ─────────────────────────────────────────────
+   CLOSE
+───────────────────────────────────────────── */
+function closeModal() {
+  document.getElementById("overlay").classList.remove("active");
+}
+document.getElementById("overlay").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>

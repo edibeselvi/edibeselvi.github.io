@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans, sans-serif);
+      background: transparent;
+    }
+
+    .tree-section {
+      margin-bottom: 48px;
+    }
+
+    .tree-title {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    svg {
+      width: 100%;
+      overflow: visible;
+      display: block;
+    }
+
+    .node-label {
+      font-size: 11px;
+      font-weight: 600;
+      fill: var(--color-text-primary);
+    }
+
+    .node-text {
+      font-size: 10.5px;
+      font-weight: 400;
+      fill: var(--color-text-secondary);
+    }
+
+    .edge {
+      stroke: var(--color-border-secondary, #bbb);
+      stroke-width: 1;
+      fill: none;
+    }
+
+    .box-root {
+      fill: #534AB7;
+      stroke: #3C3489;
+      stroke-width: 0.8;
+    }
+
+    .box-macro {
+      fill: #0F6E56;
+      stroke: #085041;
+      stroke-width: 0.8;
+    }
+
+    .box-prop {
+      fill: #185FA5;
+      stroke: #0C447C;
+      stroke-width: 0.8;
+    }
+
+    .label-root {
+      fill: #EEEDFE;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .label-macro {
+      fill: #E1F5EE;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .label-prop {
+      fill: #E6F1FB;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .text-root {
+      fill: #CECBF6;
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    .text-macro {
+      fill: #9FE1CB;
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    .text-prop {
+      fill: #B5D4F4;
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .box-root {
+        fill: #3C3489;
+        stroke: #AFA9EC;
+      }
+
+      .box-macro {
+        fill: #085041;
+        stroke: #5DCAA5;
+      }
+
+      .box-prop {
+        fill: #0C447C;
+        stroke: #85B7EB;
+      }
+
+      .label-root {
+        fill: #EEEDFE;
+      }
+
+      .label-macro {
+        fill: #E1F5EE;
+      }
+
+      .label-prop {
+        fill: #E6F1FB;
+      }
+
+      .text-root {
+        fill: #CECBF6;
+      }
+
+      .text-macro {
+        fill: #9FE1CB;
+      }
+
+      .text-prop {
+        fill: #B5D4F4;
+      }
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px dashed var(--color-border-tertiary);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ====== AĞAÇ 1 ====== -->
+  <div class="tree-section">
+    <svg viewBox="0 0 900 720" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ROOT -->
+      <line class="edge" x1="450" y1="52" x2="210" y2="100" />
+      <line class="edge" x1="450" y1="52" x2="450" y2="100" />
+      <line class="edge" x1="450" y1="52" x2="730" y2="100" />
+
+      <rect class="box-root" x="310" y="8" width="280" height="44" rx="8" />
+      <text class="label-root" x="450" y="30" text-anchor="middle" dominant-baseline="central">• M1 (Başlık)</text>
+
+      <!-- M1(1) -->
+      <line class="edge" x1="210" y1="188" x2="120" y2="248" />
+      <line class="edge" x1="210" y1="188" x2="300" y2="248" />
+
+      <rect class="box-macro" x="70" y="100" width="280" height="88" rx="8" />
+      <text class="label-macro" x="210" y="114" text-anchor="middle" dominant-baseline="central">M1 (1)</text>
+      <text class="text-macro" x="210" y="132" text-anchor="middle">(1) Geleneklere göre, dünyanın</text>
+      <text class="text-macro" x="210" y="146" text-anchor="middle">birçok yerinde aile evlilik</text>
+      <text class="text-macro" x="210" y="160" text-anchor="middle">yoluyla kuruluyor.</text>
+
+      <!-- M2(2,3) -->
+      <line class="edge" x1="450" y1="200" x2="450" y2="248" />
+
+      <rect class="box-macro" x="310" y="100" width="280" height="100" rx="8" />
+      <text class="label-macro" x="450" y="114" text-anchor="middle" dominant-baseline="central">M2 (2, 3)</text>
+      <text class="text-macro" x="450" y="132" text-anchor="middle">(2) Ailenin kuruluşundaki kurallar</text>
+      <text class="text-macro" x="450" y="146" text-anchor="middle">ve gelişimi uygarlıklara göre farklılık</text>
+      <text class="text-macro" x="450" y="160" text-anchor="middle">gösteriyor. (3) Toplumlar arasında</text>
+      <text class="text-macro" x="450" y="174" text-anchor="middle">farklılık gösteren bu kurallar,</text>
+      <text class="text-macro" x="450" y="188" text-anchor="middle">çağlar boyunca da değişiyor.</text>
+
+      <!-- M5(17,18) -->
+      <rect class="box-macro" x="570" y="100" width="320" height="88" rx="8" />
+      <text class="label-macro" x="730" y="114" text-anchor="middle" dominant-baseline="central">M5 (17, 18)</text>
+      <text class="text-macro" x="730" y="132" text-anchor="middle">(17) Ailenin geçirdiği değişiklikler</text>
+      <text class="text-macro" x="730" y="146" text-anchor="middle">de bu dönemde arttı. (18) Geniş</text>
+      <text class="text-macro" x="730" y="160" text-anchor="middle">aileden çekirdek aileye geçiş,</text>
+      <text class="text-macro" x="730" y="174" text-anchor="middle">sanayileşme döneminde gerçekleşti.</text>
+
+      <!-- P2(4,5,6) -->
+      <rect class="box-prop" x="280" y="248" width="340" height="114" rx="8" />
+      <text class="label-prop" x="450" y="262" text-anchor="middle" dominant-baseline="central">P2 (4, 5, 6)</text>
+      <text class="text-prop" x="450" y="280" text-anchor="middle">(4) Gözünüzün önüne getirin, sizce Afrika'daki</text>
+      <text class="text-prop" x="450" y="294" text-anchor="middle">bir aileyle Avrupa'daki bir aile aynı
+        kurallarla</text>
+      <text class="text-prop" x="450" y="308" text-anchor="middle">mı yaşar? (5) Ya da günümüzdeki modern bir</text>
+      <text class="text-prop" x="450" y="322" text-anchor="middle">aileyle bundan yüz yıl önceki aileler aynı
+        biçimde</text>
+      <text class="text-prop" x="450" y="336" text-anchor="middle">yaşamış olabilir mi? (6) Bu sorunun yanıtı elbette
+        hayır.</text>
+
+      <!-- M3(7,8) -->
+      <line class="edge" x1="120" y1="248" x2="120" y2="378" />
+
+      <rect class="box-macro" x="20" y="378" width="200" height="100" rx="8" />
+      <text class="label-macro" x="120" y="392" text-anchor="middle" dominant-baseline="central">M3 (7, 8)</text>
+      <text class="text-macro" x="120" y="410" text-anchor="middle">(7) Çünkü toplumlar değişir</text>
+      <text class="text-macro" x="120" y="424" text-anchor="middle">ve aile de toplumun en küçük</text>
+      <text class="text-macro" x="120" y="438" text-anchor="middle">birimi olarak toplumda yer alır.</text>
+      <text class="text-macro" x="120" y="452" text-anchor="middle">(8) Toplumlarda en küçük birim,</text>
+      <text class="text-macro" x="120" y="466" text-anchor="middle">anne, baba ve çocuklardan oluşan</text>
+
+      <!-- P3(9,13) -->
+      <line class="edge" x1="120" y1="478" x2="120" y2="538" />
+      <rect class="box-prop" x="20" y="538" width="200" height="116" rx="8" />
+      <text class="label-prop" x="120" y="552" text-anchor="middle" dominant-baseline="central">P3 (9, 13)</text>
+      <text class="text-prop" x="120" y="570" text-anchor="middle">(9) Çekirdek aileyi bir akraba</text>
+      <text class="text-prop" x="120" y="584" text-anchor="middle">grubu olarak tanımlayabiliriz.</text>
+      <text class="text-prop" x="120" y="600" text-anchor="middle">(13) Oysa çekirdek ailelerde,</text>
+      <text class="text-prop" x="120" y="614" text-anchor="middle">aile kavramı ebeveynler ve</text>
+      <text class="text-prop" x="120" y="628" text-anchor="middle">çocuklar bir arada yaşadıkları</text>
+      <text class="text-prop" x="120" y="642" text-anchor="middle">sürece devam eder.</text>
+
+      <!-- M4(10) -->
+      <line class="edge" x1="300" y1="248" x2="300" y2="378" />
+
+      <rect class="box-macro" x="230" y="378" width="200" height="100" rx="8" />
+      <text class="label-macro" x="330" y="392" text-anchor="middle" dominant-baseline="central">M4 (10)</text>
+      <text class="text-macro" x="330" y="410" text-anchor="middle">(10) Öte yandan, çekirdek aile</text>
+      <text class="text-macro" x="330" y="424" text-anchor="middle">dışında kalan diğer aile üyelerinin</text>
+      <text class="text-macro" x="330" y="438" text-anchor="middle">oluşturduğu topluluğa geniş aile</text>
+      <text class="text-macro" x="330" y="452" text-anchor="middle">adı verilir.</text>
+
+      <!-- P4(11,12) -->
+      <line class="edge" x1="280" y1="478" x2="260" y2="538" />
+      <rect class="box-prop" x="228" y="538" width="200" height="74" rx="8" />
+      <text class="label-prop" x="328" y="552" text-anchor="middle" dominant-baseline="central">P4 (11, 12)</text>
+      <text class="text-prop" x="328" y="570" text-anchor="middle">(11) Geniş ailelerde dedeler, nineler,</text>
+      <text class="text-prop" x="328" y="584" text-anchor="middle">amcalar, halalar, dayılar, teyzeler</text>
+      <text class="text-prop" x="328" y="598" text-anchor="middle">ve çocukları çoğu zaman...</text>
+
+      <!-- P4(14,15,16) -->
+      <line class="edge" x1="370" y1="478" x2="538" y2="538" />
+      <rect class="box-prop" x="338" y="538" width="420" height="158" rx="8" />
+      <text class="label-prop" x="548" y="552" text-anchor="middle" dominant-baseline="central">P4 (14, 15, 16)</text>
+      <text class="text-prop" x="548" y="570" text-anchor="middle">(14) Tarihsel süreç içinde, endüstrileşme çağı
+        öncesinde</text>
+      <text class="text-prop" x="548" y="584" text-anchor="middle">insanlar tarım toplumu içinde yaşıyorken geniş
+        ailelerle</text>
+      <text class="text-prop" x="548" y="598" text-anchor="middle">daha sık karşılaşılıyordu.</text>
+      <text class="text-prop" x="548" y="614" text-anchor="middle">(15) Çünkü tarımsal üretim için geniş aileler daha
+        uygundu.</text>
+      <text class="text-prop" x="548" y="630" text-anchor="middle">(16) Böylece bir arada yaşayan akrabalar, tarlaların
+        sürülmesi,</text>
+      <text class="text-prop" x="548" y="644" text-anchor="middle">ekinlerin biçilmesi, hayvanların otlatılması ya da
+        ineklerin</text>
+      <text class="text-prop" x="548" y="658" text-anchor="middle">sağılması gibi işlerde gereken işgücünü
+        sağlayabiliyorlardı.</text>
+
+      <!-- P5(19,20,21,22) -->
+      <line class="edge" x1="730" y1="188" x2="730" y2="248" />
+      <rect class="box-prop" x="570" y="248" width="320" height="114" rx="8" />
+      <text class="label-prop" x="730" y="262" text-anchor="middle" dominant-baseline="central">P5 (19, 20, 21,
+        22)</text>
+      <text class="text-prop" x="730" y="280" text-anchor="middle">(19) İşlerin makineler tarafından yapılmaya</text>
+      <text class="text-prop" x="730" y="294" text-anchor="middle">başlanmasıyla birlikte insan iş gücüne olan</text>
+      <text class="text-prop" x="730" y="308" text-anchor="middle">gereksinim azaldı. (20) Öte yandan kırdan</text>
+      <text class="text-prop" x="730" y="322" text-anchor="middle">kente göç, tarımsal üretim sırasında birbirine</text>
+      <text class="text-prop" x="730" y="336" text-anchor="middle">destek olan aile bireylerinin kopmasına neden
+        oldu.</text>
+      <text class="text-prop" x="730" y="350" text-anchor="middle">(21-22) Kente göçle çekirdek aile yaygınlaştı.</text>
+
+    </svg>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====== AĞAÇ 2 ====== -->
+  <div class="tree-section">
+    <svg viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ROOT -->
+      <line class="edge" x1="450" y1="52" x2="190" y2="100" />
+      <line class="edge" x1="450" y1="52" x2="450" y2="100" />
+      <line class="edge" x1="450" y1="52" x2="720" y2="100" />
+
+      <rect class="box-root" x="310" y="8" width="280" height="44" rx="8" />
+      <text class="label-root" x="450" y="30" text-anchor="middle" dominant-baseline="central">• M1 (Başlık)</text>
+
+      <!-- M6(23) -->
+      <line class="edge" x1="190" y1="200" x2="190" y2="272" />
+      <rect class="box-macro" x="60" y="100" width="260" height="100" rx="8" />
+      <text class="label-macro" x="190" y="114" text-anchor="middle" dominant-baseline="central">M6 (23)</text>
+      <text class="text-macro" x="190" y="132" text-anchor="middle">(23) Tarih içinde çeşitli dönemlerde</text>
+      <text class="text-macro" x="190" y="146" text-anchor="middle">aile reisinin kadınlar olduğu, adına</text>
+      <text class="text-macro" x="190" y="160" text-anchor="middle">anaerkil toplum denilen sistemler</text>
+      <text class="text-macro" x="190" y="174" text-anchor="middle">oldu.</text>
+
+      <!-- P7(24) -->
+      <rect class="box-prop" x="60" y="272" width="260" height="100" rx="8" />
+      <text class="label-prop" x="190" y="286" text-anchor="middle" dominant-baseline="central">P7 (24)</text>
+      <text class="text-prop" x="190" y="304" text-anchor="middle">(24) Ancak yine de tarihi süreç</text>
+      <text class="text-prop" x="190" y="318" text-anchor="middle">içerisinde, ailede babanın egemen</text>
+      <text class="text-prop" x="190" y="332" text-anchor="middle">olduğu ataerkil toplumların çokluğu</text>
+      <text class="text-prop" x="190" y="346" text-anchor="middle">dikkati çekmektedir.</text>
+
+      <!-- M7(25) -->
+      <line class="edge" x1="450" y1="200" x2="450" y2="272" />
+      <rect class="box-macro" x="320" y="100" width="260" height="100" rx="8" />
+      <text class="label-macro" x="450" y="114" text-anchor="middle" dominant-baseline="central">M7 (25)</text>
+      <text class="text-macro" x="450" y="132" text-anchor="middle">(25) Geçmişteki toplumlarda hemen</text>
+      <text class="text-macro" x="450" y="146" text-anchor="middle">hemen bütün akrabalar bir arada</text>
+      <text class="text-macro" x="450" y="160" text-anchor="middle">yaşardı ve ailenin reisi olan kişi</text>
+      <text class="text-macro" x="450" y="174" text-anchor="middle">de aile üstünde tam bir yetkiye sahipti.</text>
+
+      <!-- P7(26) -->
+      <rect class="box-prop" x="320" y="272" width="260" height="100" rx="8" />
+      <text class="label-prop" x="450" y="286" text-anchor="middle" dominant-baseline="central">P7 (26)</text>
+      <text class="text-prop" x="450" y="304" text-anchor="middle">(26) Ancak günümüzde bu görünüm</text>
+      <text class="text-prop" x="450" y="318" text-anchor="middle">gücünü kaybetti ve birçok toplumda</text>
+      <text class="text-prop" x="450" y="332" text-anchor="middle">aile yönetiminde erkekle kadın</text>
+      <text class="text-prop" x="450" y="346" text-anchor="middle">arasındaki eşitlik dengelendi.</text>
+
+      <!-- M8(27,28) -->
+      <line class="edge" x1="720" y1="200" x2="720" y2="272" />
+      <rect class="box-macro" x="590" y="100" width="260" height="100" rx="8" />
+      <text class="label-macro" x="720" y="114" text-anchor="middle" dominant-baseline="central">M8 (27, 28)</text>
+      <text class="text-macro" x="720" y="132" text-anchor="middle">(27) Ailenin kendi üyelerine dönük</text>
+      <text class="text-macro" x="720" y="146" text-anchor="middle">pek çok işlevi bulunmaktadır.</text>
+      <text class="text-macro" x="720" y="160" text-anchor="middle">(28) Bunlar arasında en önemlisi</text>
+      <text class="text-macro" x="720" y="174" text-anchor="middle">eşlerin ve çocukların bir arada...</text>
+
+      <!-- P8(29,30,31) -->
+      <rect class="box-prop" x="590" y="272" width="260" height="160" rx="8" />
+      <text class="label-prop" x="720" y="286" text-anchor="middle" dominant-baseline="central">P8 (29, 30, 31)</text>
+      <text class="text-prop" x="720" y="304" text-anchor="middle">(29) Ailenin diğer bir işlevi de,</text>
+      <text class="text-prop" x="720" y="318" text-anchor="middle">çocukların yetiştirilmesi ve</text>
+      <text class="text-prop" x="720" y="332" text-anchor="middle">toplumsallaştırılmasıdır. (30) Ayrıca</text>
+      <text class="text-prop" x="720" y="346" text-anchor="middle">aile, üyelerinden birinin hasta ya da</text>
+      <text class="text-prop" x="720" y="360" text-anchor="middle">bakıma muhtaç olduğu durumlarda</text>
+      <text class="text-prop" x="720" y="374" text-anchor="middle">onlara bakmak gibi bir görevi üstlenir.</text>
+      <text class="text-prop" x="720" y="390" text-anchor="middle">(31) Ekonomik temel gereksinimleri...</text>
+      <text class="text-prop" x="720" y="404" text-anchor="middle">karşılamak da ailenin görevidir.</text>
+
+    </svg>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====== AĞAÇ 3 ====== -->
+  <div class="tree-section">
+    <svg viewBox="0 0 900 370" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ROOT -->
+      <line class="edge" x1="450" y1="52" x2="450" y2="100" />
+
+      <rect class="box-root" x="310" y="8" width="280" height="44" rx="8" />
+      <text class="label-root" x="450" y="30" text-anchor="middle" dominant-baseline="central">• M1 (Başlık)</text>
+
+      <!-- M9(33) -->
+      <line class="edge" x1="450" y1="200" x2="450" y2="272" />
+      <rect class="box-macro" x="300" y="100" width="300" height="100" rx="8" />
+      <text class="label-macro" x="450" y="114" text-anchor="middle" dominant-baseline="central">M9 (33)</text>
+      <text class="text-macro" x="450" y="132" text-anchor="middle">(33) Bu anlamda her toplumun</text>
+      <text class="text-macro" x="450" y="146" text-anchor="middle">kendine ait gelenekleri ve töreleri</text>
+      <text class="text-macro" x="450" y="160" text-anchor="middle">bulunmaktadır.</text>
+
+      <!-- P9(34,35) -->
+      <rect class="box-prop" x="80" y="272" width="740" height="88" rx="8" />
+      <text class="label-prop" x="450" y="286" text-anchor="middle" dominant-baseline="central">P9 (34, 35)</text>
+      <text class="text-prop" x="450" y="304" text-anchor="middle">(34) Buna göre kimi aileler kalabalık yaşamakta,
+        kimilerinde kadınlar belirleyici olmakta,</text>
+      <text class="text-prop" x="450" y="318" text-anchor="middle">kimilerindeyse akrabalık ilişkileri önem
+        kazanmaktadır.</text>
+      <text class="text-prop" x="450" y="333" text-anchor="middle">(35) Bu da birbirinden çok farklı aile yapılarının
+        oluşmasına neden olmaktadır.</text>
+
+    </svg>
+  </div>
+
+  <!-- Legend -->
+  <div style="display:flex;gap:16px;justify-content:center;padding:12px 0 4px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary);">
+      <div style="width:14px;height:14px;background:#534AB7;border-radius:3px;"></div> Başlık (M1 root)
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary);">
+      <div style="width:14px;height:14px;background:#0F6E56;border-radius:3px;"></div> Makro yapı (M)
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary);">
+      <div style="width:14px;height:14px;background:#185FA5;border-radius:3px;"></div> Önerme (P)
+    </div>
+  </div>
+
+</body>
+
+</html>
